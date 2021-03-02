@@ -1,0 +1,255 @@
+*,::after,::before{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    /* overflow-x:unset;
+    overflow:; */
+}
+
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
+
+.sectionTitle{
+    font-size:2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.subTitle{
+    font-size:1.3rem;
+}
+
+/*
+    TOP NAVIGATION
+*/
+
+#topNav{
+    background: linear-gradient(to right,#64098f,#014b38);
+}
+#topNav .navbar-toggler{
+    color:#fff;
+    z-index:1111;
+    background-color: rgb(134, 120, 120);
+    padding:0;
+}
+
+#topNav .navbar-brand{
+    font-size:2em;
+    font-weight:bold;
+    color:rgb(199, 199, 199);
+}
+
+#topNav .nav-link{
+    text-transform: uppercase;
+    font-size:1.5em;
+    padding:0;
+    margin:0;
+}
+#topNav .nav-link:hover{
+    color:#fff;
+}
+#topNav .nav-item{
+    padding:0;
+    margin:0 10px;
+}
+
+
+/*
+    TOP BANNER
+*/
+
+
+#topBanner .container-fluid{
+    background: linear-gradient(to right,#64098f,#014b38) !important;
+}
+
+#topBanner .container-fluid{
+    margin-top:72px;
+    background-color: #fff;
+    position: relative;
+}
+
+
+#topBanner .myShortInfo{
+    overflow:hidden;
+}
+#topBanner .topBannerOverlay{
+    position: relative;
+    top:15%;
+}
+#topBanner .card{
+    border:0;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px 5px  #ebe9e988;
+}
+#topBanner .technologyItems{
+    display:flex;
+
+}
+
+/*
+
+    technology
+
+*/
+
+
+#technology{
+    position: relative;
+    margin-top: 12%;
+}
+#technology .card{
+    margin:1rem 1rem;
+}
+#technology .card img{
+    width:10rem;
+    height:10rem;
+}
+
+
+/*
+    PROJECT
+*/
+
+
+
+
+
+/*
+    TEAM MEMBERS
+*/
+#teamMember .card{
+    border:0;
+    background-color: #f8fafc;
+}
+#teamMember .card img{
+    width:8rem;
+    height:9rem;
+}
+#teamMember .card p{
+    text-align: left;
+}
+#teamMember .list-group-item{
+    width:28%;
+    height:80%;
+    padding:2px;
+    margin:0 5px;
+    border:1px solid gray;
+    border-radius: 0;
+}
+
+
+/*
+    CONTACT
+*/
+
+#contact form{
+    padding:0 1rem;
+}
+#contact .form-group{
+    text-align: left;
+    text-transform: capitalize;
+}
+#contact button{
+    float:left;
+}
+#contact #contactMessage{
+    width:100%;
+    min-height: 6rem;
+}
+#contact .googleMap{
+    padding:1%;
+}
+
+/*
+    FOOTER
+*/
+#footer{
+    background-color: #000f1a;
+    color:#fff;
+}
+#footer .list-group-item{
+    background: none;
+    padding:0;
+    color:rgb(230, 227, 227);
+    border:0;
+}
+#footer .list-group-item a{
+    color:rgb(207, 207, 207);
+}
+#footer .list-group-item a:hover{
+    color:#ffffff;
+}
+#footer hr{
+    height:1px;
+    background-color:#757575;
+}
+
+#blogTopBanner{
+    width:100%;
+    height:300px;
+    background:url('../images/blog/blog-banner2.jpg');
+    background-origin: border-box;
+    background-position: 0% 85%;
+    background-size: 110% 150%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin-top:5%;
+    position:relative;
+}
+.blogTopBannerOverlay{
+    width:100%;
+    height:100%;
+    position:absolute;
+    background-color: rgba(0,0,0,0.5);
+}
+.blogTopBannerOverlay h3{
+    position: relative;
+    font-size:3rem;
+    font-weight: bold;
+}
+
+.blogTopBannerOverlay h3::before{
+    position:absolute;
+    content:"";
+    height:3px;
+    width:80%;
+    background-color: rgb(255, 255, 255);
+    top:120%;
+    left:10%;
+}
+
+/*
+    BLOG POST
+*/
+
+#blogPost{
+    margin:3rem 0;
+}
+#blogPost .card{
+    border:0;
+    background-color: #f8fafc;
+}
+#blogPost .card img{
+    height: 18rem;
+}
+
+#blogPost .card-title a{
+    font-size:2rem;
+    color:#1b1b1b;
+}
+#blogPost .card-title a:hover{
+    color:#3e76f0;
+}
+#blogPost .post-author{
+    font-size:1.2rem;
+    font-style: italic;
+}
+#blogPost .post-author span{
+    color:#a5a5a5;
+}
+
+
