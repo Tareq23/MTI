@@ -22,6 +22,15 @@
       <li class="nav-item">
         <a class="nav-link" href="{{route('blogHome')}}">blog</a>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          
+        </a>
+        <div class="dropdown-menu p-0" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" id="loginBtn" href="#">login</a>
+          <a class="dropdown-item" id="registerBtn" href="#">register</a>
+        </div>
+      </li>
     </ul>
   </div>
 </nav>

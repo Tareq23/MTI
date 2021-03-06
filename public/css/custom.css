@@ -28,6 +28,7 @@ a:hover{
 
 #topNav{
     background: linear-gradient(to right,#64098f,#014b38);
+    height:85px;
 }
 #topNav .navbar-toggler{
     color:#fff;
@@ -63,13 +64,15 @@ a:hover{
 
 
 #topBanner .container-fluid{
-    background: linear-gradient(to right,#64098f,#014b38) !important;
 }
 
 #topBanner .container-fluid{
-    margin-top:72px;
+    background: linear-gradient(to right,#64098f,#014b38) !important;
+    /* margin-top:72px;*/
     background-color: #fff;
     position: relative;
+    top:85px;
+
 }
 
 
@@ -197,8 +200,8 @@ a:hover{
     background-size: 110% 150%;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    margin-top:5%;
     position:relative;
+    top:85px;
 }
 .blogTopBannerOverlay{
     width:100%;
@@ -253,3 +256,97 @@ a:hover{
 }
 
 
+/*
+    Login form
+*/
+
+
+#login-form{
+    position:absolute;
+    z-index:1000;
+    width:30%;
+    background-color: #02253f;
+    color:#ffffff;
+    text-align: center;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius: 1rem;
+    padding:2.5rem 0;
+}
+#login-form .form-group{
+    margin:1.5rem 0;
+    width:100%;
+}
+#login-form h3{
+    text-transform: uppercase;
+    font-size:2rem;
+}
+#login-form label{
+    width:15%;
+    text-align: left;
+    font-size:1.2rem;
+}
+#login-form input{
+    width:55%;
+    margin-left:1.2rem;
+    padding:5px 5px;
+    border-radius: 5px;
+    font-size:1.2rem;
+}
+#login-form input:focus{
+    outline: none;
+}
+
+
+/*
+    Register Form
+*/
+
+
+
+
+#register-form{
+    position:absolute;
+    z-index:1000;
+    width:30%;
+    background-color: #02253f;
+    color:#ffffff;
+    text-align: center;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius: 1rem;
+    padding:2.5rem 0;
+}
+#register-form .form-group{
+    margin:1.5rem 0;
+    width:100%;
+}
+#register-form h3{
+    text-transform: uppercase;
+    font-size:2rem;
+}
+#register-form label{
+    width:15%;
+    text-align: left;
+    font-size:1.2rem;
+}
+#register-form input{
+    width:65%;
+    margin-left:1.2rem;
+    padding:5px 5px;
+    border-radius: 5px;
+    font-size:1.2rem;
+}
+#register-form input:focus{
+    outline: none;
+}
+
+#register-form button{
+    float:left;
+    /* width:15%; */
+    margin-left:8%;
+    color:#ffffff;
+    background-color: #861564;
+}
