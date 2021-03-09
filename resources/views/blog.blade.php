@@ -18,27 +18,76 @@
 
 @section('script')
     <script type="text/javascript">
-
-        // let registerForm = document.getElementById("register-form");
-        // let registerSubmit = document.getElementById("registerSubmit");
-        // let registerBtn = document.getElementById("registerBtn");
-
-        // registerBtn.onclick = function()
-        // {
-
-        // }
-
-        // window.onclick(function(event){
-        //     if(event.target==document.getElementById("register-form")){
-        //         document.getElementById("register-form").style.display = 'none';
-        //     }
-        // })
-
+            function isEmail(email) {
+                var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                return regex.test(email);
+            }
             $(document).ready(function(){
                 //registration form
                 $("#registerBtn").click(function(){
                     $("#register-form").removeClass("d-none");
                 });
+
+                
+
+                $("#registerSubmit").click(function(){
+                    let registerEmail = $("#registerEmail").val();
+                    if(isEmail(registerEmail.trim())){
+                        //console.log(email);
+                        axios.post('/checkEmail',{email:registerEmail})
+                            .then(function(response){
+                                console.log(response.data);
+                                if(response.data==0)
+                                {
+                                    
+                                    let registerName = $("#registerName").val().trim();
+                                    let registerPassword = $("#registerPassword").val().trim();
+                                    if(registerName.length>45 || registerName.length<4)
+                                    {
+                                        alert("Your Name must be more than 4 characters and less than 45 characters");
+                                    }
+                                    else if(registerPassword.length<8)
+                                    {
+                                        alert("Password Length more than 8 Eight");
+                                    }
+                                    else{
+                                        axios.post('/register',{
+                                            name:registerName,
+                                            email:registerEmail,
+                                            password:registerPassword
+                                        }).then(function(response){
+                                        //    if(response.data==1)
+                                        //    {
+                                        //         $("#register-form").addClass("d-none");
+                                        //         $(location).attr('href',"http://127.0.0.1:8000");
+                                        //    }
+                                            console.log(response.data);
+                                            // if(response.data.status==200)
+                                            // {
+                                            //     alert(response.data.message);
+                                            // }
+                                            // else{
+                                            //     alert("Somthing went wrong");
+                                            // }
+                                        })
+                                        .catch(function(error){
+                                            console.log(error.response);
+                                        });
+                                    }
+                                }
+                                else{
+                                    alert("This Email already used")
+                                }
+                            })
+                            .catch(function(error){
+                                console.log("error");
+                            })
+                    }
+                    else{
+                        alert("Invalid Email")
+                    }
+                })
+
                 $(document).mouseup(function(event){
                     let registerContainer = $("#register-form");
                     if(!registerContainer.is(event.target) && registerContainer.has(event.target).length===0)
@@ -49,10 +98,10 @@
 
                 //login form
 
-                $("#loginBtn").click(function(){
-                    $("#login-form").removeClass("d-none");
-                });
                 $(document).mouseup(function(event){
+                    $("#loginBtn").click(function(){
+                        $("#login-form").removeClass("d-none");
+                    });
                     let loginContainer = $("#login-form");
                     if(!loginContainer.is(event.target)&&loginContainer.has(event.target).length===0)
                     {
@@ -60,9 +109,5 @@
                     }
                 })
             })
-
-
-
-
     </script>
 @endsection
