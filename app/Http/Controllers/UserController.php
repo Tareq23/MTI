@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\UserModel;
 use App\Events\UserRegister;
-use App\Models\EmailVerifedTokenModel;
+use App\Models\EmailVerifiedTokenModel;
 use Token;
+use App\Mail\EmailVerifiedMail;
+use Mail;
 
 class UserController extends Controller
 {
@@ -29,17 +31,21 @@ class UserController extends Controller
             $token = Token::UniqueString('verified_tokens','token',90);
             try{
                 $result = $user->emailVerifiedTokenId()->create(['token'=>$token]);
+                if(isset($result->id))
+                {
+                    \Mail::to($user->email)->send(new EmailVerifiedMail($token));
+                }
                 return isset($result->id);
             }
             catch(\Exception $e)
             {
-                return "token error";
+                return $e->getMessage();
             }
             
         }
         catch(\Exception $e)
         {
-            return "user error";
+            return 0;
         }
     }
     public function checkEmail(Request $req)
@@ -50,7 +56,7 @@ class UserController extends Controller
             return $result;
         }
         catch(\Exception $e){
-            return "Database error";
+            return 0;
         }
     }
 }

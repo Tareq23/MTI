@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\EmailVerifedTokenModel;
+use App\Models\EmailVerifiedTokenModel;
 use App\Events\UserRegister;
 
 class UserModel extends Model
@@ -32,7 +32,7 @@ class UserModel extends Model
 
     public function emailVerifiedTokenId()
     {
-        return $this->hasOne(EmailVerifedTokenModel::class,'user_id');
+        return $this->hasOne(EmailVerifiedTokenModel::class,'user_id');
     }
 
 }

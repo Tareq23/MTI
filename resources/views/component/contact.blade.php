@@ -8,8 +8,8 @@
             <div class="col-md-6">
                 <form>
                     <div class="form-group">
-                        <label for="contactEmail">Your Name</label>
-                        <input type="text" required name="n" class="form-control" id="contactEmail" placeholder="your name">
+                        <label for="contactName">Your Name</label>
+                        <input type="text" required name="n" class="form-control" id="contactName" placeholder="your name">
                     </div>
                     <div class="form-group">
                         <label for="contactEmail">Email address</label>

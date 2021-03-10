@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserModel;
 
-class EmailVerifedTokenModel extends Model
+class EmailVerifiedTokenModel extends Model
 {
     use HasFactory;
     protected $table='verified_tokens';
