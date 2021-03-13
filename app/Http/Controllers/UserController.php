@@ -48,6 +48,29 @@ class UserController extends Controller
             return 0;
         }
     }
+    public function login(Request $req)
+    {
+        $email = $req->input('email');
+        $password = $req->input('password');
+        $result = UserModel::select(['password','verified','id'])->where('email','=',$email)->get();
+        if(Hash::check($password,$result[0]->password) && $result[0]->verified){
+            session()->put('userId',$result[0]->id);
+            return true;
+        }
+        // return $result[0]->password;
+        return false;
+    }
+
+    public function logout()
+    {
+        if(session()->has('userId'))
+        {
+            session()->flush();
+            return 1;
+        }
+        return 0;
+    }
+
     public function checkEmail(Request $req)
     {
         $email = $req->input('email');

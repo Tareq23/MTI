@@ -1,0 +1,34 @@
+#adminTopNav ul li a{
+    color:#ffffff;
+}
+#menuBarBtn{
+    cursor:pointer;
+    color:#ffffff;
+    width:2rem;
+    height:2rem;
+}
+#sideNav{
+    margin-top:1.8rem;
+    padding:1.6rem 0 0 0;
+    background-color: rgba(29, 28, 28, 0.801);
+    position:relative;
+    height:100vh;
+    width:250px;
+    color:rgba(255, 255, 255, 0.849);
+}
+#sideNav ul li{
+    list-style:none;
+    padding:.5rem 0;
+    text-align: center;
+    cursor:pointer;
+}
+#sideNav ul li a{
+    width:100%;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size:1.4rem;
+    color:#ffffff;
+}
+#sideNav ul li:hover{
+    background-color: rgb(17, 17, 34);
+}

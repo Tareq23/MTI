@@ -27,8 +27,12 @@
           
         </a>
         <div class="dropdown-menu p-0" aria-labelledby="navbarDropdownMenuLink">
+          @if(session()->has('userId'))
+          <a class="dropdown-item" id="logoutBtn">logout</a>
+          @else
           <a class="dropdown-item" id="loginBtn">login</a>
           <a class="dropdown-item" id="registerBtn">register</a>
+          @endif
         </div>
       </li>
     </ul>

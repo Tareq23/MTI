@@ -28,8 +28,6 @@
                     $("#register-form").removeClass("d-none");
                 });
 
-                
-
                 $("#registerSubmit").click(function(){
                     let registerEmail = $("#registerEmail").val();
                     if(isEmail(registerEmail.trim())){
@@ -107,7 +105,44 @@
                     {
                         loginContainer.addClass("d-none");
                     }
+                });
+                $("#loginConfirmBtn").click(function(){
+                    let userEmail = $("#loginEmail").val();
+                    let userPassword = $("#loginPassword").val();
+                    if(isEmail(userEmail)&&userPassword.length>7&&userPassword.length<=20)
+                    {
+                        axios.post('/login',{
+                            email:userEmail,
+                            password:userPassword
+                        }).then(function(response){
+                            if(response.data){
+                                $("#login-form").addClass("d-none");
+                                $(location).attr('href',"http://127.0.0.1:8000/dashboard");
+                            }
+                            else{
+                                $("#login-form").addClass("d-none");
+                                alert("Invalid Email or Password");
+                            }
+                        }).catch(function(error){
+                            alert("Something went to wrong");
+                        })
+                    }
+                    else{
+                        alert("Invalid Email or Password");
+                    }
+                });
+                $("#logoutBtn").click(function(){
+                    axios.get('/logout').then(function(response){
+                        if(response.data==1){
+                            $(location).attr('href',"/blog");
+                        }
+                        else{
+                            alert("something went to wrong");
+                        }
+                    }).catch(function(error){
+                        console.log(error.response);
+                    })
                 })
-            })
+            });
     </script>
 @endsection

@@ -34,5 +34,5 @@ class UserModel extends Model
     {
         return $this->hasOne(EmailVerifiedTokenModel::class,'user_id');
     }
-
+    
 }
