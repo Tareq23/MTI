@@ -8,7 +8,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto pr-5">
     <li class="nav-item active">
-        <a class="nav-link" href="/">Home</i></a>
+        <a class="nav-link" href="{{url('/')}}">Home</i></a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#">Message <i class="fas fa-envelope-open-text"></i></a>

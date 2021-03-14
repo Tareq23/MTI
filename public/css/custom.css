@@ -21,7 +21,6 @@ a:hover{
 .subTitle{
     font-size:1.3rem;
 }
-
 /*
     TOP NAVIGATION
 */
@@ -63,8 +62,8 @@ a:hover{
 */
 
 
-#topBanner .container-fluid{
-}
+/* #topBanner .container-fluid{
+} */
 
 #topBanner .container-fluid{
     background: linear-gradient(to right,#64098f,#014b38) !important;

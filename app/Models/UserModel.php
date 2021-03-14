@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\EmailVerifiedTokenModel;
+use App\Models\RoleModel;
 use App\Events\UserRegister;
 
 class UserModel extends Model
@@ -33,6 +34,10 @@ class UserModel extends Model
     public function emailVerifiedTokenId()
     {
         return $this->hasOne(EmailVerifiedTokenModel::class,'user_id');
+    }
+    public function roles()
+    {
+        return $this->belongsToMany(RoleModel::class,'user_roles','user_id','role_id');
     }
     
 }

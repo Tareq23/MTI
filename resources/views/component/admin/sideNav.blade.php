@@ -1,11 +1,11 @@
 <div id="sideNav" class="d-none">
 
     <ul>
-        <li><a hre="#">Technology</a></li>
-        <li><a hre="#">project</a></li>
-        <li><a hre="#">team member</a></li>
-        <li><a hre="#">contact message</a></li>
-        <li><a hre="#">user role</a></li>
+        <li><a id="sideNav_technologyBtn">Technology</a></li>
+        <li><a id="sideNav_projectBtn">project</a></li>
+        <li><a id="sideNav_teamBtn">team member</a></li>
+        <li><a id="sideNav_contactBtn">contact message</a></li>
+        <li><a id="sideNav_roleBtn">user role</a></li>
     </ul>
     
 </div>

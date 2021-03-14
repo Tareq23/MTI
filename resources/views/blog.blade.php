@@ -117,7 +117,7 @@
                         }).then(function(response){
                             if(response.data){
                                 $("#login-form").addClass("d-none");
-                                $(location).attr('href',"http://127.0.0.1:8000/dashboard");
+                                $(location).attr('href',"/admin");
                             }
                             else{
                                 $("#login-form").addClass("d-none");
@@ -132,7 +132,9 @@
                     }
                 });
                 $("#logoutBtn").click(function(){
+                    console.log("user logout");
                     axios.get('/logout').then(function(response){
+
                         if(response.data==1){
                             $(location).attr('href',"/blog");
                         }

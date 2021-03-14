@@ -15,6 +15,16 @@
     @yield('content')
 
     <script src="{{asset('js/app.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            let url = $(location).attr('href');
+            let reverseUrl = url.split("/");
+            if(reverseUrl[reverseUrl.length-1]=="blog")
+            {
+                $("#topMenu-dropdown").removeClass("d-none");
+            }
+        });
+    </script>
     @yield('script')
 </body>
 </html>

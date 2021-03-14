@@ -22,13 +22,14 @@
       <li class="nav-item">
         <a class="nav-link" href="{{route('blogHome')}}">blog</a>
       </li>
-      <li class="nav-item dropdown">
+      <li id="topMenu-dropdown" class="nav-item dropdown d-none">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           
         </a>
         <div class="dropdown-menu p-0" aria-labelledby="navbarDropdownMenuLink">
           @if(session()->has('userId'))
           <a class="dropdown-item" id="logoutBtn">logout</a>
+          <a class="dropdown-item" href="{{url('/admin')}}">Admin</a>
           @else
           <a class="dropdown-item" id="loginBtn">login</a>
           <a class="dropdown-item" id="registerBtn">register</a>

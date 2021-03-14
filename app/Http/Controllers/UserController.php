@@ -16,6 +16,10 @@ class UserController extends Controller
     {
         return UserModel::where('id',$id)->get();
     }
+    public function getAllVerifiedUser()
+    {
+        return UserModel::select(['id','email'])->where('verified','=',1)->get();
+    }
     public function register(Request $req)
     {
         $name = $req->input('name');
@@ -40,8 +44,7 @@ class UserController extends Controller
             catch(\Exception $e)
             {
                 return $e->getMessage();
-            }
-            
+            } 
         }
         catch(\Exception $e)
         {
@@ -63,12 +66,12 @@ class UserController extends Controller
 
     public function logout()
     {
-        if(session()->has('userId'))
-        {
-            session()->flush();
-            return 1;
-        }
-        return 0;
+        // if(session()->has('userId'))
+        // {
+        //     return 1;
+        // }
+        session()->flush();
+        return 1;
     }
 
     public function checkEmail(Request $req)
