@@ -36,4 +36,16 @@ class RoleController extends Controller
         $user = UserModel::find($id);
         return $user->roles;
     }
+    public function setRole(Request $req)
+    {
+        $userId = $req->input('id');
+        $updateRole = $req->input('updateRole');
+        $currentRole = $req->input('currentRole');
+        $upateRoleArray = explode(',',$updateRole);
+        $currentRoleArray = explode(',',$currentRole);
+        $user = UserModel::find($userId);
+        $user->roles()->detach($currentRoleArray);
+        $user->roles()->attach($upateRoleArray);
+        return 1;
+    }
 }

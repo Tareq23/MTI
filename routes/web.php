@@ -35,4 +35,5 @@ Route::group([
     Route::get('/allRoles',[RoleController::class,'allRole']);
     Route::post('/add/role',[RoleController::class,'addRole']);
     Route::post('/getRole',[RoleController::class,'getRole']);
+    Route::post('/setRole',[RoleController::class,'setRole']);
 });

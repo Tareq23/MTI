@@ -1,33 +1,28 @@
-   <div class="container">
-        <div class="row mb-2 ">
-            <div class="col-12">
-                <button class="btn btn-primary"  data-toggle="modal" data-target="#addUserRoleModal">Add New User Role</button>
-                <h2>User Role Set by admin</h2>
-                <table id="roleDataTable" class="table w-100">
-                    <thead class="thead-dark text-center">
-                        <th>Email</th>
-                        <th id="role-html-id">Role</th>
-                        <th>Edit</th>
-                        <th>Delete<td>
-                    </thead>
-                    <tbody id="userRoleTableBody">
-                        <!-- <tr>
-                            <td>email@example.com</td>
-                            <td>subscriber,admin,team member,blogger</td>
-                            <td><a id="roleEditBtn"><i class="fas fa-edit"></i></a></td>
-                            <td><a><i class="far fa-trash-alt"></i></a></td>
-                        <tr> -->
-                    </tbody>
-                <table>
-            </div>
-        </div>
-   </div>
+<div class="container">
+  <div class="row mb-2 ">
+    <div class="col-12">
+      <button class="btn btn-primary"  data-toggle="modal" data-target="#addUserRoleModal">Add New User Role</button>
+      <h2>User Role Set by admin</h2>
+      <table id="roleDataTable" class="table w-100">
+          <thead class="thead-dark text-center">
+              <th>Email</th>
+              <th id="role-html-id">Role</th>
+              <th>Edit</th>
+              <th>Delete</th>
+          </thead>
+          <tbody id="userRoleTableBody">
+              <!-- <tr>
+                  <td>email@example.com</td>
+                  <td>subscriber,admin,team member,blogger</td>
+                  <td><a id="roleEditBtn"><i class="fas fa-edit"></i></a></td>
+                  <td><a><i class="far fa-trash-alt"></i></a></td>
+              <tr> -->
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
-   <!-- Role Add Modal -->
-   <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Launch demo modal
-</button> -->
 
 <!--ROle ADD Modal -->
 <div class="modal fade" id="addUserRoleModal" class="" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -62,6 +57,7 @@
         </button>
       </div>
       <div class="modal-body" >
+        <span id="updateRoleUserId"><span>
            <div class="container">
              <div class="row">
                <div class="col-6 offset-4" id="updateRoleModalShowRole">

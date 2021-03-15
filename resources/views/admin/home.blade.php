@@ -5,7 +5,9 @@
 
     @include('component.admin.topNav')
     <div class="admin-wrapper">
-        @include('component.admin.sideNav')
+        <div id="sideNav" class="d-none">
+            @include('component.admin.sideNav')
+        </div>
         <div  id="admin_role" class="d-none">
             @include('component.admin.userRole')
         </div>
@@ -16,7 +18,7 @@
             <h2>Admin Technology</h2>
         </div>
         <div id="admin_contact" class="d-none">
-            <h2>Admin contact message</h2>
+            @include('component.admin.contact')
         </div>
         <div id="admin_team" class="d-none">
             <h2>Admin Team members</h2>
@@ -78,8 +80,10 @@
                                 '<td class="user-role"> </td>' + 
                                 '<td><a class="roleEditBtn" data-id='+ userData[idx].id +'><i class="fas fa-edit"></i></a></td>'
                             ).appendTo("#userRoleTableBody");
-                            $(".roleEditBtn").click(function(){
+                            $(".roleEditBtn").click(function(event){
+                                event.preventDefault();
                                 let userId = $(this).data('id');
+                                 $("#updateUserRoleModal").modal('show');
                                 updateRole(userId);
                             })
                         });
@@ -120,11 +124,18 @@
 
         function updateRole(userId)
         {   
+            let roleCheckValue = '';
+            let currentRole = '';
+            $("#updateRoleUserId").val(userId)
             axios.post('/admin/getRole',{id:userId}).then(function(response){
                 if(response.status==200){
                     let userRole;
                     userRole = response.data;
-                    let roleCheckValue = '';
+                        currentRole = '';
+                    $.each(userRole,function(idx){
+                        currentRole += userRole[idx].id + ',';
+                    });
+                    
                     axios.get('/admin/allRoles')
                         .then(function(response){
                             if(response.status==200)
@@ -133,28 +144,22 @@
                                 $("#updateRoleModalShowRole").empty();
                                 $.each(roles,function(idx,item){
                                     $('<div class="roleCheckBox">').html(
-                                        '<label ><input type="checkbox" class="roleCheckItem" value='+ roles[idx].id +'/>'+roles[idx].name+'</label>'
+                                        '<label ><input type="checkbox" class="roleCheckItem" value="'+ roles[idx].id +'"/>'+roles[idx].name+'</label>'
                                     ).appendTo('#updateRoleModalShowRole');
 
                                 });
-                                // $(document).ready(function(){
-                                //     $(".roleCheckItem").click(function(){
-                                //         roleCheckValue='';
-                                //        $(".roleCheckItem:checked").each(function(){
-                                //            roleCheckValue += $(this).val() + ',';
-                                //        })
-                                //     })
-                                // })
-                                $("#updateRoleConfirmBtn").click(function(){
+                                $(".roleCheckItem").click(function(){
+                                    roleCheckValue='';
                                     $(".roleCheckItem:checked").each(function(){
-                                           roleCheckValue += $(this).val() + ',';
-                                       })
-                                    console.log(roleCheckValue);
-                                    // $(".roleCheckItem").prop('checked',this.checked);
-                                    // console.log($('input[type="checkbox"]').prop('checked'));
-                                    // console.log($('.role').val())
-                                    
+                                        roleCheckValue += $(this).val() + ',';
+                                    })
                                 })
+                                // $("#updateRoleConfirmBtn").click(function(){
+                                //     if(roleCheckValue.length>0){
+                                //         let roles = roleCheckValue.substring(0,roleCheckValue.length-1);
+                                //         console.log(roles); 
+                                //     }
+                                // })
                             }
                         }).catch(function(error){
                             console.log(error.response);
@@ -163,8 +168,34 @@
             }).catch(function(error){
                 console.log(error.response);
             })
-            $("#updateUserRoleModal").modal('show');
+           
+            $("#updateRoleConfirmBtn").click(function(){
+                let userId = $("#updateRoleUserId").val();
+                if(roleCheckValue.length>0){
+                    let rolesUpdate = roleCheckValue.substring(0,roleCheckValue.length-1);
+                    let presentRole = currentRole.substring(0,currentRole.length-1);
+                    // console.log(rolesUpdate);
+                    // console.log("userCurrentRole : "+currentRole);
+                    axios.post('/admin/setRole',{
+                        id:userId,
+                        currentRole:presentRole,
+                        updateRole:rolesUpdate,
+                    }).then(function(response){
+                        if(response.data==1)
+                        {
+                            $("#updateUserRoleModal").modal('show');
+                            $(location).attr('href','/admin');
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error.response);
+                    })
+                    roleCheckValue=''; 
+                }
+            })
+            
         }
+
         /* ADMIN TECHNOLOGY PORTION */
         $("#sideNav_technologyBtn").click(function(){
             $("#admin_project").addClass("d-none");
@@ -189,6 +220,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_team").removeClass("d-none");
         })
+        // <li><a id="sideNav_contactBtn">contact message</a></li>
         /* ADMIN CONTACT PORTION */
         $("#sideNav_contactBtn").click(function(){
             $("#admin_technology").addClass("d-none");

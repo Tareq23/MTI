@@ -29,10 +29,15 @@
         <div class="dropdown-menu p-0" aria-labelledby="navbarDropdownMenuLink">
           @if(session()->has('userId'))
           <a class="dropdown-item" id="logoutBtn">logout</a>
-          <a class="dropdown-item" href="{{url('/admin')}}">Admin</a>
           @else
-          <a class="dropdown-item" id="loginBtn">login</a>
-          <a class="dropdown-item" id="registerBtn">register</a>
+            <a class="dropdown-item" id="loginBtn">login</a>
+            <a class="dropdown-item" id="registerBtn">register</a>
+          @endif
+          @if(session()->has('admin'))
+          <a class="dropdown-item" href="{{url('/admin')}}">Admin</a>
+          @endif
+          @if(session()->has('teamMember'))
+          <a class="dropdown-item" href="#">profile</a>
           @endif
         </div>
       </li>

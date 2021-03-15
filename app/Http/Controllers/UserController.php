@@ -55,21 +55,21 @@ class UserController extends Controller
     {
         $email = $req->input('email');
         $password = $req->input('password');
-        $result = UserModel::select(['password','verified','id'])->where('email','=',$email)->get();
-        if(Hash::check($password,$result[0]->password) && $result[0]->verified){
-            session()->put('userId',$result[0]->id);
+        $user = UserModel::select(['password','verified','id'])->where('email','=',$email)->get();
+        if(Hash::check($password,$user[0]->password) && $user[0]->verified){
+            session()->put('userId',$user[0]->id);
+            $userAgain = UserModel::find($user[0]->id);
+            foreach($userAgain->roles as $role)
+            { 
+                session()->put($role->name,$role->name);
+            }
             return true;
         }
-        // return $result[0]->password;
         return false;
     }
 
     public function logout()
     {
-        // if(session()->has('userId'))
-        // {
-        //     return 1;
-        // }
         session()->flush();
         return 1;
     }
