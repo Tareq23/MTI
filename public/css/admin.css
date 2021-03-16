@@ -46,7 +46,7 @@
     ADMIN ROLE SET PORTION
 
 */
-#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team{
+#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team,#admin_gallery{
     margin-top:4rem;
 }
 
@@ -59,4 +59,18 @@
 }
 .roleCheckBox label input{
    margin-right:0.5rem;
+}
+
+
+/*
+    GALLERY IMAGE
+*/
+
+#imgPreview{
+    width:100%;
+    height:350px;
+}
+#imgPreview img{
+    width:100%;
+    height:100%;
 }

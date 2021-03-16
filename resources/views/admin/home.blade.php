@@ -23,6 +23,9 @@
         <div id="admin_team" class="d-none">
             <h2>Admin Team members</h2>
         </div>
+        <div id="admin_gallery" class="d-none">
+            @include('component.admin.gallery')
+        </div>
     </div>
 
 @endsection
@@ -48,6 +51,7 @@
             $("#admin_project").addClass("d-none");
             $("#admin_contact").addClass("d-none");
             $("#admin_team").addClass("d-none");
+            $("#admin_gallery").addClass("d-none")
             $("#admin_role").removeClass("d-none");
 
             $(document).ready(function() {
@@ -202,6 +206,7 @@
             $("#admin_contact").addClass("d-none");
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
+            $("#admin_gallery").addClass("d-none")
             $("#admin_technology").removeClass("d-none");
         })
         /* ADMIN PROJECT PROTION */
@@ -210,6 +215,7 @@
             $("#admin_contact").addClass("d-none");
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
+            $("#admin_gallery").addClass("d-none")
             $("#admin_project").removeClass("d-none");
         })
         /* ADMIN TEAM MEMBERS */
@@ -218,15 +224,47 @@
             $("#admin_project").addClass("d-none");
             $("#admin_contact").addClass("d-none");
             $("#admin_role").addClass("d-none");
+            $("#admin_gallery").addClass("d-none")
             $("#admin_team").removeClass("d-none");
         })
         // <li><a id="sideNav_contactBtn">contact message</a></li>
+        /* GALLERY IMAGE */
+        $("#sideNav_galleryBtn").click(function(){
+            $("#admin_technology").addClass("d-none");
+            $("#admin_project").addClass("d-none");
+            $("#admin_team").addClass("d-none");
+            $("#admin_role").addClass("d-none");
+            $("#admin_contact").addClass("d-none");
+            $("#admin_gallery").removeClass("d-none")
+        })
+        
+
+
+        $("#addNewImageBtn").click(function(){
+            $("#addNewImageModal").modal('show');
+        });
+
+        $("#inputImageFile").change(function(){
+            let fileReader = new FileReader();
+            fileReader.readAsDataURL(this.files[0]);
+            $("#imgPreview").removeClass("d-none");
+            fileReader.onload = (event) =>{
+                let imgUrl = event.target.result;
+                // console.log(imgUrl);
+                $("#previewImgTagId").attr('src',imgUrl);
+            }
+        })
+
+
+
+
         /* ADMIN CONTACT PORTION */
         $("#sideNav_contactBtn").click(function(){
             $("#admin_technology").addClass("d-none");
             $("#admin_project").addClass("d-none");
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
+            $("#admin_gallery").addClass("d-none")
             $("#admin_contact").removeClass("d-none");
             
                 // $('#contactDataTable').DataTable();
