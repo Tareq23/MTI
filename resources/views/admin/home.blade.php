@@ -228,6 +228,65 @@
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_contact").removeClass("d-none");
+            
+                // $('#contactDataTable').DataTable();
+            adminShowContact();
+            
         })
+        function adminShowContact()
+        {
+            axios.get('/admin/getContactAll')
+            .then(response => {
+                if(response.status==200){
+                    $("#contactDataTableBody").empty();
+                    let contactData = response.data;
+                    // console.log(contactData);
+                    $.each(contactData,function(idx,item){
+                        $('<tr>').html(
+                            '<td>'+ contactData[idx].name +'</td>'+
+                            '<td>'+ contactData[idx].email +'</td>'+
+                            '<td>'+ contactData[idx].subject+'</td>'+
+                            '<td class="text-center"><a style="cursor:pointer;" class="contactMessageDetailsBtn" data-id='+ contactData[idx].id +'><i class="fas fa-envelope"></i></a></td>'+
+                            '<td class="text-center"><a style="cursor:pointer;" class="contactMessageDeleteBtn" data-id='+ contactData[idx].id +'><i class="far fa-trash-alt"></i></a></td>'
+                        ).appendTo("#contactDataTableBody");
+                    });
+                    $(".contactMessageDeleteBtn").click(function(){
+                        let contactId = $(this).data('id');
+                        $("#contactDeleteModal").modal('show');
+
+                        $("#ContactDeleteConfirmBtn").click(function(){
+                            axios.post('/admin/contactDelete',{id:contactId})
+                                .then(res=>{
+                                    if(res.data==1){
+                                        $("#contactDeleteModal").modal('hide');
+                                        adminShowContact();
+                                        alert("Delete Success");
+                                    }
+                                })
+                                .catch(error=>{
+                                    alert("something went to wrong");
+                                })
+                        })
+                    })
+                    $(".contactMessageDetailsBtn").click(function(){
+                        let contactId = $(this).data('id');
+                        console
+                        axios.get('/admin/getMessage/'+contactId,)
+                        .then(res=>{
+                            console.log(res.data);
+                            $("#contactDataMessage").html(res.data.message);
+                            $("#contactMessageModal").modal('show');
+                        })
+                        .catch(error=>{
+                            console.log(error.response);
+                        })
+                    });
+                }
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert("something went to wrong");
+            });
+        }
     </script>
 @endsection

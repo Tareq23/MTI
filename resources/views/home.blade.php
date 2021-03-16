@@ -23,7 +23,53 @@
 
 @section('script')
     <script type="text/javascript">
-            
+            function validateEmail(email) {
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            }
+            $("#contactMessageConfirmBtn").click(function(){
+                let name = $("#contactName").val().trim();
+                let email = $("#contactEmail").val().trim();
+                let subject = $("#contactSubject").val().trim();
+                let message = $("#contactMessage").val().trim();
+                //let contactArray = [name,email,message,subject];
+                if(name.length<4||name.length>45){
+                    alert("Name Must be more than 4 characters and less than 40 characters");
+                }
+                else if(email.length<=5){
+                    alert("Empty Email");
+                }
+                else if(!validateEmail(email)){
+                   alert("inValid Email");
+                }
+                else if(subject.length<10){
+                    alert("Subject More than 10 Characters");
+                }
+                else if(message.length<=0){
+                    alert("Empty Message");
+                }
+                else{
+                    axios.post('/contacts',{
+                        name:name,
+                        email:email,
+                        subject:subject,
+                        message:message
+                    })
+                    .then(function(response){
+                        // console.log(response);
+                        if(response.status==201)
+                        {
+                            alert("Message Sent success");
+                        }
+                        else{
+                            alert("Something went to wrong!");
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error.response);
+                    })
+                }
+            });
     </script>
 @endsection
 

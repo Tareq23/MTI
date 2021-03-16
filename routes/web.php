@@ -9,13 +9,16 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ContactController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
 Route::get('/blog',[BlogController::class,'blogIndex'])->name('blogHome');
 Route::get('/blog/{token}',[MailController::class,'confirmEmail']);
 
+/* Contact Message */
 
+Route::post('/contacts',[ContactController::class,'store']);
 
 /*
 |   USER REGISTRATION
@@ -31,9 +34,15 @@ Route::group([
 ],function($route){
     Route::get('/',[AdminController::class,'userProfile']);
     Route::get('/getAllVerifiedUser',[UserController::class,'getAllVerifiedUser']);
+    /* Roles Route */
     Route::get('/roles',[RoleController::class,'indexRole']);
     Route::get('/allRoles',[RoleController::class,'allRole']);
     Route::post('/add/role',[RoleController::class,'addRole']);
     Route::post('/getRole',[RoleController::class,'getRole']);
     Route::post('/setRole',[RoleController::class,'setRole']);
+    /* Contact message Route */
+    Route::get('/getContactAll',[ContactController::class,'getContactAll']);
+    Route::get('/getMessage/{id}',[ContactController::class,'getMessage']);
+    Route::post('/contactDelete',[ContactController::class,'contactDelete']);
 });
+
