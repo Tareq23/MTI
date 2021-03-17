@@ -10,6 +10,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
@@ -44,5 +45,9 @@ Route::group([
     Route::get('/getContactAll',[ContactController::class,'getContactAll']);
     Route::get('/getMessage/{id}',[ContactController::class,'getMessage']);
     Route::post('/contactDelete',[ContactController::class,'contactDelete']);
+
+    /* IMAGE GALLERY */
+
+    Route::post('/uploadImageFile',[GalleryController::class,'uploadImageFile']);
 });
 

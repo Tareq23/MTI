@@ -22,14 +22,14 @@
         </button>
       </div>
       <div class="modal-body">
-            <input class="form-control"  type="file" id="inputImageFile"/>
+            <input class="form-control"  type="file" accept="image/*" id="inputImageFile"/>
             <div id="imgPreview" class="d-none p-3">
                 <img id="previewImgTagId" class="img-fluid" src="" alt="preview Img" />
             </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="" type="button" class="btn btn-primary">Add</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="addNewImageConfirmBtn" type="button" class="btn btn-primary">Add</button>
       </div>
     </div>
   </div>

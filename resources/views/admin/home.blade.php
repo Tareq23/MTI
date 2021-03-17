@@ -250,10 +250,27 @@
             $("#imgPreview").removeClass("d-none");
             fileReader.onload = (event) =>{
                 let imgUrl = event.target.result;
-                // console.log(imgUrl);
                 $("#previewImgTagId").attr('src',imgUrl);
             }
+
+            $("#addNewImageConfirmBtn").click(function(){
+                let formData = new FormData();
+                let imgFile = $("#inputImageFile").prop('files')[0];
+                formData.append('image',imgFile);
+                axios.post('/admin/uploadImageFile',formData)
+                    .then((res)=>{
+                        console.log(res);
+                    })
+                    .catch((error)=>{
+                        console.log(error.response);
+                    })
+
+                // console.log("adds ok")
+                // console.log(imgFile);
+            });
         })
+
+        
 
 
 
