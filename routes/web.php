@@ -49,5 +49,7 @@ Route::group([
     /* IMAGE GALLERY */
 
     Route::post('/uploadImageFile',[GalleryController::class,'uploadImageFile']);
+    Route::get('/getTopEightImageUlr',[GalleryController::class,'getTopEightImageUlr']);
+    Route::post('/loadMoreGalleryImage',[GalleryController::class,'loadMoreGalleryImage']);
 });
 

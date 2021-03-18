@@ -74,3 +74,11 @@
     width:100%;
     height:100%;
 }
+
+#galleryImage .galleryImgDiv{
+    max-width:300px;
+    padding:1rem;
+}
+#galleryImage .galleryImgDiv img{
+    width:100%;
+}

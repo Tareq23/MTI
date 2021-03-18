@@ -2,8 +2,11 @@
     <button id="addNewImageBtn" class="btn btn-primary">Add New Image</button>
     <div class="row">
         <div class="col-sm-12">
-            <p>Lorem ipsum dolor Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque quas sunt adipisci suscipit reprehenderit natus saepe repellendus voluptatibus ratione illo? sit amet consectetur adipisicing elit. Labore vel maiores adipisci quod dolores, at natus fuga quaerat accusantium beatae.</p>
+            <div id="galleryImage" class="row">
+
+            </div>
         </div>
+        <button class="btn btn-primary btn-block m-2" id="imageLoadMoreBtn">Load More</button>
     </div>
 </div>
 

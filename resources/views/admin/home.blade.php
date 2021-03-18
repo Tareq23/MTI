@@ -236,9 +236,52 @@
             $("#admin_role").addClass("d-none");
             $("#admin_contact").addClass("d-none");
             $("#admin_gallery").removeClass("d-none")
+            showGalleryImage();
         })
-        
 
+        function showGalleryImage()
+        {
+            axios.get('/admin/getTopEightImageUlr')
+                .then((res)=>{
+                    let imageUrl = res.data;
+
+                    $.each(imageUrl,(idx,item)=>{
+                        $('<div class="galleryImgDiv col-md-3 col-sm-6">').html(
+                            '<img class="galleryImgTag" src="'+imageUrl[idx].url+'" alt="gallery image" data-id="'+ imageUrl[idx].id +'"/>'
+                        ).appendTo("#galleryImage");
+                    });
+                    
+                    let lastImageId = $(".galleryImgDiv:last img").data('id');
+                    $("#imageLoadMoreBtn").val(lastImageId);
+                    // $("#imageLoadMoreBtn").attr("data-id",lastImageId);
+                }).catch((error)=>{
+                    console.log(error.response);
+                });
+        }
+        
+        $("#imageLoadMoreBtn").click(function(){
+            let imageId = $(this).val();
+            loadMoreImage(imageId);
+        })
+        function loadMoreImage(imageId){
+            axios.post('/admin/loadMoreGalleryImage',{id:imageId})
+                .then((res)=>{
+                    console.log(res.data);
+                    let imageUrl = res.data;
+
+                    $.each(imageUrl,(idx,item)=>{
+                        $('<div class="galleryImgDiv col-md-3 col-sm-6">').html(
+                            '<img class="galleryImgTag" src="'+imageUrl[idx].url+'" alt="gallery image" data-id="'+ imageUrl[idx].id +'"/>'
+                        ).appendTo("#galleryImage");
+                    });
+                    
+                    let lastImageId = $(".galleryImgDiv:last img").data('id');
+                    $("#imageLoadMoreBtn").val(lastImageId);
+                })
+                .catch((error)=>{
+                    console.log(error.response);
+                })
+        }
 
         $("#addNewImageBtn").click(function(){
             $("#addNewImageModal").modal('show');
