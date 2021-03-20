@@ -82,3 +82,61 @@
 #galleryImage .galleryImgDiv img{
     width:100%;
 }
+
+
+/*
+   USER PROFILE PAGE
+*/
+
+
+#userTopNav ul li a{
+    color:#ffffff;
+}
+#userMenuBarBtn{
+    cursor:pointer;
+    color:#ffffff;
+    width:2rem;
+    height:2rem;
+}
+#userSideNav{
+    display:inline-block;
+    margin-top:1.8rem;
+    padding:1.6rem 0 0 0;
+    background-color: rgba(29, 28, 28, 0.801);
+    position:relative;
+    height:100vh;
+    width:250px;
+    color:rgba(255, 255, 255, 0.849);
+}
+#userSideNav ul li{
+    list-style:none;
+    padding:.5rem 0;
+    text-align: left;
+    cursor:pointer;
+}
+#userSideNav ul li a{
+    width:100%;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size:1.4rem;
+    color:#ffffff;
+    margin-left:50px;
+}
+#userSideNav ul li:hover{
+    background-color: rgb(17, 17, 34);
+}
+
+
+#user-wrapper{
+    display:flex;
+    flex-direction: row;
+}
+
+#user_project_show,#user_post_show,#user_profile_show{
+    margin-top:4rem;
+}
+
+
+/* #addNewPostModal .modal-dialog {
+    width:100px;
+} */

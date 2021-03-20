@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\TeamMemberController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
@@ -51,5 +52,11 @@ Route::group([
     Route::post('/uploadImageFile',[GalleryController::class,'uploadImageFile']);
     Route::get('/getTopEightImageUlr',[GalleryController::class,'getTopEightImageUlr']);
     Route::post('/loadMoreGalleryImage',[GalleryController::class,'loadMoreGalleryImage']);
+});
+
+Route::group([
+    'prefix' => '/users'
+],function($route){
+    Route::get('/',[TeamMemberController::class,'index']);
 });
 

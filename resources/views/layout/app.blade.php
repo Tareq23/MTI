@@ -15,6 +15,8 @@
     @yield('content')
 
     <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
+    <script src="{{asset('ckeditor/adapters/jquery.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             let url = $(location).attr('href');

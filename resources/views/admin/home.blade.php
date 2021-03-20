@@ -244,7 +244,7 @@
             axios.get('/admin/getTopEightImageUlr')
                 .then((res)=>{
                     let imageUrl = res.data;
-
+                    $("#galleryImage").empty();
                     $.each(imageUrl,(idx,item)=>{
                         $('<div class="galleryImgDiv col-md-3 col-sm-6">').html(
                             '<img class="galleryImgTag" src="'+imageUrl[idx].url+'" alt="gallery image" data-id="'+ imageUrl[idx].id +'"/>'
