@@ -140,3 +140,11 @@
 /* #addNewPostModal .modal-dialog {
     width:100px;
 } */
+
+
+
+.social-media label{
+    width:6.5rem;
+    text-transform: uppercase;
+}
+

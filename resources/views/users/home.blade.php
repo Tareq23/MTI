@@ -72,6 +72,36 @@
         $("#user_post_show").addClass("d-none");
         $("#user_project_show").addClass("d-none");
         $("#user_profile_show").removeClass("d-none");
+        let edu_count = 0;
+        let education_info = [];
+        $("#addEducation").click(function(){
+            // console.log("add Education");
+            $('<p>').html(
+                '<input type="text" placeholder="institute" class="user_institute'+ edu_count +'" /></br>' +
+                '<input type="date" placeholder="institute" class="start_time'+ edu_count +'" /></br>' +
+                '<input type="date" placeholder="institute" class="end_time'+ edu_count +'" /></br>'
+            ).appendTo("#educationAppend");
+            edu_count++;
+        });
+        $("#educationAddBtn").click(function(){
+            for(let idx=0;idx<edu_count;idx++)
+            {
+                let user_institute = ".user_institute"+idx;
+                let start_time = ".start_time"+idx;
+                let end_time = ".end_time"+idx;
+                let user_edu_obj = {
+                    user_institute : $(user_institute).val(),
+                    start_time : $(start_time).val(),
+                    end_time : $(end_time).val(),
+                }
+                education_info.push(user_edu_obj);
+            }
+            console.log(education_info);
+        });
+
+
+
+
     });
 
 
