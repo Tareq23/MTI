@@ -56,9 +56,11 @@
 
             $(document).ready(function() {
                 axios.get('/admin/getAllVerifiedUser').then(function(response){
-                    if(response.status==200){
+                    if(response.status==200)
+                    {
                         let userData = response.data;
                         let roles='';
+                        let userCounter = 0;
                         $('#userRoleTableBody').empty();
                         $.each(userData,function(idx,item){
                             
@@ -70,9 +72,10 @@
                                 });
                                 
                                 roles = roles.substring(0,roles.length-1);
-                                
-                                $(".user-role").html(roles);
+                                let user_role_class = ".user-role"+idx;
+                                $(user_role_class).html(roles);
                                 roles = '';
+                                userCounter++;
 
                             }).catch(function(error){
                                 console.log(error.response);
@@ -81,7 +84,7 @@
                             
                             $('<tr>').html(
                                 '<td>'+userData[idx].email+'</td>'+
-                                '<td class="user-role"> </td>' + 
+                                '<td class="user-role'+idx+'"> </td>' + 
                                 '<td><a class="roleEditBtn" data-id='+ userData[idx].id +'><i class="fas fa-edit"></i></a></td>'
                             ).appendTo("#userRoleTableBody");
                             $(".roleEditBtn").click(function(event){

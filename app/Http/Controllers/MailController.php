@@ -16,6 +16,10 @@ class MailController extends Controller
         $roleId = RoleModel::select(['id'])->where('name','=','subscriber')->first();
         $userId = $token->user_id;
         $user = UserModel::find($userId);
+        $user->profile()->create([
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
         $user->roles()->attach($roleId);
         return redirect('/blog');
     }

@@ -16,6 +16,8 @@ use App\Http\Controllers\TeamMemberController;
 
 Route::get('/',[HomeController::class,'homeIndex']);
 Route::get('/blog',[BlogController::class,'blogIndex'])->name('blogHome');
+
+/* Mail Controller */
 Route::get('/blog/{token}',[MailController::class,'confirmEmail']);
 
 /* Contact Message */
@@ -32,7 +34,8 @@ Route::post('/login',[UserController::class,'login']);
 Route::get('/logout',[UserController::class,'logout']);
 
 Route::group([
-    'prefix'=>'/admin'
+    'prefix'=>'/admin',
+    'middleware' => 'adminAuth'
 ],function($route){
     Route::get('/',[AdminController::class,'userProfile']);
     Route::get('/getAllVerifiedUser',[UserController::class,'getAllVerifiedUser']);
@@ -55,7 +58,8 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => '/users'
+    'prefix' => '/users',
+    'middleware' => 'teamAuth'
 ],function($route){
     Route::get('/',[TeamMemberController::class,'index']);
 });

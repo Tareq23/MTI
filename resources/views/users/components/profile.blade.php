@@ -8,11 +8,11 @@
                     </div>
                     <div class="col-md-6 short-info">
                         <p><input type="text" id="user_name" value="user name"/></p>
-                        <p>Education : json data 3 property <i id="addEducation" style="cursor:pointer;" class="fas fa-plus-square"></i></p>
+                        <p>Educations : <i id="addEducation" style="cursor:pointer;" class="fas fa-plus-square"></i></p>
                         <div id="educationAppend">
                         
-                        <button id="educationAddBtn" class="btn btn-primary">Education Btn</button>
                         </div>
+                        <!-- <button id="educationAddBtn" class="btn btn-primary">Education Btn</button> -->
                         <p>Email : mail@example.com</p>
                     </div>
                 </div>
@@ -41,3 +41,11 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+
+
+
+</script>

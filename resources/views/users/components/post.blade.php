@@ -32,9 +32,6 @@
                 <iframe id="outputPost" name="postTextField"></iframe>
                 <button type="button" class="btn btn-primary" id="postConfirmSubmitBtn">Submit</button>
               </div>
-
-                <p>own post view</p>
-
             </div>
         </div>
     </div>
@@ -65,10 +62,7 @@
 </div>
 
 <script>
-
-// function executeDesignMode()
-// {
-// }
+  
 postTextField.document.designMode = 'on';
 
 function executeCommand(command){

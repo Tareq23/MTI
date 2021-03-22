@@ -85,7 +85,7 @@
 
 
 /*
-USER PROFILE PAGE
+USERs Admin Panel
 */
 
 #user-wrapper{
@@ -142,12 +142,20 @@ USER PROFILE PAGE
     width:100px;
 } */
 
+/* User Profile */
 
-
+#educationAppend p{
+    display: flex;
+    flex-direction: column;
+}
 .social-media label{
     width:6.5rem;
     text-transform: uppercase;
 }
+
+/*
+    User Post Section
+*/
 
 #create_post{
     display:flex;

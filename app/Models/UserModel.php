@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\EmailVerifiedTokenModel;
 use App\Models\RoleModel;
 use App\Events\UserRegister;
+use App\Models\ProfileModel;
 
 class UserModel extends Model
 {
@@ -38,6 +39,11 @@ class UserModel extends Model
     public function roles()
     {
         return $this->belongsToMany(RoleModel::class,'user_roles','user_id','role_id');
+    }
+    public function profile()
+    {
+        // return $this->belongsTo(User::class)
+        return $this->hasOne(ProfileModel::class,'user_id','id');
     }
     
 }

@@ -79,10 +79,27 @@
         $("#user_profile_show").removeClass("d-none");
         let edu_count = 0;
         let education_info = [];
+        
+        axios.get('/users/getProfile')
+            .then(function(res){
+                let user = res.data;
+                if(res.status==200)
+                {
+                    console.log(user);
+                }
+                else{
+                    console.log("user get profile wrong");
+                }
+            })
+            .catch(function(error){
+                console.log(error.response);
+            });
+
+
         $("#addEducation").click(function(){
             // console.log("add Education");
             $('<p>').html(
-                '<input type="text" placeholder="institute" class="user_institute'+ edu_count +'" /></br>' +
+                '<input type="text" placeholder="institution name" class="user_institute'+ edu_count +'" /></br>' +
                 '<input type="date" placeholder="institute" class="start_time'+ edu_count +'" /></br>' +
                 '<input type="date" placeholder="institute" class="end_time'+ edu_count +'" /></br>'
             ).appendTo("#educationAppend");
@@ -103,12 +120,6 @@
             }
             console.log(education_info);
         });
-
-
-
-
     });
-
-
     </script>
 @endsection
