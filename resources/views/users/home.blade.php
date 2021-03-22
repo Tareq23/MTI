@@ -20,16 +20,12 @@
         CK-EDITOR
 
     */
-    //CKEDITOR.replace("post-editor")
-    CKEDITOR.editorConfig = function( config ) {
-    config.extraPlugins = 'imageuploader';
-    };
-    $("#post-editor").ckeditor(function(){
-        $("#postSubmitConfirmBtn").click(function(){
-            let postValue = $("#post-editor").val();
-            console.log(postValue);
-        });
-    });
+    // $("#post-editor").ckeditor(function(){
+    //     $("#postSubmitConfirmBtn").click(function(){
+    //         let postValue = $("#post-editor").val();
+    //         console.log(postValue);
+    //     });
+    // });
 
     /* side nav show/hide  */
     let menuBarCount = 0;
@@ -62,7 +58,16 @@
         $("#user_post_show").removeClass("d-none");
 
         $("#addNewPostBtn").click(function(){
-            $("#addNewPostModal").modal('show');
+            $("#create_post").removeClass("d-none");
+
+            $("#postConfirmSubmitBtn").click(function(){
+                console.log("Post Submit");
+                let postHtmlText = postTextField.document.getElementsByTagName('body')[0].innerHTML;
+                console.log(postHtmlText);
+            });
+        })
+        $("#addNewPostBtn").dblclick(function(){
+            $("#create_post").addClass("d-none");
         })
 
 

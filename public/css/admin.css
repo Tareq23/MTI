@@ -85,9 +85,13 @@
 
 
 /*
-   USER PROFILE PAGE
+USER PROFILE PAGE
 */
 
+#user-wrapper{
+    display:flex;
+    flex-direction: row;
+}
 
 #userTopNav ul li a{
     color:#ffffff;
@@ -127,13 +131,10 @@
 }
 
 
-#user-wrapper{
-    display:flex;
-    flex-direction: row;
-}
 
 #user_project_show,#user_post_show,#user_profile_show{
     margin-top:4rem;
+    width:calc(100% - 250px);
 }
 
 
@@ -148,3 +149,22 @@
     text-transform: uppercase;
 }
 
+#create_post{
+    display:flex;
+    flex-direction: column;
+    width:100%;
+}
+
+#create_post .editor-icon-list{
+    margin:1rem 0;
+}
+#create_post .editor-icon-list button,select,option{
+    margin:0 0.3rem;
+    padding:0.2rem 0.4rem;
+    cursor:pointer;
+}
+#create_post iframe{
+    margin:0 0 1rem 0;
+    width:100%;
+    min-height: 50vh;
+}

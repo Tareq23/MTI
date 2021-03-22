@@ -7,7 +7,7 @@
                         <img class="card-img" src="{{asset('images/project.jpg')}}"/>
                     </div>
                     <div class="col-md-6 short-info">
-                        <p>Name : Dummy Name</p>
+                        <p><input type="text" id="user_name" value="user name"/></p>
                         <p>Education : json data 3 property <i id="addEducation" style="cursor:pointer;" class="fas fa-plus-square"></i></p>
                         <div id="educationAppend">
                         

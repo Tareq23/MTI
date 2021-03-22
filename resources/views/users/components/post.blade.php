@@ -1,8 +1,37 @@
 <div id="user_post_show" class="d-none ml-5">
     <div class="container">
+            <button class="btn btn-primary d-block" id="addNewPostBtn">Add New Post</button>
         <div class="row">
-            <button class="btn btn-primary" id="addNewPostBtn">Add New Post</button>
-            <div class="col-md-12">
+            <div class="col-md-12 w-100">
+              <div id="create_post"  class="w-100 d-none">
+                <div class="editor-icon-list">
+                  <select onchange="executeCommandWithArg('formatBlock',this.value)">
+                    <!-- <option value="h1">H1</option> -->
+                    <option value="h2">H2</option>
+                    <option value="h3">H3</option>
+                    <option value="h4">H4</option>
+                    <option value="h5">H5</option>
+                    <option value="h6">H6</option>
+                  </select>
+                  <button type="button" onclick="executeCommand('bold');" ><i class="fas fa-bold"></i></button>
+                  <button type="button" onclick="executeCommand('insertParagraph');" ><i class="fas fa-paragraph"></i></button>
+                  <button type="button" onclick="executeCommand('justifyLeft');" ><i class="fas fa-align-left"></i></button>
+                  <button type="button" onclick="executeCommand('justifyRight');" ><i class="fas fa-align-right"></i></button>
+                  <button type="button" onclick="executeCommand('justifyCenter');" ><i class="fas fa-align-center"></i></button>
+                  <button type="button" onclick="executeCommand('justifyFull');" ><i class="fas fa-align-justify"></i></button>
+                  <button type="button" onclick="executeCommand('indent');" ><i class="fas fa-indent"></i></button>
+                  <button type="button" onclick="executeCommand('outdent');" ><i class="fas fa-outdent"></i></button>
+                  <button type="button" onclick="executeCommand('redo');" ><i class="fas fa-redo"></i></button>
+                  <button type="button" onclick="executeCommand('undo');" ><i class="fas fa-undo"></i></button>
+                  <button type="button" onclick="executeCommand('underline');" ><i class="fas fa-underline"></i></button>
+                  <button type="button" onclick="executeCommandWithArg('createLink',prompt('Enter Link Url: ','https:'));" ><i class="fas fa-link"></i></button>
+                  <button type="button" onclick="executeCommand('unlink');" ><i class="fas fa-unlink"></i></button>
+                  <button type="button" onclick="executeCommandWithArg('insertImage',prompt('Enter Image Url: ','https:'));" ><i class="far fa-file-image"></i></button>
+                  <button type="button" onclick="toggleCode();" ><i class="fas fa-code"></i></button>
+                </div>
+                <iframe id="outputPost" name="postTextField"></iframe>
+                <button type="button" class="btn btn-primary" id="postConfirmSubmitBtn">Submit</button>
+              </div>
 
                 <p>own post view</p>
 
@@ -34,3 +63,45 @@
     </div>
   </div>
 </div>
+
+<script>
+
+// function executeDesignMode()
+// {
+// }
+postTextField.document.designMode = 'on';
+
+function executeCommand(command){
+  postTextField.document.execCommand(command,false,null);
+}
+function executeCommandWithArg(command,value)
+{
+  postTextField.document.execCommand(command,false,value);
+  if(command === "createLink"){
+    let links = postTextField.document.querySelectorAll('a');
+    links.forEach(link => {
+      link.target = "_black";
+    });
+  }
+  else if(command === "insertImage")
+  {
+    let imgs = postTextField.document.querySelectorAll('img');
+    imgs.forEach(img => {
+      img.style.maxWidth = "350px";
+    });
+  }
+}
+let showCode = false
+function toggleCode()
+{
+  if(showCode)
+  {
+    showCode = false;
+    postTextField.document.getElementsByTagName('body')[0].innerHTML = postTextField.document.getElementsByTagName('body')[0].textContent
+  }
+  else{
+    showCode = true;
+    postTextField.document.getElementsByTagName('body')[0].textContent = postTextField.document.getElementsByTagName('body')[0].innerHTML;
+  }
+}
+</script>
