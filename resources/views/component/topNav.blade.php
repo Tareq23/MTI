@@ -37,7 +37,7 @@
           <a class="dropdown-item" href="{{url('/admin')}}">Admin</a>
           @endif
           @if(session()->has('teamMember'))
-          <a class="dropdown-item" href="{{url('/users')}}">profile</a>
+          <a class="dropdown-item" href="{{url('/users/')}}">profile</a>
           @endif
         </div>
       </li>

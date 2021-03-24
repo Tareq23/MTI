@@ -19,6 +19,7 @@ class MailController extends Controller
         $user->profile()->create([
             'name' => $user->name,
             'email' => $user->email,
+            'image' => 'images/default/user.png',
         ]);
         $user->roles()->attach($roleId);
         return redirect('/blog');

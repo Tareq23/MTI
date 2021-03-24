@@ -12,6 +12,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\TeamMemberController;
+use App\Http\Controllers\ProfileController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
@@ -38,7 +39,7 @@ Route::group([
     'middleware' => 'adminAuth'
 ],function($route){
     Route::get('/',[AdminController::class,'userProfile']);
-    Route::get('/getAllVerifiedUser',[UserController::class,'getAllVerifiedUser']);
+    Route::get('/getAllVerifiedUser',[AdminController::class,'getAllVerifiedUser']);
     /* Roles Route */
     Route::get('/roles',[RoleController::class,'indexRole']);
     Route::get('/allRoles',[RoleController::class,'allRole']);
@@ -62,5 +63,11 @@ Route::group([
     'middleware' => 'teamAuth'
 ],function($route){
     Route::get('/',[TeamMemberController::class,'index']);
+    Route::get('/getProfile',[ProfileController::class,'getProfile']);
+    Route::post('/nameUpdate',[ProfileController::class,'nameUpdate']);
+    Route::post('/educationUpdate',[ProfileController::class,'educationUpdate']);
+    Route::post('/imageUpdate',[ProfileController::class,'imageUpdate']);
+    Route::post('/socialLinkUpdate',[ProfileController::class,'socialLinkUpdate']);
+    Route::post('/descriptionUpdate',[ProfileController::class,'descriptionUpdate']);
 });
 

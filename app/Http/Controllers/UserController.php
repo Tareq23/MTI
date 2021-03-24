@@ -16,10 +16,7 @@ class UserController extends Controller
     {
         return UserModel::where('id',$id)->get();
     }
-    public function getAllVerifiedUser()
-    {
-        return UserModel::select(['id','email'])->where('verified','=',1)->get();
-    }
+    
     public function register(Request $req)
     {
         $name = $req->input('name');
