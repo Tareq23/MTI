@@ -17,13 +17,14 @@ class PostMigration extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('tag_id');
+            // $table->unsignedBigInteger('tag_id');
             $table->string('title',300);
             $table->string('slug',50);
             $table->longText('content');
+            $table->string('time',20);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('tag_id')->references('id')->on('tags');
+            // $table->foreign('tag_id')->references('id')->on('tags');
         });
     }
 
@@ -34,6 +35,6 @@ class PostMigration extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('posts');
     }
 }

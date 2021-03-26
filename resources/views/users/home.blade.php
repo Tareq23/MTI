@@ -52,26 +52,123 @@
 
     });
 
+
+    /* User Post Section */
+
+    function getUserPostShow(){
+        axios.get('users/getUserPost')
+            .then(function(res){
+                if(res.status==200)
+                {
+                    let posts = res.data;
+                    $("#post-show-div").empty();
+                    $.each(posts,function(idx,item){
+                        $('<div class="single-post mt-3">').html(
+                            '<div class="post-title">'+
+                                '<p><a target="_blank" href="/blog/post/'+item.slug+'" data-slug="'+item.slug+'">'+item.title+'</a></p>'+
+                            '</div>'+
+                            '<div class="post-content">'+ item.content +'</div>'
+                        ).appendTo("#post-show-div");
+                    });
+
+                }
+            }).catch(function(error){   
+                console.log(error.response);
+            })
+    }
+
     $("#user_post").click(function(){
         $("#user_profile_show").addClass("d-none");
         $("#user_project_show").addClass("d-none");
         $("#user_post_show").removeClass("d-none");
+        
+        getUserPostShow();
 
         $("#addNewPostBtn").click(function(){
             $("#create_post").removeClass("d-none");
-
+            axios.get('/users/getCategory')
+                .then(function(res){
+                    if(res.status==200)
+                    {
+                        let categories = res.data;
+                        $("#categories").empty();
+                        $('<option value="0">').text("Select Category").appendTo("#categories");
+                        $.each(categories,(idx,item) => {
+                            console.log(item.name);
+                            $('<option value="'+ item.id +'">').text(item.name).appendTo("#categories");
+                        });
+                    }
+                })
+                // .catch(function(error){
+                //     // console.log(error.response);
+                // })
+            let categoryId = '';
+            $("#categories").change(function(){
+                categoryId = $(this).val();
+                if(categoryId === "0"){
+                    $(this).css("borderColor","red");
+                }
+                else{
+                    $(this).css("borderColor","green");
+                    // console.log(categoryId);
+                }
+            })
+            
             $("#postConfirmSubmitBtn").click(function(){
                 console.log("Post Submit");
                 let postHtmlText = postTextField.document.getElementsByTagName('body')[0].innerHTML;
-                console.log(postHtmlText);
+                postHtmlText = postHtmlText.trim();
+                let postMainTitle = $("#postMainTitle").val().trim();
+                let tagsArray = [];
+                let titleWordArray = postMainTitle.split(" ");
+                let titleWordCount = titleWordArray.length;
+                for(let i = 0; i<titleWordCount;i++)
+                {
+                    if(titleWordArray[i].length>2)
+                    {
+                        let tagTrimValue = titleWordArray[i].split(".");
+                        let newTags = tagTrimValue.length == 1 ? tagTrimValue[0] : tagTrimValue[0] == "." ? tagTrimValue[1] : tagTrimValue[0]; 
+                        let flag = tagsArray.find(tag => 
+                            tag===newTags.toLowerCase()
+                        );
+                        if(!flag){
+                            tagsArray.push(newTags.toLowerCase());
+                        }
+                    }
+                }
+
+                if(postMainTitle.length<10 && postMainTitle.length>295){
+                    alert("Title Must be less than 250 characters and greater than 50 characters")
+                }
+                else if(categoryId.length<0){
+                    alert("Select Category");
+                }
+                else{
+                    axios.post('users/createPost',{
+                        tags:tagsArray,
+                        content:postHtmlText,
+                        title : postMainTitle,
+                        category : parseInt(categoryId),
+                    }).then(function(res){
+                        if(res.data)
+                        {
+                            $("#postMainTitle").val("");
+                            getUserPostShow();
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error.response);
+                    })
+                }
             });
         })
         $("#addNewPostBtn").dblclick(function(){
             $("#create_post").addClass("d-none");
         })
-
-
     });
+
+
+
 
     /* User Profile */
 

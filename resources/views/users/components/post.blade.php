@@ -1,8 +1,8 @@
 <div id="user_post_show" class="d-none ml-5">
     <div class="container">
-            <button class="btn btn-primary d-block" id="addNewPostBtn">Add New Post</button>
+        <button class="btn btn-primary d-block" id="addNewPostBtn">Add New Post</button>
         <div class="row">
-            <div class="col-md-12 w-100">
+            <div class="col-sm-12 w-100">
               <div id="create_post"  class="w-100 d-none">
                 <div class="editor-icon-list">
                   <select onchange="executeCommandWithArg('formatBlock',this.value)">
@@ -29,8 +29,34 @@
                   <button type="button" onclick="executeCommandWithArg('insertImage',prompt('Enter Image Url: ','https:'));" ><i class="far fa-file-image"></i></button>
                   <button type="button" onclick="toggleCode();" ><i class="fas fa-code"></i></button>
                 </div>
+
+                <div class="form-group">
+                  <label for="postMainTitle">Post Main Title</label>
+                  <input id="postMainTitle" class="form-control"/>
+                </div>
+                <select class="form-control m-0 p-0 mb-2" id="categories">
+                  <option value="0" selected>Select Category</option>
+                  <!-- <option value="1">1</option>
+                  <option value="1" selected>2</option>
+                  <option value="1">3</option>
+                  <option value="1">4</option> -->
+                </select> 
                 <iframe id="outputPost" name="postTextField"></iframe>
                 <button type="button" class="btn btn-primary" id="postConfirmSubmitBtn">Submit</button>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div id="post-show-div">
+                <div class="single-post mt-3">
+
+                  <!-- <div class="post-title">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, voluptatem.</p>
+                  </div>
+                  <div class="post-content">
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis, doloribus magni ducimus commodi est beatae maiores ad suscipit provident quam cumque deserunt omnis voluptas dolores fugiat qui tempore officiis magnam.</p>
+                  </div> -->
+
+                </div>
               </div>
             </div>
         </div>

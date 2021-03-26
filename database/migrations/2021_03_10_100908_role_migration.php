@@ -26,6 +26,6 @@ class RoleMigration extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('roles');
     }
 }

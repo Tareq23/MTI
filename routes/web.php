@@ -13,6 +13,9 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\PostController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
@@ -56,6 +59,22 @@ Route::group([
     Route::post('/uploadImageFile',[GalleryController::class,'uploadImageFile']);
     Route::get('/getTopEightImageUlr',[GalleryController::class,'getTopEightImageUlr']);
     Route::post('/loadMoreGalleryImage',[GalleryController::class,'loadMoreGalleryImage']);
+
+    /* Category */
+
+    Route::post('/addCategory',[CategoryController::class,'addCategory']);
+    Route::get('/showCategory',[CategoryController::class,'show']);
+    Route::post('/checkCategory',[CategoryController::class,'check']);
+    Route::post('/deleteCategory',[CategoryController::class,'delete']);
+    Route::post('/updateCategory',[CategoryController::class,'update']);
+
+
+    /* Tag */
+
+    Route::post('/addTag',[TagController::class,'addTag']);
+    Route::get('/showTag',[TagController::class,'showTag']);
+
+
 });
 
 Route::group([
@@ -69,5 +88,15 @@ Route::group([
     Route::post('/imageUpdate',[ProfileController::class,'imageUpdate']);
     Route::post('/socialLinkUpdate',[ProfileController::class,'socialLinkUpdate']);
     Route::post('/descriptionUpdate',[ProfileController::class,'descriptionUpdate']);
+
+    /* Category Controller */
+    
+    Route::get('/getCategory',[CategoryController::class,'getCategory']);
+
+    /* Post  */
+
+    Route::post('/createPost',[PostController::class,'create']);
+    Route::get('/getUserPost',[PostController::class,'getUserPost']);
+
 });
 

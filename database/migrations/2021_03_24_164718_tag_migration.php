@@ -26,6 +26,6 @@ class TagMigration extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('tags');
     }
 }

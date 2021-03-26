@@ -29,6 +29,6 @@ class PostTagMigration extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('post_tag');
     }
 }

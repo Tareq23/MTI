@@ -5,8 +5,11 @@
 
     @include('component.admin.topNav')
     <div class="admin-wrapper">
-        <div id="sideNav" class="d-none">
+        <div id="sideNav" class="">
             @include('component.admin.sideNav')
+        </div>
+        <div id="admin_other" class="d-none">
+            @include('component.admin.others')
         </div>
         <div  id="admin_role" class="d-none">
             @include('component.admin.userRole')
@@ -51,6 +54,7 @@
             $("#admin_project").addClass("d-none");
             $("#admin_contact").addClass("d-none");
             $("#admin_team").addClass("d-none");
+            $("#admin_other").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_role").removeClass("d-none");
 
@@ -210,6 +214,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
+            $("#admin_other").addClass("d-none");
             $("#admin_technology").removeClass("d-none");
         })
         /* ADMIN PROJECT PROTION */
@@ -219,6 +224,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
+            $("#admin_other").addClass("d-none");
             $("#admin_project").removeClass("d-none");
         })
         /* ADMIN TEAM MEMBERS */
@@ -228,6 +234,7 @@
             $("#admin_contact").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
+            $("#admin_other").addClass("d-none");
             $("#admin_team").removeClass("d-none");
         })
         // <li><a id="sideNav_contactBtn">contact message</a></li>
@@ -238,6 +245,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_contact").addClass("d-none");
+            $("#admin_other").addClass("d-none");
             $("#admin_gallery").removeClass("d-none")
             showGalleryImage();
         })
@@ -328,6 +336,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
+            $("#admin_other").addClass("d-none");
             $("#admin_contact").removeClass("d-none");
             
                 // $('#contactDataTable').DataTable();
@@ -389,5 +398,191 @@
                 alert("something went to wrong");
             });
         }
+
+
+        /* Other Portions like category and tags */
+
+
+        function getCategoryShow()
+        {
+            axios.get('/admin/showCategory')
+                .then(function(res){
+                    if(res.status==200)
+                    {
+                        // $("#categoryTableBody").empty();
+                        $("#categoryTableBody").empty();
+
+                        let categories = res.data;
+
+                        $.each(categories,function(idx,item){
+                            $('<tr>').html(
+                                '<td>'+categories[idx].name+'</td>'+
+                                '<td><a style="cursor:pointer;" class="categoryUpdateBtn" data-name="'+ categories[idx].name +'" data-id="'+ categories[idx].id +'"><i class="fas fa-edit"></i></a></td>'+
+                                '<td><a style="cursor:pointer;" class="categoryDeleteBtn" data-id="'+ categories[idx].id +'"><i class="far fa-trash-alt"></i></a></td>'
+                            ).appendTo("#categoryTableBody");
+                        });
+                        $(".categoryDeleteBtn").click(function(){
+                            let id = $(this).data('id');
+                            $("#deleteCategoryId").val(id);
+                            $("#deleteCategoryModalShow").modal('show');
+                        })
+                        $(".categoryUpdateBtn").click(function(){
+                            let id = $(this).data('id');
+                            $("#updateCategoryId").attr('data-id',id);
+                            $("#updateCategoryId").val($(this).data('name'));
+                            $("#updateCategoryModalShow").modal('show');
+                        })
+                    }
+                }).catch(function(error){
+                    console.log("something went to wrong");
+                })
+        }
+        $("#deleteCategoryConfirmBtn").click(function(){
+            deleteCategory($("#deleteCategoryId").val());
+        });
+        function deleteCategory(catId)
+        {
+            axios.post('/admin/deleteCategory',{id:catId})
+                .then(function(res){
+                    if(res.status==200){
+                        alert("Delete Success");
+                        $("#deleteCategoryModalShow").modal('hide');
+                        getCategoryShow();
+                    }
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                })   
+        }
+        $("#updateCategoryId").change(function(){
+            $("#updateCategoryConfirmBtn").click(function(){
+                updateCategory($("#updateCategoryId").val(),$("#updateCategoryId").data('id'));
+            });
+        })
+        function updateCategory(catName,catId)
+        {
+            axios.post('/admin/updateCategory',{id:catId,name:catName})
+                .then(function(res){
+                    if(res.status==200){
+                        alert("update Success");
+                        $("#updateCategoryModalShow").modal('hide');
+                        getCategoryShow();
+                    }
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                })   
+        }
+
+        function addCategory(category)
+        {
+            axios.post('admin/addCategory',{name:category})
+                    .then(function(res){
+                        if(res.status==201)
+                        {
+                            $("#categoryInputValue").val("");
+                            $("#addCategoryInputDiv").addClass("d-none");
+                            alert("Add Success");
+                            getCategoryShow();
+                        }
+                    }).catch(function(error){
+                        // console.log(error.response);
+                        alert("Something went to wrong");
+                    })
+        }
+
+        function getTagShow()
+        {
+            axios.get('/admin/showTag')
+                .then(function(res){
+                    $("#tagListShow").empty();
+                    if(res.status==200)
+                    {
+                        let tags = res.data;
+                        $.each(tags,function(idx,item){
+                            $('<span class="tag-item" data-id="'+ item.id +'">').text(
+                                item.name
+                            ).appendTo("#tagListShow");
+                        })
+                    }
+                })
+                .catch(function(error){
+                    alert("something went to wrong");
+                })
+        }
+
+        $("#sideNav_otherBtn").click(function(){
+            $("#admin_technology").addClass("d-none");
+            $("#admin_project").addClass("d-none");
+            $("#admin_contact").addClass("d-none");
+            $("#admin_team").addClass("d-none");
+            $("#admin_gallery").addClass("d-none");
+            $("#admin_role").addClass("d-none");
+            $("#admin_other").removeClass("d-none");
+
+            /* Category portion */
+            getCategoryShow();
+
+            $("#addCategoryBtn").click(function(){
+                $("#addCategoryInputDiv").removeClass("d-none");
+            });
+            $("#addCategoryCancelBtn").click(function(){
+                $("#categoryInputValue").val("");
+                $("#addCategoryInputDiv").addClass("d-none");
+            });
+            
+            $("#addCategoryConfirmBtn").click(function(){
+                let category = $("#categoryInputValue").val();
+                axios.post('admin/checkCategory',{name:category})
+                    .then(function(res){
+                            // console.log(res.data);
+                        if(res.data >= 1)
+                        {
+                            alert("Name Already Exists");
+                        }
+                        else{
+                            addCategory(category);
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error.response);
+                    });
+            });
+
+            /* Tag Portion */
+           
+            getTagShow();
+            $("#addTagBtn").click(function(){
+                $("#addTagInputDiv").removeClass("d-none")
+            });
+
+            $("#addTagCancelBtn").click(function(){
+                $("#addTagInputDiv").addClass("d-none");
+            });
+
+
+
+            $("#addTagConfirmBtn").click(function(){
+                let tagName = $("#TagInputValue").val().trim();
+                if(tagName.length>0){
+                    axios.post('admin/addTag',{name:tagName.toLowerCase()})
+                        .then(function(res){
+                            // console.log(res);
+                            if(res.status==201||res.status==200)
+                            {
+                                alert("Tag Add Success");
+                                $("#TagInputValue").val("")
+                                getTagShow();
+                            }
+                        }).catch(function(error){
+                            alert("Something went to be wrong");
+                        });
+                }
+                else{
+                    alert("Empty Field");
+                }
+            });
+
+        });
     </script>
 @endsection

@@ -8,6 +8,7 @@ use App\Models\EmailVerifiedTokenModel;
 use App\Models\RoleModel;
 use App\Events\UserRegister;
 use App\Models\ProfileModel;
+use App\Models\PostModel;
 
 class UserModel extends Model
 {
@@ -45,5 +46,9 @@ class UserModel extends Model
         // return $this->belongsTo(User::class)
         return $this->hasOne(ProfileModel::class,'user_id','id');
     }
-    
+    public function posts()
+    {
+        return $this->hasMany(PostModel::class,'user_id','id');
+    }
+    //hasMany post
 }

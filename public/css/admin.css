@@ -46,8 +46,9 @@
     ADMIN ROLE SET PORTION
 
 */
-#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team,#admin_gallery{
+#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team,#admin_gallery,#admin_other{
     margin-top:4rem;
+    width:calc(100% - 260px);
 }
 
 .roleCheckBox{
@@ -175,4 +176,16 @@ USERs Admin Panel
     margin:0 0 1rem 0;
     width:100%;
     min-height: 50vh;
+}
+
+
+/* Other Portion */
+
+.tag-item{
+    padding:2px 4px;
+    margin:2px;
+    font-size:1.5rem;
+    background-color: rgba(63, 36, 82, 0.842);
+    color:#fff;
+    border-radius: 5px;
 }
