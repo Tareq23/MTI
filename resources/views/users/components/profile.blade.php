@@ -4,7 +4,7 @@
             <div class="col-sm-12">
                 <div class="profile row">
                     <div class="col-md-6 profile-img">
-                        <img class="card-img" id="user_profile_image" />
+                        <img class="card-img" src="{{asset('images/default/user.png')}}" id="user_profile_image" />
                         <p id="profile_image_error" class="d-none" style="color:red;">Image size less than 1MB<p>
                         <input type="file" id="update_profile_image" name="profile_image" accept=".png,.jpg,.gif" /></br>
                         <button class="btn btn-primary mt-1" type="button" id="update_profile_image_btn">Change</button>

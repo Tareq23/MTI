@@ -29,6 +29,9 @@
         <div id="admin_gallery" class="d-none">
             @include('component.admin.gallery')
         </div>
+        <div id="admin_database" class="d-none">
+            @include('component.admin.database')
+        </div>
     </div>
 
 @endsection
@@ -55,7 +58,8 @@
             $("#admin_contact").addClass("d-none");
             $("#admin_team").addClass("d-none");
             $("#admin_other").addClass("d-none");
-            $("#admin_gallery").addClass("d-none")
+            $("#admin_gallery").addClass("d-none");
+            $("#admin_database").addClass("d-none");
             $("#admin_role").removeClass("d-none");
 
             $(document).ready(function() {
@@ -215,6 +219,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
+            $("#admin_database").addClass("d-none");
             $("#admin_technology").removeClass("d-none");
         })
         /* ADMIN PROJECT PROTION */
@@ -225,6 +230,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
+            $("#admin_database").addClass("d-none");
             $("#admin_project").removeClass("d-none");
         })
         /* ADMIN TEAM MEMBERS */
@@ -235,6 +241,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
+            $("#admin_database").addClass("d-none");
             $("#admin_team").removeClass("d-none");
         })
         // <li><a id="sideNav_contactBtn">contact message</a></li>
@@ -246,6 +253,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_contact").addClass("d-none");
             $("#admin_other").addClass("d-none");
+            $("#admin_database").addClass("d-none");
             $("#admin_gallery").removeClass("d-none")
             showGalleryImage();
         })
@@ -337,6 +345,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
+            $("#admin_database").addClass("d-none");
             $("#admin_contact").removeClass("d-none");
             
                 // $('#contactDataTable').DataTable();
@@ -518,6 +527,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_gallery").addClass("d-none");
             $("#admin_role").addClass("d-none");
+            $("#admin_database").addClass("d-none");
             $("#admin_other").removeClass("d-none");
 
             /* Category portion */
@@ -584,5 +594,20 @@
             });
 
         });
+
+
+
+        $("#sideNav_databaseBtn").click(function(){
+            $("#admin_technology").addClass("d-none");
+            $("#admin_project").addClass("d-none");
+            $("#admin_contact").addClass("d-none");
+            $("#admin_team").addClass("d-none");
+            $("#admin_gallery").addClass("d-none");
+            $("#admin_role").addClass("d-none");
+            $("#admin_other").addClass("d-none");
+            $("#admin_database").removeClass("d-none");
+        })
+
+
     </script>
 @endsection

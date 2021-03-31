@@ -9,6 +9,7 @@ use App\Models\RoleModel;
 use App\Events\UserRegister;
 use App\Models\ProfileModel;
 use App\Models\PostModel;
+use App\Models\GroupModel;
 
 class UserModel extends Model
 {
@@ -46,9 +47,20 @@ class UserModel extends Model
         // return $this->belongsTo(User::class)
         return $this->hasOne(ProfileModel::class,'user_id','id');
     }
+    // public function profiles()
+    // {
+    //     return $this->hasOne(ProfileModel::class,'user_id','id');
+    // }
     public function posts()
     {
         return $this->hasMany(PostModel::class,'user_id','id');
     }
     //hasMany post
+
+
+    // public function groups()
+    // {
+    //     return $this->belongsToMany(GroupModel::class,'user_groups','user_id','group_id');
+    // }
+
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class PostMigration extends Migration
+class UserGroupMigration extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,12 @@ class PostMigration extends Migration
      */
     public function up()
     {
-        Schema::create('posts',function(Blueprint $table){
+        Schema::create('user_groups',function(Blueprint $table){
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('views')->default(0);
-            $table->string('title',300);
-            $table->string('slug',50);
-            $table->longText('content');
-            $table->string('time',20);
+            $table->unsignedBigInteger('group_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('category_id')->references('id')->on('categories');
-            
+            $table->foreign('group_id')->references('id')->on('groups');
         });
     }
 
@@ -35,6 +29,6 @@ class PostMigration extends Migration
      */
     public function down()
     {
-        Schema::drop('posts');
+        Schema::drop('user_groups');
     }
 }

@@ -23,4 +23,8 @@ class ProfileModel extends Model
     {
         return $this->belongsTo(UserModel::class);
     }
+    // public function users()
+    // {
+    //     return $this->hasMany(UserModel::class,'user_id');
+    // }
 }

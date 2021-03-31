@@ -21,6 +21,9 @@ a:hover{
 .subTitle{
     font-size:1.3rem;
 }
+ul li{
+    list-style: none;
+}
 /*
     TOP NAVIGATION
 */
@@ -348,4 +351,12 @@ a:hover{
     margin-left:8%;
     color:#ffffff;
     background-color: #861564;
+}
+
+
+.singleBlogPost{
+    display: block;
+    margin-top:8%;
+    margin-bottom: 1rem;
+    text-align: center;
 }

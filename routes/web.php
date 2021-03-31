@@ -16,10 +16,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\MessageController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
 Route::get('/blog',[BlogController::class,'blogIndex'])->name('blogHome');
+Route::get('/blog/post/{slug}',[BlogController::class,'singlePostView']);
 
 /* Mail Controller */
 Route::get('/blog/{token}',[MailController::class,'confirmEmail']);
@@ -98,5 +100,16 @@ Route::group([
     Route::post('/createPost',[PostController::class,'create']);
     Route::get('/getUserPost',[PostController::class,'getUserPost']);
 
+
+    /* Message */
+
+    Route::get('/getAllUser',[MessageController::class,'getAllUser']);
+    Route::post('/sentMessage',[MessageController::class,'store']);
+    Route::get('/showMessages/{id}',[MessageController::class,'showMessages']);
+
+});
+
+Route::get('/{*}',function(){
+    return view('not_found');
 });
 

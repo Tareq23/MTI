@@ -46,7 +46,7 @@
     ADMIN ROLE SET PORTION
 
 */
-#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team,#admin_gallery,#admin_other{
+#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team,#admin_gallery,#admin_other,#admin_database{
     margin-top:4rem;
     width:calc(100% - 260px);
 }
@@ -92,6 +92,7 @@ USERs Admin Panel
 #user-wrapper{
     display:flex;
     flex-direction: row;
+    position: relative;
 }
 
 #userTopNav ul li a{
@@ -188,4 +189,153 @@ USERs Admin Panel
     background-color: rgba(63, 36, 82, 0.842);
     color:#fff;
     border-radius: 5px;
+}
+
+
+/*
+    MESSAGE 
+*/
+
+
+
+#userMessageBtn{
+    position: relative;
+}
+
+.message-dropdown{
+    position:absolute;
+    width:12rem;
+    height:auto;
+    z-index: 10;
+    padding-top:1px;
+    background-color: rgba(25, 23, 32, 0.897);
+    color:#ffffff;
+    text-align: center;
+    border-radius: 5px;
+}
+.message-dropdown .user-list-item{
+    width:100%;
+    font-size:1rem;
+    padding:5px 0;
+    cursor: pointer;
+}
+.message-dropdown .user-list-item:hover{
+    background-color: rgba(210, 210, 214, 0.87);
+}
+.message-dropdown .user-list-item:hover:first-child{
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.message-dropdown .user-list-item:hover:last-child{
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.message-dropdown .user-list-item:hover a{
+    color:#000 !important;
+}
+
+
+
+
+
+
+
+
+
+.message-box{
+    position: absolute;
+    width:400px;
+    height: 500px;
+    border:2px solid rgba(53, 125, 167, 0.753);
+    bottom:0;
+    right:20%;
+    box-sizing: content-box;
+    background-color: rgba(147, 147, 172, 0.801);
+    border-radius: 5px;
+}
+.message-header{
+    height:3rem;
+    background-color: rgb(46, 102, 175);
+    color:#ffffff;
+    font-size: 2rem;
+}
+.message-header span{
+    color:#000000;
+    font-size:1.5rem;
+    cursor:pointer;
+    margin-right: 5px;
+}
+.message-img{
+    width:40px;
+    height: 40px;
+    margin:5px 0px 0px 5px;
+    border-radius: 50%;
+}
+
+.message-footer{
+    width:100%;
+    height:3rem;
+    position:absolute;
+    bottom:0;
+    background-color: rgb(46, 102, 175);
+    color:#ffffff;
+    font-size: 2rem;
+}
+.message-footer input{
+    width:100%;
+    padding:3px 3%;
+    height:100%;
+    border:0;
+}
+.message-footer input:focus{
+    outline:0;
+}
+.message-body{
+    overflow-y: scroll;
+    width:100%;
+    height:calc(500px - 6rem);
+    position: relative;
+}
+.incoming-msg{
+    float:left;
+    width:65%;
+    height:auto;
+    margin:0.5rem 0;
+    padding:5px;
+    background-color: rgba(55, 127, 175, 0.74);
+    border-radius: 1rem;
+    font-size:1.2rem;
+}
+.outgoing-msg{
+    float:right;
+    width:65%;
+    height:auto;
+    margin:0.5rem 0;
+    padding:5px;
+    background-color: rgba(14, 101, 214, 0.863);
+    border-radius: 1rem;
+    font-size:1.2rem;
+}
+
+
+.group-message-box{
+    position: absolute;
+    width:400px;
+    height: 500px;
+    border:2px solid rgba(53, 125, 167, 0.753);
+    bottom:0;
+    right:20%;
+    box-sizing: content-box;
+}
+.group-message-box .img{
+    width:40px;
+    height:40px;
+    border-radius: 50%;
+}
+.group-message-box .incoming-msg,.outgoing-msg{
+    display: flex;
+    flex-wrap: wrap;
+}
+.group-message-box .outgoing-msg{
+    justify-content: end;
 }

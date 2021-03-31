@@ -10,7 +10,8 @@
         @include('users.components.profile')
         @include('users.components.project')
     </div>
-
+    @include('users.components.message')
+    <!-- @include('users.components.groupMessage') -->
 @endsection
 
 @section('script')
@@ -385,5 +386,137 @@
             }
         });
     });
+
+
+    function getMessageShow(id)
+    {
+        axios.get('/users/showMessages/'+id)
+            .then(function(res){
+                if(res.status==200)
+                {
+                    let messages = res.data;
+                    $.each(messages,function(idx,item){
+                        if(item.sender === id)
+                        $('<p class="incoming-msg"></p>').text(item.text).appendTo(".message-body");
+                        else $('<p class="outgoing-msg"></p>').text(item.text).appendTo(".message-body");
+                    });
+                }
+            })  
+            .catch(function(error){
+                console.log(error.response);
+            })
+    }
+
+
+    let messageBtnClickCount = 0;
+    let message_receiver_id = 0;
+    $("#userMessageBtn").click(function(){
+        // $(".message-dropdown").toggleClass("d-none");
+        if(messageBtnClickCount%2==0)
+        {
+            $(".message-dropdown").removeClass("d-none")
+            
+            axios.get('/users/getAllUser')
+                .then(function(res){
+                    if(res.status==200)
+                    {
+                        // console.log(res.data);
+                        let users = res.data;
+                        $(".message-dropdown").empty();
+                        $('<li class="user-list-item">').html(
+                            '<a href="#"><i class="fas fa-users"></i> Group Message</a>'
+                        ).appendTo(".message-dropdown");
+                        $.each(users,function(idx,item){
+                            $('<li class="user-list-item" data-name="'+item.name+'" data-id="'+item.id+'">').html(
+                                '<a ><i class="far fa-user"></i> '+ item.name +'</a>'
+                            ).appendTo(".message-dropdown");
+                        });
+                        $(".user-list-item").click(function(){
+                            let recipient_id = $(this).data('id');
+                            message_receiver_id = recipient_id;
+                            let name = $(this).data('name');
+                            $(".message-box").removeClass("d-none");
+                            $(".message-box").empty();
+                            
+
+
+                            /* Message Header */
+                            
+                            $('<div class="message-header d-flex justify-content-between"></div>').html(
+                                '<img class="message-img" src="{{asset('images/default/user.png')}}" alt="user"/>'+
+                                '<p>'+name+' <span class="close">&#x2716;</span></p>'
+                            ).appendTo(".message-box");
+                            
+                            /* Message Body */
+
+                                // '<p class="incoming-msg">in-coming</p>'+
+                                // '<p class="outgoing-msg">out-going</p>'
+                            $('<div class="message-body">').html('').appendTo('.message-box');
+
+                            /* Message Footer */
+
+                            $('<div class="message-footer">').html(
+                                '<input type="text" class="message-input" placeholder="text" />'
+                            ).appendTo('.message-box');
+
+                            getMessageShow(recipient_id);
+                            
+                            $(".message-box .close").click(function(){
+                                $(".message-box").addClass("d-none");
+                            })
+
+                            $(".message-input").change(function(){
+                                let text = $(this).val();
+                                $(this).val("");
+                                if(text.length>0)
+                                {
+                                    axios.post('/users/sentMessage',{
+                                        message : text,
+                                        recipient: recipient_id
+                                    })
+                                    .then(function(res){
+                                        if(res.data.status==404){
+                                            alert(res.data.error);
+                                        }
+                                        else{
+                                            console.log(res.data);
+                                        }
+                                    })
+                                    .catch(function(error){
+                                        console.log(error.response);
+                                    })
+                                }
+                            });
+
+
+                       
+
+                        });
+                    }
+                }).catch(function(error){
+                    console.log(error.response);
+                });
+
+
+        }
+        else{
+            $(".message-dropdown").addClass("d-none")
+        }
+        messageBtnClickCount++;
+    });
+
+    /* PUSHER FOR REALTIME DATA PASS */
+
+    let pusher = new Pusher('816c91b939c2f0948fb7', {
+                cluster: 'ap2'
+            });
+            let channel = pusher.subscribe('message-channel');
+            channel.bind('message-event', function(data) {
+                // console.log(data);
+                if(data.message.sender == message_receiver_id)
+                $('<p class="incoming-msg"></p>').text(data.message.text).appendTo(".message-body");
+                else $('<p class="outgoing-msg"></p>').text(data.message.text).appendTo(".message-body");
+            });
+    
     </script>
 @endsection
