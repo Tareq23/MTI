@@ -17,6 +17,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\ProjectController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
@@ -76,6 +77,11 @@ Route::group([
     Route::post('/addTag',[TagController::class,'addTag']);
     Route::get('/showTag',[TagController::class,'showTag']);
 
+    /* Project */
+
+    Route::get('/getAllProject',[ProjectController::class,'getAllProject']);
+    Route::post('/projectConfirm',[ProjectController::class,'projectConfirm']);
+    Route::post('/projectDelete',[ProjectController::class,'projectDelete']);
 
 });
 
@@ -90,6 +96,12 @@ Route::group([
     Route::post('/imageUpdate',[ProfileController::class,'imageUpdate']);
     Route::post('/socialLinkUpdate',[ProfileController::class,'socialLinkUpdate']);
     Route::post('/descriptionUpdate',[ProfileController::class,'descriptionUpdate']);
+
+
+    /* Project Section */
+
+    Route::post('/createProject',[ProjectController::class,'store']);
+    Route::get('/userProjects',[ProjectController::class,'showUserProejct']);
 
     /* Category Controller */
     

@@ -10,6 +10,7 @@ use App\Events\UserRegister;
 use App\Models\ProfileModel;
 use App\Models\PostModel;
 use App\Models\GroupModel;
+use App\Models\ProjectModel;
 
 class UserModel extends Model
 {
@@ -55,7 +56,11 @@ class UserModel extends Model
     {
         return $this->hasMany(PostModel::class,'user_id','id');
     }
-    //hasMany post
+    
+    public function projects()
+    {
+        return $this->hasMany(ProjectModel::class,'user_id','id');
+    }
 
 
     // public function groups()

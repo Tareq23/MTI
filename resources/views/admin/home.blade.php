@@ -15,7 +15,7 @@
             @include('component.admin.userRole')
         </div>
         <div id="admin_project" class="d-none">
-            <h2>Admin project</h2>
+            @include('component.admin.project')
         </div>
         <div id="admin_technology" class="d-none">
             <h2>Admin Technology</h2>
@@ -222,6 +222,86 @@
             $("#admin_database").addClass("d-none");
             $("#admin_technology").removeClass("d-none");
         })
+
+
+        function adminGetAllProjects()
+        {
+            axios.get('/admin/getAllProject')
+                .then(function(res){
+                   let projects = res.data;
+                   $("#projectTable").empty();
+                   $.each(projects,function(idx,item){
+                        let styled = '';
+                        if(item.confirm==0) styled = 'style=color:red;';
+                        else styled = 'style=color:green;';
+                        $('<tr></tr>').html(
+                            '<td>'+item.name+'</td>'+
+                            '<td><img src="'+item.image+'"/></td>'+
+                            '<td><a target="_blank" href="'+item.url+'"><i class="fas fa-eye"></i></a></td>'+
+                            '<td><a class="projectConfirmChangeBtn" '+styled+' data-confirm="'+item.confirm+'" data-id="'+item.id+'"><i class="far fa-check-circle"></i></a></td>'+
+                            '<td><a class="projectDeleteBtn" data-id="'+item.id+'"><i class="fas fa-trash"></i></a></td>'
+                        ).appendTo("#projectTable");
+                   });
+                   $(".projectConfirmChangeBtn").click(function(){
+                        $("#selectProjectConfirmChange").val($(this).data('confirm'));
+                        $("#project_id").val($(this).data('id'));
+                        // console.log($("#project_user_id").val());
+                        $("#projectConfirmChangeModal").modal('show');
+                   })
+                   $(".projectDeleteBtn").click(function(){
+                        let project_id = $(this).data('id');
+                        $("#projectDelectModal").modal('show');
+                        $("#projectDeleteConfirmBtn").val(project_id);
+                   });
+                   
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                })
+        }
+        let  projectConfirmValue=-1;
+        $("#selectProjectConfirmChange").change(function(){
+            projectConfirmValue = $(this).val();
+        });
+        $("#selectProjectConfirmChange_saveBtn").click(function(){
+            if(projectConfirmValue>=0){
+                let project_id = $("#project_id").val();
+                axios.post('admin/projectConfirm',{
+                    projectId : project_id,
+                    confirmValue : projectConfirmValue
+                })
+                .then(function(res){
+                    if(res.status==200||res.status==201)
+                    {
+                        $("#projectConfirmChangeModal").modal('hide');
+                        alert("update Success");
+                        adminGetAllProjects();
+                    }
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                });
+            }
+        });
+
+        $("#projectDeleteConfirmBtn").click(function(){
+            let project_id = $(this).val();
+            axios.post('/admin/projectDelete',{
+                id:project_id
+            })
+            .then(function(res){
+                if(res.status==200)
+                {
+                    $("#projectDelectModal").modal('hide');
+                    alert("delete Success");
+                    adminGetAllProjects();
+                }
+            })
+            .catch(function(error){
+                console.log(error.response);
+            })
+        })
+
         /* ADMIN PROJECT PROTION */
         $("#sideNav_projectBtn").click(function(){
             $("#admin_technology").addClass("d-none");
@@ -232,6 +312,8 @@
             $("#admin_other").addClass("d-none");
             $("#admin_database").addClass("d-none");
             $("#admin_project").removeClass("d-none");
+
+            adminGetAllProjects();
         })
         /* ADMIN TEAM MEMBERS */
         $("#sideNav_teamBtn").click(function(){

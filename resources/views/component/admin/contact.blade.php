@@ -1,6 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
+          <h4 class="my-5">Contact Message From Home Page !!! Contact Form</h4>
            <table id="contactDataTable" class="table  table-bordered w-100"  cellspacing="0">
                 <thead >
                     <th>Name</th>

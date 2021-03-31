@@ -40,6 +40,26 @@
         }
         menuBarCount++;
     })
+    function getUserProjects()
+    {
+        axios.get('/users/userProjects')
+            .then(function(res){
+                if(res.status==200)
+                {
+                    let projects = res.data;
+                    $("#userAllProjects").empty();
+                    $.each(projects,function(idx,item){
+                        $('<div class="user-projects" title="'+item.name+'">').html(
+                            '<a target="_blank" href="'+item.url+'" ><img src="'+item.image+'" alt="'+item.name+'"/></a>'
+                        ).appendTo("#userAllProjects");
+                    })
+                    $(".user-proejcts").tooltip();
+                }
+            })
+            .catch(function(error){
+                alert("something went to wrong");
+            });
+    }
 
     $("#user_project").click(function(){
         $("#user_post_show").addClass("d-none");
@@ -50,7 +70,80 @@
             $("#addNewProjectModal").modal("show");
         })
 
+        getUserProjects()
 
+        $("#projectImage").change(function(){
+            let projectImgFile = $(this).prop('files')[0];
+            if(projectImgFile.size <= 1024 * 1000)
+            {
+                    $("#project_image_error").addClass("d-none");
+
+                    let fileReader = new FileReader();
+                    fileReader.readAsDataURL(this.files[0]);
+                    fileReader.onload = (event) =>{
+                        let imgUrl = event.target.result;
+                        $(".project-image-preview").removeClass("d-none");
+                        $("#projectImagePreviewId").attr('src',imgUrl);
+                    }
+
+
+
+                    $("#postAddConfirmBtn").click(function(){
+                        let formData = new FormData();
+                        let imgFile = projectImgFile;;
+                        formData.append('project_image',imgFile);
+
+                        let project_name = $("#projectName").val().trim();
+                        let project_url = $("#projectLiveUrl").val().trim();
+
+                        if(project_name.length<5&&project_name.length>150)
+                        {
+                            $("#project_name_error").removeClass("d-none");
+                        }
+                        else if(project_url.length<5)
+                        {
+                            $("#project_url_error").removeClass("d-none");
+                        }
+                        else{
+                            formData.append('project_name',project_name);
+                            formData.append('project_url',project_url);
+                            // console.log(formData);
+                            axios.post('/users/createProject',formData)
+                            .then((res)=>{
+                                if(res.data.status==200)
+                                {
+                                    // console.log(res.data);
+                                    $("#projectName").val("");
+                                    $("#projectLiveUrl").val("");
+                                    $("#projectImage").val("");
+                                    $(".project-image-preview").addClass("d-none");
+                                    $("#project_url_error").addClass("d-none");
+                                    $("#project_name_error").addClass("d-none");
+                                    $("#addNewProjectModal").modal('hide');
+                                }
+                            })
+                            .catch((error)=>{
+                                console.log(error.response);
+                            })
+                        }
+                        
+                        // console.log("adds ok")
+                        // console.log(imgFile);
+                    });
+            }
+            else{
+                $("#project_image_error").removeClass("d-none");
+                $(".project-image-preview").addClass("d-none");
+            }
+        });
+
+
+
+
+
+
+
+       
     });
 
 
