@@ -74,7 +74,23 @@
 }
 
 
+/* ADMIN TECHNOLOGY SECTION*/
 
+#addTechnologyDiv{
+    background-color: rgba(58, 12, 66, 0.651);
+    border:2px solid rgb(31, 68, 70);
+    border-radius: 10px;
+    padding:1rem;
+    margin:1rem 0;
+}
+#addTechnologyDiv label{
+    font-size: 1.3rem;
+    color:rgb(198, 214, 127);
+}
+#addTechnologyDiv input{
+    font-size: 1.3rem;
+    color:#181414;
+}
 
 /*
     GALLERY IMAGE

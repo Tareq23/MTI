@@ -18,6 +18,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TechnologyController;
 
 
 Route::get('/',[HomeController::class,'homeIndex']);
@@ -83,6 +84,10 @@ Route::group([
     Route::post('/projectConfirm',[ProjectController::class,'projectConfirm']);
     Route::post('/projectDelete',[ProjectController::class,'projectDelete']);
 
+    /* TECHNOLOGY  */
+    Route::get('/getAllTechnology',[TechnologyController::class,'getAllForAdmin']);
+    Route::post('/addTechnology',[TechnologyController::class,'store']);
+    Route::post('/deleteTechnology',[TechnologyController::class,'delete']);
 });
 
 Route::group([

@@ -18,7 +18,7 @@
             @include('component.admin.project')
         </div>
         <div id="admin_technology" class="d-none">
-            <h2>Admin Technology</h2>
+            @include('component.admin.technology')
         </div>
         <div id="admin_contact" class="d-none">
             @include('component.admin.contact')
@@ -212,6 +212,47 @@
         }
 
         /* ADMIN TECHNOLOGY PORTION */
+
+        function showAllTechnology()
+        {
+            axios.get('/admin/getAllTechnology')
+                .then(function(res){
+                   if(res.status==200)
+                   {
+                       $("#technologyTable").empty();
+                       let technologies = res.data;
+                       $.each(technologies,function(idx,item){
+                            $('<tr>').html(
+                                '<td>'+item.name+'</td>'+
+                                '<td><a style="cursor:pointer;color:red;" class="technologyDeleteBtn" data-id="'+item.id+'"><i class="fas fa-trash"></i></a></td>'
+                            ).appendTo("#technologyTable");
+                       });
+                       $(".technologyDeleteBtn").click(function(){
+                            let tech_id = $(this).data('id');
+                            $("#technologyDeleteConfirmBtn").val(tech_id);
+                            $("#technologyDelectModal").modal('show');
+                       })
+                   }
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                })
+        }
+        $("#technologyDeleteConfirmBtn").click(function(){
+            let tech_id = $(this).val();
+            axios.post('/admin/deleteTechnology',{
+                technology_id : tech_id
+            }).then(function(res){
+                if(res.status==200)
+                {
+                    $("#technologyDelectModal").modal('hide');
+                    showAllTechnology();
+                }
+            })
+            .catch(function(error){
+                console.log(error.response);
+            })
+        })
         $("#sideNav_technologyBtn").click(function(){
             $("#admin_project").addClass("d-none");
             $("#admin_contact").addClass("d-none");
@@ -221,6 +262,42 @@
             $("#admin_other").addClass("d-none");
             $("#admin_database").addClass("d-none");
             $("#admin_technology").removeClass("d-none");
+            showAllTechnology();
+            $("#addTechnologyBtn").click(function(){
+                $("#addTechnologyDiv").removeClass("d-none");
+            })
+            $("#addTechnologyBtn").dblclick(function(){
+                $("#addTechnologyDiv").addClass("d-none");
+            });
+            $("#addTechnologyCancelBtn").click(function(){
+                $("#addTechnologyDiv").addClass("d-none");
+            })
+            $("#technology_name").change(function(){
+                let technology = $(this).val();
+                $("#addTechnologyConfirmBtn").click(function(){
+                    if(technology.length<=2 || technology.length>=80)
+                    {
+                        $("#technology_error").removeClass("d-none");
+                    }
+                    else{
+                        axios.post('admin/addTechnology',{
+                            technology_name:technology
+                        }).then(function(res){
+                            if(res.status==201||res.status==200)
+                            {
+                                $("#technology_name").val("");
+                                $("#technology_error").addClass("d-none");
+                                $("#addTechnologyDiv").addClass("d-none");
+                                showAllTechnology();
+                            }
+                        })
+                        .catch(function(error){
+                            console.log(error.response);
+                        })
+                    }
+                });
+            });
+
         })
 
 
