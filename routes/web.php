@@ -45,7 +45,7 @@ Route::group([
     'prefix'=>'/admin',
     'middleware' => 'adminAuth'
 ],function($route){
-    Route::get('/',[AdminController::class,'userProfile']);
+    Route::get('/',[AdminController::class,'adminProfile']);
     Route::get('/getAllVerifiedUser',[AdminController::class,'getAllVerifiedUser']);
     /* Roles Route */
     Route::get('/roles',[RoleController::class,'indexRole']);
@@ -88,6 +88,9 @@ Route::group([
     Route::get('/getAllTechnology',[TechnologyController::class,'getAllForAdmin']);
     Route::post('/addTechnology',[TechnologyController::class,'store']);
     Route::post('/deleteTechnology',[TechnologyController::class,'delete']);
+
+    /* Notification */
+    Route::get('/allNotification',[AdminController::class,'getNotification']);
 });
 
 Route::group([

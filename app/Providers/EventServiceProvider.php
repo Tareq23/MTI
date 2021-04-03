@@ -8,6 +8,14 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use App\Events\UserRegister;
 use App\Listeners\UserRegisterListener;
+use App\Events\ProjectModifiedEvent;
+use App\Events\ProjectCreateEvent;
+use App\Events\PostModifiedEvent;
+use App\Events\PostCreateEvent;
+use App\Listeners\PostCreateListener;
+use App\Listeners\PostModifiedListener;
+use App\Listeners\ProjectCreateListener;
+use App\Listeners\ProjectModifiedListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +30,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserRegister::class=>[
             UserRegisterListener::class,
+        ],
+        PostCreateEvent::class => [
+            PostCreateListener::class,
+        ],
+        PostModifiedEvent::class => [
+            PostModifiedListener::class,
+        ],
+        ProjectCreateEvent::class => [
+            ProjectCreateListener::class,
+        ],
+        ProjectModifiedEvent::class => [
+            ProjectModifiedListener::class,
         ],
     ];
 

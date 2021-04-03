@@ -46,11 +46,65 @@
             sideNavToggleCount++;
             if(sideNavToggleCount%2==1){
                 $("#sideNav").removeClass("d-none");
+                
             }
             else{
                 $("#sideNav").addClass("d-none");
             }
         })
+
+
+        /* Notification */
+        let pusher = new Pusher('816c91b939c2f0948fb7', {
+            cluster: 'ap2'
+        });
+        let channel = pusher.subscribe('new_post_channel');
+        channel.bind('new_post_event', function(item){
+            let unread_notification = $("#new_notification_show").text();
+            $("#new_notification_show").text(unread_notification==''?1:parseInt(unread_notification)+1);
+            // let item_details = JSON.parse(item.data);
+            // $('<li class="notify-list-item">').html(
+            //     '<a class="notifyListBtn" data-post_id="'+item_details.details.id+'">created a new '+item_details.type+' by '+item_details.created_by+'</a>'
+            // ).prependTo(".notification-dropdown");
+        });
+        let unread_notification = {!!$notify!!};
+        // console.log(unread_notify);
+        $("#new_notification_show").text(unread_notification==0?'':unread_notification);
+        let notificationBtnClickCount = 0;
+        $("#adminNotificationBtn").click(function(){
+            if(notificationBtnClickCount%2==0)
+            {
+                $(".notification-dropdown").removeClass("d-none");
+                $("#new_notification_show").text('');
+                $(".notification-dropdown").empty();
+                axios.get('admin/allNotification')
+                    .then(function(res){
+                        let notify_data = res.data;
+                        let item_details = '';
+                        $.each(notify_data,function(idx,item){
+                            item_details = JSON.parse(item.data);
+                            $('<li class="notify-list-item">').html(
+                                '<a class="notifyListBtn" data-post_id="'+item_details.details.id+'">created a new '+item_details.type+' by '+item_details.created_by+'</a>'
+                            ).appendTo(".notification-dropdown");
+                        });
+
+                        $(".notifyListBtn").click(function(){
+                            let post_id = $(this).data('post_id');
+                            console.log(post_id);
+                        })
+
+                    }).catch(function(error){
+                        console.log(error.response);
+                    });
+            }
+            else{
+                $(".notification-dropdown").addClass("d-none");
+            }
+            notificationBtnClickCount++;
+        })
+
+
+
         /* ADMIN ROLE SET FOR TEAM MEMBERS OR BLOGGERS */
         $("#sideNav_roleBtn").click(function(){
             $("#admin_technology").addClass("d-none");

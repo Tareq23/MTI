@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\TagModel;
 use App\Models\PostModel;
 use App\Models\UserModel;
+use App\Models\RoleModel;
+use App\Models\NotificationModel;
 use Token;
+use DB;
+use App\Events\PostModifiedEvent;
+use App\Events\PostCreateEvent;
 
 class PostController extends Controller
 {
@@ -40,6 +45,21 @@ class PostController extends Controller
                 'time' => date_default_timezone_set("UTC").time(),
             ]);
             $post->tags()->attach($tagsId);
+            
+            
+            $admin_role = RoleModel::select('id')->where('name','=','admin')->first();
+            $admin = DB::table('user_roles')->where('role_id','=',$admin_role->id)->first();
+            $current_user = UserModel::findOrFail($userId);
+            $data = [
+                'type' => 'post',
+                'details' => $post,
+                'created_by' => $current_user->name,
+            ];
+            $notify = NotificationModel::create(['data'=>json_encode($data)]);
+            $notify->users()->attach($admin->user_id);
+            event(new PostCreateEvent($data));
+            
+
             return true;
         }
         return false;

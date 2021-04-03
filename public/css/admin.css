@@ -286,7 +286,40 @@ USERs Admin Panel
     color:#000 !important;
 }
 
-
+/* NOTIFICATION DROPDOWN*/
+.notification-dropdown{
+    position:absolute;
+    width:12rem;
+    max-height:90vh;
+    z-index: 10;
+    padding-top:1px;
+    background-color: rgba(25, 23, 32, 0.897);
+    color:#ffffff;
+    text-align: center;
+    border-radius: 5px;
+    overflow-y: scroll;
+    right:1%;
+}
+.notification-dropdown .notify-list-item{
+    width:100%;
+    font-size:1rem;
+    padding:5px 0;
+    cursor: pointer;
+}
+.notification-dropdown .notify-list-item:hover{
+    background-color: rgba(210, 210, 214, 0.87);
+}
+.notification-dropdown .notify-list-item:hover:first-child{
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.notification-dropdown .notify-list-item:hover:last-child{
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.notification-dropdown .notify-list-item:hover a{
+    color:#000 !important;
+}
 
 
 

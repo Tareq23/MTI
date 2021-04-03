@@ -11,6 +11,7 @@ use App\Models\ProfileModel;
 use App\Models\PostModel;
 use App\Models\GroupModel;
 use App\Models\ProjectModel;
+use App\Models\NotificationModel;
 
 class UserModel extends Model
 {
@@ -67,5 +68,10 @@ class UserModel extends Model
     // {
     //     return $this->belongsToMany(GroupModel::class,'user_groups','user_id','group_id');
     // }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(NotificationModel::class,'user_notifications','user_id','notification_id');
+    }
 
 }

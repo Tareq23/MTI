@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Events\PostModifiedEvent;
+use App\Events\PostCreateEvent;
 class PostModel extends Model
 {
     use HasFactory;
@@ -16,7 +17,7 @@ class PostModel extends Model
     protected $fillable = [
         'user_id','category_id','tag_id','title','slug','content','time'
     ];
-    
+   
     public function user()
     {
         return $this->belongsTo(UserModel::class);

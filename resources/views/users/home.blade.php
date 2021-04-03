@@ -188,14 +188,14 @@
                         $("#categories").empty();
                         $('<option value="0">').text("Select Category").appendTo("#categories");
                         $.each(categories,(idx,item) => {
-                            console.log(item.name);
+                            // console.log(item.name);
                             $('<option value="'+ item.id +'">').text(item.name).appendTo("#categories");
                         });
                     }
                 })
-                // .catch(function(error){
-                //     // console.log(error.response);
-                // })
+                .catch(function(error){
+                    console.log(error.response);
+                })
             let categoryId = '';
             $("#categories").change(function(){
                 categoryId = $(this).val();
@@ -598,9 +598,22 @@
         messageBtnClickCount++;
     });
 
+    /* User Notification */
+    let notificationBtnClickCount=0;
+    $("#userNotificationBtn").click(function(){
+        if(notificationBtnClickCount%2==0)
+        {
+            $(".notification-dropdown").removeClass("d-none");
+        }
+        else{
+            $(".notification-dropdown").addClass("d-none");
+        }
+        notificationBtnClickCount++;
+    })
+
     /* PUSHER FOR REALTIME DATA PASS */
 
-    let pusher = new Pusher('816c91b939c2f0948fb7', {
+            let pusher = new Pusher('816c91b939c2f0948fb7', {
                 cluster: 'ap2'
             });
             let channel = pusher.subscribe('message-channel');
@@ -610,6 +623,6 @@
                 $('<p class="incoming-msg"></p>').text(data.message.text).appendTo(".message-body");
                 else $('<p class="outgoing-msg"></p>').text(data.message.text).appendTo(".message-body");
             });
-    
+            
     </script>
 @endsection

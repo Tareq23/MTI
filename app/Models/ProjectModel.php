@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserModel;
+use App\Events\ProjectModifiedEvent;
+use App\Events\ProjectCreateEvent;
 
 class ProjectModel extends Model
 {
@@ -18,8 +20,17 @@ class ProjectModel extends Model
     protected $fillable = [
         'name','url','user_id','image','confirm'
     ];
+
+
+    protected $dispatchesEvents = [
+        'created' => ProjectCreateEvent::class,
+        'updated' => ProjectModifiedEvent::class,
+    ];
+
     public function user()
     {
         return $this->belongsTo(UserModel::class);
     }
+
+
 }

@@ -16,8 +16,14 @@
       <li class="nav-item">
         <a class="nav-link" href="#">project <i class="fas fa-code"></i></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Notification <i class="fas fa-bell"></i></a>
+      <li class="nav-item" id="adminNotificationBtn">
+        <a class="nav-link" href="#">Notification <i class="fas fa-bell"><span id="new_notification_show" style="font-size:1.2rem;" class="text-danger"></span></i></a>
+        <ul class="notification-dropdown d-none">
+          <li class="notify-list-item"><a href="#">create a new post</a></li>
+          <li class="notify-list-item"><a href="#">create a new post</a></li>
+          <li class="notify-list-item"><a href="#">create a new post</a></li>
+          <li class="notify-list-item"><a href="#">create a new post</a></li>
+        </ul>
       </li>
     </ul>
   </div>
