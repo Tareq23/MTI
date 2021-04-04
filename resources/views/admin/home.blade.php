@@ -24,13 +24,16 @@
             @include('component.admin.contact')
         </div>
         <div id="admin_team" class="d-none">
-            <h2>Admin Team members</h2>
+            @include('component.admin.team_member')
         </div>
         <div id="admin_gallery" class="d-none">
             @include('component.admin.gallery')
         </div>
         <div id="admin_database" class="d-none">
             @include('component.admin.database')
+        </div>
+        <div id="admin_post" class="d-none">
+            @include('component.admin.post')
         </div>
     </div>
 
@@ -62,10 +65,6 @@
         channel.bind('new_post_event', function(item){
             let unread_notification = $("#new_notification_show").text();
             $("#new_notification_show").text(unread_notification==''?1:parseInt(unread_notification)+1);
-            // let item_details = JSON.parse(item.data);
-            // $('<li class="notify-list-item">').html(
-            //     '<a class="notifyListBtn" data-post_id="'+item_details.details.id+'">created a new '+item_details.type+' by '+item_details.created_by+'</a>'
-            // ).prependTo(".notification-dropdown");
         });
         let unread_notification = {!!$notify!!};
         // console.log(unread_notify);
@@ -84,13 +83,20 @@
                         $.each(notify_data,function(idx,item){
                             item_details = JSON.parse(item.data);
                             $('<li class="notify-list-item">').html(
-                                '<a class="notifyListBtn" data-post_id="'+item_details.details.id+'">created a new '+item_details.type+' by '+item_details.created_by+'</a>'
+                                '<a class="notifyListBtn" data-type="'+item_details.type+'" data-id="'+item_details.details.id+'">created a new '+item_details.type+' by '+item_details.created_by+'</a>'
                             ).appendTo(".notification-dropdown");
                         });
 
                         $(".notifyListBtn").click(function(){
-                            let post_id = $(this).data('post_id');
-                            console.log(post_id);
+                            let type=$(this).data('type');
+                            if(type=="post")
+                            {
+                                let post_id = $(this).data('id');
+                                
+                            }
+                            else{
+
+                            }
                         })
 
                     }).catch(function(error){
@@ -104,6 +110,223 @@
         })
 
 
+        /* Post Section */
+
+        function showAllPost(){
+            axios.get('/admin/getAllPost')
+                .then(function(res){    
+                    if(res.status==200)
+                    {
+                        let posts = res.data;
+                        $("#post_table").empty();
+                        $.each(posts,function(idx,post){
+                            let verified = post.verified==0 ? "" : "selected";
+                            let pending = post.verified==0? "selected" : "";
+                            let verified_class = post.verified==0 ? "text-danger" : "text-success"
+                            $('<tr></tr>').html(
+                                '<td>'+post.title+'</td>'+
+                                '<td>'+
+                                    '<select id="select_post_'+post.id+'" data-id="'+post.id+'" class="form-control post_verified_btn '+verified_class+'">'+
+                                        '<option  '+pending+' value="0">pending</option>'+
+                                        '<option  '+verified+' value="1">verified</option>'+
+                                    '</select>'
+                                +'</td>'+
+                                '<td><a class="postDetailsBtn" data-id="'+post.id+'"><i class="fas fa-eye"></i></a></td>'+
+                                '<td><a class="postDeleteBtn" data-id="'+post.id+'"><i class="fas fa-trash-alt"></i></a></td>'
+                            ).appendTo("#post_table");
+                        })
+                        $(".postDeleteBtn").click(function(){
+                            let post_id = $(this).data('id');
+                            $("#postDeleteModal").modal('show');
+                            $("#post_delete_id").val(post_id);
+                            
+                        });
+                        $("#postDeleteConfirmBtn").click(function(){
+                            let post_id = $("#post_delete_id").val();
+                            console.log("Delete Post Id : "+post_id);
+                            axios.post('/admin/deletePost',{id:post_id})
+                                .then(function(res){
+                                    if(res.data)
+                                    {
+                                        alert("Delete Success");
+                                        showAllPost();
+                                    }
+                                    else{
+                                        alert("Something Went to Wrong");
+                                    }
+                                    $("#postDeleteModal").modal('hide');
+                                })      
+                                .catch(function(error){
+                                    console.log(error.response);
+                                })                      
+                        })
+                        $(".postDetailsBtn").click(function(){
+                            let post_id = $(this).data('id');
+                            axios.post('/admin/singlePostShow',{id:post_id})
+                                .then(function(res){
+                                    // console.log(res.data);
+                                    if(res.status==200)
+                                    {
+                                        $("#postDetailsShowModal").modal('show');
+                                        // let string_parse = JSON.parse(res.data.content);
+                                        $.parseHTML(res.data.content);
+                                        $("#post_content_details").html($.parseHTML(res.data.content));
+                                    }
+                                    else{
+                                        // $("#postDetailsShowModal").modal('s');
+                                    }
+                                })
+                                .catch(function(error){
+                                    console.log(error.response);
+                                })
+                        })
+                        $(".post_verified_btn").change(function(){
+                            let post_id = $(this).data('id');
+                            let verified_value = $(this).val();
+                            let select_post_id = '#select_post_'+post_id;
+                            axios.post('/admin/postVerified',{id:post_id,value:parseInt(verified_value)})
+                                .then(function(res){
+                                        console.log("verified_post : "+post_id);
+                                    if(res.data==1){
+                                        if(parseInt(verified_value)){
+                                            $(select_post_id).removeClass("text-danger")
+                                            $(select_post_id).addClass("text-success");
+                                        }
+                                        else{
+                                            $(select_post_id).addClass("text-danger")
+                                            $(select_post_id).removeClass("text-success");
+                                        }
+                                    }
+                                })
+                                .catch(function(error){
+                                    console.log(error.response);
+                                })
+                        })
+                    }
+                }).catch(function(error){
+                    console.log(error.response);
+                });
+        }
+        function showCategoryPost(category_id)
+        {
+            axios.post('/admin/categoryPost',{id:category_id})
+                .then(function(res){
+                   if(res.status==200)
+                   {
+                       let posts = res.data;
+                       $("#post_table").empty();
+                        $.each(posts,function(idx,post){
+                            let verified = post.verified==0 ? "" : "selected";
+                            let pending = post.verified==0 ? "selected" : "";
+                            let verified_class = post.verified==0 ? "text-danger" : "text-success"
+                            $('<tr></tr>').html(
+                                '<td>'+post.title+'</td>'+
+                                '<td>'+
+                                    '<select id="select_post_'+post.id+'"  data-id="'+post.id+'" class="form-control post_verified_btn '+verified_class+'">'+
+                                        '<option '+pending+' value="0">pending</option>'+
+                                        '<option '+verified+' value="1">verified</option>'+
+                                    '</select>'
+                                +'</td>'+
+                                '<td><a class="postDetailsBtn" data-id="'+post.id+'"><i class="fas fa-eye"></i></a></td>'+
+                                '<td><a><i class="fas fa-trash-alt"></i></a></td>'
+                            ).appendTo("#post_table");
+                        })
+
+
+                        $(".postDetailsBtn").click(function(){
+                            let post_id = $(this).data('id');
+                            axios.post('/admin/singlePostShow',{id:post_id})
+                                .then(function(res){
+                                    // console.log(res.data);
+                                    if(res.status==200)
+                                    {
+                                        $("#postDetailsShowModal").modal('show');
+                                        // let string_parse = JSON.parse(res.data.content);
+                                        $.parseHTML(res.data.content);
+                                        $("#post_content_details").html($.parseHTML(res.data.content));
+                                    }
+                                    else{
+                                        // $("#postDetailsShowModal").modal('s');
+                                    }
+                                })
+                                .catch(function(error){
+                                    console.log(error.response);
+                                })
+                        })
+
+                        $(".post_verified_btn").change(function(){
+                            let post_id = $(this).data('id');
+                            let verified_value = $(this).val();
+                            let select_post_id = '#select_post_'+post_id;
+                            // console.log(post_id);
+                            axios.post('/admin/postVerified',{id:post_id,value:parseInt(verified_value)})
+                                .then(function(res){
+                                    if(res.data==1){
+                                        if(parseInt(verified_value)){
+                                            $(select_post_id).removeClass("text-danger")
+                                            $(select_post_id).addClass("text-success");
+                                        }
+                                        else{
+                                            $(select_post_id).addClass("text-danger")
+                                            $(select_post_id).removeClass("text-success");
+                                        }
+                                    }
+                                })
+                                .catch(function(error){
+                                    console.log(error.response);
+                                })
+                        })
+                   }
+                }).catch(function(error){
+                    console.log(error.response);
+                });
+        }
+        function showCategory(){
+            axios.get('/admin/getCategory')
+                .then(function(res){
+                    if(res.status==200)
+                    {
+                        let categories = res.data;
+                        // $("#select_category_for_post").
+                        $("#select_category_for_post").empty();
+                        $('<option value="0">All Category</option>').appendTo("#select_category_for_post");
+                        $.each(categories,function(idx,item){
+                            $('<option value="'+item.id+'">'+item.name+'</option>').appendTo("#select_category_for_post");
+                        })
+                        $("#select_category_for_post").change(function(){
+                            let cat_id = $(this).val();
+                            if(cat_id==0)
+                            {
+                                showAllPost();
+                            }
+                            else{
+                            showCategoryPost(cat_id);
+                            }
+                        })
+                    }
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                })
+        }
+        
+        
+        $("#sideNav_postBtn").click(function(){
+
+            $("#admin_technology").addClass("d-none");
+            $("#admin_project").addClass("d-none");
+            $("#admin_contact").addClass("d-none");
+            $("#admin_team").addClass("d-none");
+            $("#admin_other").addClass("d-none");
+            $("#admin_gallery").addClass("d-none");
+            $("#admin_database").addClass("d-none");
+            $("#admin_role").addClass("d-none");
+            $("#admin_post").removeClass("d-none");
+            /* Show All Category*/
+            showCategory();
+            /* Showing All Posts */
+            showAllPost()
+        });
 
         /* ADMIN ROLE SET FOR TEAM MEMBERS OR BLOGGERS */
         $("#sideNav_roleBtn").click(function(){
@@ -114,8 +337,8 @@
             $("#admin_other").addClass("d-none");
             $("#admin_gallery").addClass("d-none");
             $("#admin_database").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_role").removeClass("d-none");
-
             $(document).ready(function() {
                 axios.get('/admin/getAllVerifiedUser').then(function(response){
                     if(response.status==200)
@@ -158,7 +381,7 @@
                         });
                     }
                     else{
-
+                    
                     }
                 }).
                 catch(function(error){
@@ -315,10 +538,40 @@
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
             $("#admin_database").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_technology").removeClass("d-none");
             showAllTechnology();
             $("#addTechnologyBtn").click(function(){
                 $("#addTechnologyDiv").removeClass("d-none");
+
+                $("#technology_name").change(function(){
+                    let technology = $(this).val();
+                    $("#addTechnologyConfirmBtn").click(function(){
+                        if(technology.length<=2 || technology.length>=80)
+                        {
+                            $("#technology_error").removeClass("d-none");
+                        }
+                        else{
+                            axios.post('admin/addTechnology',{
+                                technology_name:technology
+                            }).then(function(res){
+                                if(res.status==201||res.status==200)
+                                {
+                                    $("#technology_name").val("");
+                                    $("#technology_error").addClass("d-none");
+                                    $("#addTechnologyDiv").addClass("d-none");
+                                    showAllTechnology();
+                                }
+                            })
+                            .catch(function(error){
+                                console.log(error.response);
+                            })
+                        }
+                    });
+            });
+
+
+
             })
             $("#addTechnologyBtn").dblclick(function(){
                 $("#addTechnologyDiv").addClass("d-none");
@@ -326,31 +579,7 @@
             $("#addTechnologyCancelBtn").click(function(){
                 $("#addTechnologyDiv").addClass("d-none");
             })
-            $("#technology_name").change(function(){
-                let technology = $(this).val();
-                $("#addTechnologyConfirmBtn").click(function(){
-                    if(technology.length<=2 || technology.length>=80)
-                    {
-                        $("#technology_error").removeClass("d-none");
-                    }
-                    else{
-                        axios.post('admin/addTechnology',{
-                            technology_name:technology
-                        }).then(function(res){
-                            if(res.status==201||res.status==200)
-                            {
-                                $("#technology_name").val("");
-                                $("#technology_error").addClass("d-none");
-                                $("#addTechnologyDiv").addClass("d-none");
-                                showAllTechnology();
-                            }
-                        })
-                        .catch(function(error){
-                            console.log(error.response);
-                        })
-                    }
-                });
-            });
+            
 
         })
 
@@ -442,10 +671,81 @@
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
             $("#admin_database").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_project").removeClass("d-none");
 
             adminGetAllProjects();
         })
+
+
+
+
+
+        function getAllUsersProfile()
+        {
+            axios.get('/admin/usersProfile')
+                .then(function(res){
+                    console.log(res.data);
+                    if(res.status==200)
+                    {
+                        $("#team_member_table").empty();
+                        let users = res.data;
+                        $.each(users,function(idx,user){
+                            let social_link = JSON.parse(user.social_link);
+                            let confirm = user.confirm==0?"text-danger" : "text-success";
+                            $('<tr>').html(
+                                '<td><img src="'+user.image+'" alt="'+user.name+'"/></td>'+
+                                '<td>'+user.name+'</td>'+
+                                '<td style="cursor:pointer;" class="userProfilePriorityBtn" data-id="'+user.id+'">'+user.priority_serial+'</td>'+
+                                '<td><a style="cursor:pointer;" class="userProfileDetailsBtn " data-id="'+user.id+'"><i class="fas fa-eye"></i><a/></td>'+
+                                '<td><a style="cursor:pointer;" data-confirm="'+user.confirm+'" class="userProfileConfirmBtn '+confirm+'" data-id="'+user.id+'"><i class="fas fa-check-circle"></i></a></td>'
+                            ).appendTo("#team_member_table");
+                        });
+                        $(".userProfileConfirmBtn").click(function(){
+                            let profile_id = $(this).data('id');
+                            let confirm_value = $(this).data('confirm');
+                            // console.log(profile_id);
+                            // $("#profileUpdateConfirmModal").modal('show');
+                            axios.post('admin/teamMemberConfirm',{id:profile_id,value:confirm_value})
+                                .then(function(res){
+                                    getAllUsersProfile();
+                                }).catch(function(error){
+                                    console.log(error.response);
+                                })
+                            // console.log(profile_id)
+                        });
+                        $(".userProfileDetailsBtn").click(function(){
+                            let profile_id = $(this).data('id');
+                            axios.post('admin/profileDetails',{id:profile_id})
+                                .then(function(res){
+                                    console.log(res.data);
+                                    $("#userProfileDetailsModal").modal('show');
+                                    let user = res.data;
+                                    let social_link = JSON.parse(user.social_link);
+                                    $("#profile_social_link").empty();
+                                    $('<li>').html(
+                                        '<a target="_blank" href="'+social_link.facebook+'">Facebook</a>'
+                                    ).appendTo("#profile_social_link");
+                                    $('<li>').html(
+                                        '<a target="_blank" href="'+social_link.linkedin+'">LinkedIn</a>'
+                                    ).appendTo("#profile_social_link");
+                                    $('<li>').html(
+                                        '<a target="_blank" href="'+social_link.github+'">Github</a>'
+                                    ).appendTo("#profile_social_link");
+                                    $("#profile_description").text(user.description);
+                                })
+                                .catch(function(error){
+                                    console.log(error.response);
+                                })
+                        })
+                    }
+                })  
+                .catch(function(error){
+                    console.log(error.response);
+                })
+        }
+
+
         /* ADMIN TEAM MEMBERS */
         $("#sideNav_teamBtn").click(function(){
             $("#admin_technology").addClass("d-none");
@@ -455,8 +755,35 @@
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
             $("#admin_database").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_team").removeClass("d-none");
+
+            getAllUsersProfile();
+
+
+
+
+
+
+
+
         })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // <li><a id="sideNav_contactBtn">contact message</a></li>
         /* GALLERY IMAGE */
         $("#sideNav_galleryBtn").click(function(){
@@ -467,6 +794,7 @@
             $("#admin_contact").addClass("d-none");
             $("#admin_other").addClass("d-none");
             $("#admin_database").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_gallery").removeClass("d-none")
             showGalleryImage();
         })
@@ -559,6 +887,7 @@
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
             $("#admin_database").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_contact").removeClass("d-none");
             
                 // $('#contactDataTable').DataTable();
@@ -741,6 +1070,7 @@
             $("#admin_gallery").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_database").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_other").removeClass("d-none");
 
             /* Category portion */
@@ -818,6 +1148,7 @@
             $("#admin_gallery").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_other").addClass("d-none");
+            $("#admin_post").addClass("d-none");
             $("#admin_database").removeClass("d-none");
         })
 

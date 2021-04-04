@@ -20,4 +20,8 @@ class CategoryModel extends Model
     {
         return $this->belongsTo(PostModel::class);
     }
+    public function posts()
+    {
+        return $this->hasMany(PostModel::class,'category_id','id');
+    }
 }

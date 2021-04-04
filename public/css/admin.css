@@ -46,7 +46,7 @@
     ADMIN ROLE SET PORTION
 
 */
-#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team,#admin_gallery,#admin_other,#admin_database{
+#admin_role,#admin_project,#admin_technology,#admin_contact,#admin_team,#admin_gallery,#admin_other,#admin_database,#admin_post{
     margin-top:4rem;
     margin-left:250px;
     width:calc(100% - 260px);
@@ -91,6 +91,18 @@
     font-size: 1.3rem;
     color:#181414;
 }
+
+
+/*
+
+    ADMIN TEAM MEMBER MANAGEMENTS
+
+*/
+
+#team_member_table img{
+    width:100px;
+}
+
 
 /*
     GALLERY IMAGE

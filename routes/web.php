@@ -91,6 +91,21 @@ Route::group([
 
     /* Notification */
     Route::get('/allNotification',[AdminController::class,'getNotification']);
+
+    
+    /* Posts */
+
+    Route::get('/getAllPost',[PostController::class,'getAllPost']);
+    Route::get('/getCategory',[CategoryController::class,'getCategory']);
+    Route::post('/categoryPost',[PostController::class,'categoryPost']);
+    Route::post('/postVerified',[PostController::class,'postVerified']);
+    Route::post('/singlePostShow',[PostController::class,'singlePostShow']);
+    Route::post('/deletePost',[PostController::class,'deletePost']);
+
+    /* USER PROFILES */
+    Route::get('/usersProfile',[ProfileController::class,'usersProfile']);
+    Route::post('/profileDetails',[ProfileController::class,'profileDetails']);
+    Route::post('/teamMemberConfirm',[ProfileController::class,'teamMemberConfirm']);
 });
 
 Route::group([

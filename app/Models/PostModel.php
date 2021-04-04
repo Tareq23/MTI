@@ -30,4 +30,8 @@ class PostModel extends Model
     {
         return $this->belongsToMany(TagModel::class, 'post_tag', 'post_id', 'tag_id');
     }
+    public function categories()
+    {
+        return $this->belongsTo(CategoryModel::class);
+    }
 }

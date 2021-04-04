@@ -88,4 +88,19 @@ class ProfileController extends Controller
         }
         return redirect('/blog');
     }
+    public function usersProfile()
+    {
+        return ProfileModel::select(['id','name','image','priority_serial','social_link','confirm'])->get();
+    }
+    public function profileDetails(Request $req)
+    {
+        $id = $req->input('id');
+        return ProfileModel::select(['social_link','description'])->where('id','=',$id)->first();
+    }
+    public function teamMemberConfirm(Request $req)
+    {
+        $id = $req->input('id');
+        $value = $req->input('value');
+        return ProfileModel::where('id','=',$id)->update(['confirm'=>!$value]);
+    }
 }

@@ -12,6 +12,7 @@ use Token;
 use DB;
 use App\Events\PostModifiedEvent;
 use App\Events\PostCreateEvent;
+use App\Models\CategoryModel;
 
 class PostController extends Controller
 {
@@ -25,16 +26,17 @@ class PostController extends Controller
     {
         $content = $req->input('content');
         $title = $req->input('title');
-        $tags = $req->input('tags');
+        // $tags = $req->input('tags');
         $category_id = $req->input('category');
         $userId = session()->get('userId');
-        $tagsId = [];
+        ///$tagsId = [];
+        // foreach($tags as $tag)
+        // {
+        //     array_push($tagsId,$this->addTags($tag));
+        // }
+        // $post->tags()->attach($tagsId);
         if($userId){
             //$user = UserModel::find($userId);
-            foreach($tags as $tag)
-            {
-                array_push($tagsId,$this->addTags($tag));
-            }
             $slug_token = Token::UniqueString('posts','slug',40);
             $post = PostModel::create([
                 'user_id'=>$userId,
@@ -44,7 +46,6 @@ class PostController extends Controller
                 'content' => $content,
                 'time' => date_default_timezone_set("UTC").time(),
             ]);
-            $post->tags()->attach($tagsId);
             
             
             $admin_role = RoleModel::select('id')->where('name','=','admin')->first();
@@ -72,5 +73,56 @@ class PostController extends Controller
             return $userPost->posts;
         }
         return redirect('/blog');
+    }
+    public function getAllPost()
+    {
+        return PostModel::all();
+    }
+    public function categoryPost(Request $req)
+    {
+        $id = $req->input('id');
+        $category = CategoryModel::find($id);
+        return $category->posts;
+    }
+    public function postVerified(Request $req)
+    {
+        try{
+            $id = $req->input('id');
+            $verified_value = $req->input('value');
+            // $post = PostModel::where('id','=',$id)->update(['verified'=> $verified_value]);
+            $post = PostModel::find($id);
+            $tags = explode(' ',$post->title);
+            $tagsId = [];
+            foreach($tags as $tag)
+            {
+                if(strlen($tag)>2){
+                    array_push($tagsId,$this->addTags($tag));
+                }
+            }
+            $post->tags()->attach($tagsId);
+            $post->verified = $verified_value;
+            $post->save();
+            return 1;
+        }
+        catch(\Exception $e){
+            return 0;
+        }
+    }
+    public function singlePostShow(Request $req)
+    {
+        $id = $req->input('id');
+        return PostModel::select('content')->where('id','=',$id)->first();
+    }
+    public function deletePost(Request $req)
+    {
+        try{
+            $id = $req->input('id');
+            $result = PostModel::where('id','=',$id)->delete();
+            return $result;
+        }   
+        catch(\Exception $e)
+        {
+            return 0;
+        }
     }
 }
