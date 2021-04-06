@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use App\Models\EmailVerifiedTokenModel;
 use App\Models\RoleModel;
 use App\Events\UserRegister;
@@ -12,10 +13,11 @@ use App\Models\PostModel;
 use App\Models\GroupModel;
 use App\Models\ProjectModel;
 use App\Models\NotificationModel;
-
+use App\Models\ResetPasswordModel;
 class UserModel extends Model
 {
     use HasFactory;
+    use Notifiable;
     protected $table='users';
     protected $primaryKey='id';
     protected $keyType='int';
@@ -48,6 +50,10 @@ class UserModel extends Model
     {
         // return $this->belongsTo(User::class)
         return $this->hasOne(ProfileModel::class,'user_id','id');
+    }
+    public function password_reset()
+    {
+        return $this->hasOne(ResetPasswordModel::class,'user_id','id');
     }
     // public function profiles()
     // {

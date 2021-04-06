@@ -353,6 +353,9 @@ ul li{
     background-color: #861564;
 }
 
+/*
+    SINGLE BLOG POST
+*/
 
 .singleBlogPost{
     display: block;
@@ -360,3 +363,114 @@ ul li{
     margin-bottom: 1rem;
     text-align: center;
 }
+
+
+/*
+    Reset Password
+*/
+#reset-password-form{
+    position:absolute;
+    z-index:1000;
+    width:30%;
+    background-color: #02253f;
+    color:#ffffff;
+    text-align: center;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius: 1rem;
+    padding:2.5rem 0;
+}
+#reset-password-form .form-group{
+    margin:1.5rem 0;
+    width:100%;
+}
+#reset-password-form h3{
+    text-transform: uppercase;
+    font-size:2rem;
+}
+#reset-password-form label{
+    width:15%;
+    text-align: left;
+    font-size:1.2rem;
+}
+#reset-password-form  input{
+    width:65%;
+    margin-left:1.2rem;
+    padding:5px 5px;
+    border-radius: 5px;
+    font-size:1.2rem;
+}
+#reset-password-form  input:focus{
+    outline: none;
+}
+
+#reset-password-form  button{
+    float:left;
+    /* width:15%; */
+    /* margin-left:8%; */
+    color:#ffffff;
+    background-color: #861564;
+}
+#forgetPasswordBtn,#haveAccount{
+    float:right;
+    margin-right:1rem;
+    cursor: pointer;
+}
+#forgetPasswordBtn:hover{
+    color:#91167cde;
+}
+#haveAccount:hover{
+    color:#91167cde;
+}
+
+/*
+    NEW PASSWORD
+*/
+
+#new-password-form{
+    position:absolute;
+    z-index:1000;
+    width:30%;
+    background-color: #02253f;
+    color:#ffffff;
+    text-align: center;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    border-radius: 1rem;
+    padding:2.5rem 0;
+}
+#new-password-form .form-group{
+    margin:1.5rem 0;
+    width:100%;
+}
+#new-password-form h3{
+    text-transform: uppercase;
+    font-size:2rem;
+}
+#new-password-form label{
+    width:15%;
+    text-align: left;
+    font-size:1.2rem;
+}
+#new-password-form input{
+    width:65%;
+    margin-left:1.2rem;
+    padding:5px 5px;
+    border-radius: 5px;
+    font-size:1.2rem;
+}
+#new-password-form input:focus{
+    outline: none;
+}
+
+#new-password-form button{
+    float:left;
+    /* width:15%; */
+    /* margin-left:8%; */
+    color:#ffffff;
+    background-color: #861564;
+}
+
+

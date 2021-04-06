@@ -9,8 +9,8 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-
-class PostModifiedEvent
+use App\Models\PostModel;
+class PostModifiedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,18 +19,19 @@ class PostModifiedEvent
      *
      * @return void
      */
-    public function __construct()
+    public $post;
+    public function __construct(PostModel $post)
     {
-        //
+        $this->post = $post;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
+  
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return 'post_modified_channel';
+    }
+    public function broadcastAs()
+    {
+        return 'post_modified_event';
     }
 }

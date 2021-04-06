@@ -11,7 +11,7 @@
         <a class="nav-link" href="{{url('/')}}">Home</i></a>
       </li>
       <li class="nav-item" id="userMessageBtn">
-        <a class="nav-link" href="#">Message <i class="fas fa-envelope-open-text"></i></a>
+        <a class="nav-link" href="#">Message <i class="fas fa-envelope-open-text"><span id="unread_user_message"></span></i></a>
         <ul class="message-dropdown d-none">
           <!-- <li class="user-list-item"><a href="#"><i class="fas fa-users"></i> Group Message</a></li>
           <li class="user-list-item"><a href="#"><i class="far fa-user"></i> user name</a></li>
@@ -23,14 +23,17 @@
       <li class="nav-item">
         <a class="nav-link" href="#">project <i class="fas fa-code"></i></a>
       </li>
-      <li class="nav-item" id="userNotificationBtn">
-        <a class="nav-link" href="#">Notification <i class="fas fa-bell">12</i></a>
+      <li class="nav-item" style="cursor:pointer;" id="userNotificationBtn">
+        <a class="nav-link" >Notification <i class="fas fa-bell"><span id="user_unread_notification" style="font-size:1.3rem;" class="text-danger"></span></i></a>
         <ul class="notification-dropdown d-none">
+          <!-- <li class="notify-list-item"><a href="#">create a new post</a></li>
           <li class="notify-list-item"><a href="#">create a new post</a></li>
           <li class="notify-list-item"><a href="#">create a new post</a></li>
-          <li class="notify-list-item"><a href="#">create a new post</a></li>
-          <li class="notify-list-item"><a href="#">create a new post</a></li>
+          <li class="notify-list-item"><a href="#">create a new post</a></li> -->
         </ul>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{url('/logout')}}">Logout <i class="fas text-danger fa-sign-out-alt"></i></a>
       </li>
     </ul>
   </div>

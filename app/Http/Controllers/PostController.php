@@ -24,11 +24,15 @@ class PostController extends Controller
     }
     public function create(Request $req)
     {
-        $content = $req->input('content');
+        $content = [
+            'image' => $req->input('url'),
+            'text' => $req->input('content'),
+        ];
         $title = $req->input('title');
         // $tags = $req->input('tags');
         $category_id = $req->input('category');
         $userId = session()->get('userId');
+        
         ///$tagsId = [];
         // foreach($tags as $tag)
         // {
@@ -43,7 +47,7 @@ class PostController extends Controller
                 'category_id'=>$category_id,
                 'title' => $title,
                 'slug' => $slug_token,
-                'content' => $content,
+                'content' => json_encode($content),
                 'time' => date_default_timezone_set("UTC").time(),
             ]);
             
@@ -59,8 +63,6 @@ class PostController extends Controller
             $notify = NotificationModel::create(['data'=>json_encode($data)]);
             $notify->users()->attach($admin->user_id);
             event(new PostCreateEvent($data));
-            
-
             return true;
         }
         return false;
@@ -102,6 +104,8 @@ class PostController extends Controller
             $post->tags()->attach($tagsId);
             $post->verified = $verified_value;
             $post->save();
+            // PostModifiedEvent
+            event(new PostModifiedEvent($post));
             return 1;
         }
         catch(\Exception $e){

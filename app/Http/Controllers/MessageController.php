@@ -61,7 +61,8 @@ class MessageController extends Controller
             try{
                 $messages = DB::table('message_recipients as mr')
                             ->join('messages as m','m.id','=','mr.message_id')
-                            ->select('m.text','mr.creator_id as sender')
+                            
+                            ->select('m.text','mr.creator_id as sender','mr.recipient_id as reciver')
                             ->where(function($query) use ($receiver_id,$sender_id){
                                 $query->where('mr.creator_id','=',$sender_id)
                                     ->where('mr.recipient_id','=',$receiver_id);

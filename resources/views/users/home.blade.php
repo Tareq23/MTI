@@ -157,11 +157,15 @@
                     let posts = res.data;
                     $("#post-show-div").empty();
                     $.each(posts,function(idx,item){
+                        let content = JSON.parse(item.content);
                         $('<div class="single-post mt-3">').html(
                             '<div class="post-title">'+
                                 '<p><a target="_blank" href="/blog/post/'+item.slug+'" data-slug="'+item.slug+'">'+item.title+'</a></p>'+
                             '</div>'+
-                            '<div class="post-content">'+ item.content +'</div>'
+                            '<div class="post-img">'+
+                                '<img src="'+content.image+'" alt="'+item.title+'"/>'+
+                            '</div>'+
+                            '<div class="post-content">'+content.text +'</div>'
                         ).appendTo("#post-show-div");
                     });
 
@@ -196,7 +200,7 @@
                 .catch(function(error){
                     console.log(error.response);
                 })
-            let categoryId = '';
+            let categoryId = '-1';
             $("#categories").change(function(){
                 categoryId = $(this).val();
                 if(categoryId === "0"){
@@ -231,15 +235,31 @@
                     }
                 }
 
-                if(postMainTitle.length<10 && postMainTitle.length>295){
-                    alert("Title Must be less than 250 characters and greater than 50 characters")
+                function isValidURL(str) {
+                    var regex = /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/;
+                    if(!regex .test(str)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
-                else if(categoryId.length<0){
-                    alert("Select Category");
+
+                let image_url = $("#postMainImage").val();
+                // console.log(image_url);
+                if((postMainTitle.length<10 || postMainTitle.length>295)){
+                    alert("Title Must be less than 250 characters and greater than 10 characters")
+                }
+                else if((parseInt(categoryId)<=0)|| !isValidURL(image_url)){
+                    alert("Invalid Input Field");
+                }
+                else if(postHtmlText.length<500)
+                {
+                    alert("Please Add More Text as Post Content")
                 }
                 else{
                     axios.post('users/createPost',{
                         tags:tagsArray,
+                        url:image_url,
                         content:postHtmlText,
                         title : postMainTitle,
                         category : parseInt(categoryId),
@@ -488,6 +508,7 @@
                 if(res.status==200)
                 {
                     let messages = res.data;
+                    console.log(messages);
                     $.each(messages,function(idx,item){
                         if(item.sender === id)
                         $('<p class="incoming-msg"></p>').text(item.text).appendTo(".message-body");
@@ -563,6 +584,7 @@
                                 $(this).val("");
                                 if(text.length>0)
                                 {
+                                    console.log("reciver : "+recipient_id);
                                     axios.post('/users/sentMessage',{
                                         message : text,
                                         recipient: recipient_id
@@ -604,6 +626,53 @@
         if(notificationBtnClickCount%2==0)
         {
             $(".notification-dropdown").removeClass("d-none");
+
+            //$("#userNotificationBtn").click(function(){
+                axios.get('/users/getNotification')
+                    .then(function(res){
+                        if(res.status==200)
+                        {
+                            $("#user_unread_notification").text('');
+                            let notifies = res.data;
+                            $(".notification-dropdown").empty();
+                            $.each(notifies,function(idx,notify){
+                                let data = JSON.parse(notify.data);
+                                if(data.type=='post')
+                                {
+                                    if(data.details.verified==0)
+                                    {
+                                        $('<li class="notify-list-item">').html(
+                                            '<a>waiting for verified by admin</a>'
+                                        ).appendTo(".notification-dropdown");
+                                        // console.log("your post pending");
+                                    }
+                                    else{
+                                        $('<li class="notify-list-item">').html(
+                                            '<a>Your Post Is Verified</a>'
+                                        ).appendTo(".notification-dropdown");
+                                    }   
+                                }
+                                else if(data.type=='project'){
+                                    if(data.details.verified==0)
+                                    {
+                                        $('<li class="notify-list-item">').html(
+                                            '<a>waiting for verified by admin</a>'
+                                        ).appendTo(".notification-dropdown");
+                                        // console.log("your post pending");
+                                    }
+                                    else{
+                                        $('<li class="notify-list-item">').html(
+                                            '<a>Your project Is Verified</a>'
+                                        ).appendTo(".notification-dropdown");
+                                    }   
+                                }
+                            })
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error.response);
+                    })
+            // });
         }
         else{
             $(".notification-dropdown").addClass("d-none");
@@ -611,7 +680,7 @@
         notificationBtnClickCount++;
     })
 
-    /* PUSHER FOR REALTIME DATA PASS */
+    /* PUSHER FOR REALTIME Message PASS */
 
             let pusher = new Pusher('816c91b939c2f0948fb7', {
                 cluster: 'ap2'
@@ -622,6 +691,23 @@
                 if(data.message.sender == message_receiver_id)
                 $('<p class="incoming-msg"></p>').text(data.message.text).appendTo(".message-body");
                 else $('<p class="outgoing-msg"></p>').text(data.message.text).appendTo(".message-body");
+            });
+
+
+            let notify = {!!$notify!!}
+            // console.log(notify);
+            if(notify>0)
+            {
+                $("#user_unread_notification").text(notify);
+            }
+            let post_modified_pusher = new Pusher('816c91b939c2f0948fb7', {
+                cluster: 'ap2'
+            });
+            let post_modified_channel = post_modified_pusher.subscribe('post_modified_channel');
+            post_modified_channel.bind('post_modified_event', function(data) {
+                let unread_notification = $("#user_unread_notification").text()==''?0:parseInt($("#user_unread_notification").text());
+                $("#user_unread_notification").text(unread_notification+1)
+                console.log(unread_notification);
             });
             
     </script>

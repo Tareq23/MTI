@@ -26,13 +26,17 @@
                   <button type="button" onclick="executeCommand('underline');" ><i class="fas fa-underline"></i></button>
                   <button type="button" onclick="executeCommandWithArg('createLink',prompt('Enter Link Url: ','https:'));" ><i class="fas fa-link"></i></button>
                   <button type="button" onclick="executeCommand('unlink');" ><i class="fas fa-unlink"></i></button>
-                  <button type="button" onclick="executeCommandWithArg('insertImage',prompt('Enter Image Url: ','https:'));" ><i class="far fa-file-image"></i></button>
+                  <!-- <button type="button" onclick="executeCommandWithArg('insertImage',prompt('Enter Image Url: ','https:'));" ><i class="far fa-file-image"></i></button> -->
                   <button type="button" onclick="toggleCode();" ><i class="fas fa-code"></i></button>
                 </div>
 
                 <div class="form-group">
                   <label for="postMainTitle">Post Main Title</label>
-                  <input id="postMainTitle" class="form-control"/>
+                  <input id="postMainTitle" type="text" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label for="postMainImage">Select Image url from third party website</label>
+                    <input id="postMainImage" type="url" class="form-control"/>
                 </div>
                 <select class="form-control m-0 p-0 mb-2" id="categories">
                   <option value="0" selected>Select Category</option>

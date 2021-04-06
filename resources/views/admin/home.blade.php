@@ -187,7 +187,7 @@
                             axios.post('/admin/postVerified',{id:post_id,value:parseInt(verified_value)})
                                 .then(function(res){
                                         console.log("verified_post : "+post_id);
-                                    if(res.data==1){
+                                    if(res.status==200||res.status==201){
                                         if(parseInt(verified_value)){
                                             $(select_post_id).removeClass("text-danger")
                                             $(select_post_id).addClass("text-success");
@@ -261,7 +261,7 @@
                             // console.log(post_id);
                             axios.post('/admin/postVerified',{id:post_id,value:parseInt(verified_value)})
                                 .then(function(res){
-                                    if(res.data==1){
+                                    if(res.status==200||res.status==201){
                                         if(parseInt(verified_value)){
                                             $(select_post_id).removeClass("text-danger")
                                             $(select_post_id).addClass("text-success");
@@ -473,6 +473,7 @@
                         currentRole:presentRole,
                         updateRole:rolesUpdate,
                     }).then(function(response){
+                        console.log(response.data);
                         if(response.data==1)
                         {
                             $("#updateUserRoleModal").modal('show');

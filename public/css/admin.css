@@ -179,7 +179,12 @@ USERs Admin Panel
     margin-top:4rem;
     width:calc(100% - 250px);
 }
-
+.post-img{
+    max-width:100%;
+}
+.post-img img{
+    width:100%;
+}
 /* User Project Section */
 
 #userAllProjects{

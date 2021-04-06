@@ -12,6 +12,7 @@
         <input id="loginPassword" type="password"/>
     </div>
     <div class="form-group">
-        <button id="loginConfirmBtn" class="btn btn-primary">Login</button>
+        <button type="button" id="loginConfirmBtn" class="btn btn-primary">Login</button>
     </div>
+    <a  id="forgetPasswordBtn">Forget password</a>
 </div>

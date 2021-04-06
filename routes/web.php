@@ -27,6 +27,7 @@ Route::get('/blog/post/{slug}',[BlogController::class,'singlePostView']);
 
 /* Mail Controller */
 Route::get('/blog/{token}',[MailController::class,'confirmEmail']);
+Route::get('/blog/new-password-set/{token}/{email}',[MailController::class,'resetPassword']);
 
 /* Contact Message */
 
@@ -40,6 +41,10 @@ Route::post('/checkEmail',[UserController::class,'checkEmail']);
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
 Route::get('/logout',[UserController::class,'logout']);
+Route::post('/password-reset',[UserController::class,'resetToken']);
+Route::post('/newpassword',[UserController::class,'newpassword']);
+
+
 
 Route::group([
     'prefix'=>'/admin',
@@ -52,7 +57,7 @@ Route::group([
     Route::get('/allRoles',[RoleController::class,'allRole']);
     Route::post('/add/role',[RoleController::class,'addRole']);
     Route::post('/getRole',[RoleController::class,'getRole']);
-    Route::post('/setRole',[RoleController::class,'setRole']);
+    Route::post('/setRole',[RoleController::class,'setUserRole']);
     /* Contact message Route */
     Route::get('/getContactAll',[ContactController::class,'getContactAll']);
     Route::get('/getMessage/{id}',[ContactController::class,'getMessage']);
@@ -141,6 +146,11 @@ Route::group([
     Route::get('/getAllUser',[MessageController::class,'getAllUser']);
     Route::post('/sentMessage',[MessageController::class,'store']);
     Route::get('/showMessages/{id}',[MessageController::class,'showMessages']);
+
+    /* User Notification */
+
+    Route::get('/getNotification',[UserController::class,'getNotification']);
+
 
 });
 
