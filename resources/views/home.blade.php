@@ -6,7 +6,7 @@
     @include('component.topNav')
     <!-- <div class="my-5"></div> -->
     @include('component.topBanner')
-    <div class="my-5"></div>
+    <div class="mb-5" style="margin-top:16rem;"></div>
     @include('component.usedTechnology')
     <div class="my-5"></div>
     @include('component.projects')
@@ -23,6 +23,24 @@
 
 @section('script')
     <script type="text/javascript">
+        $(document).ready(function(){
+            //scroll top
+            window.onbeforeunload = function () {
+                window.scrollTo(0,0);
+            };
+            // $('iframe').css("width")
+            console.log(window.innerWidth);
+            if(window.innerWidth<=800)
+            {
+                let width = window.innerWidth
+                $("iframe").outerWidth(width);
+            }
+            const posts = {!!$posts!!}
+            $.each(posts,function(idx,post){
+                $('<li class="list-group-item">').html(
+                    '<a target="_blank" href="blog/post/'+post.slug+'">'+post.title+'</a>'
+                ).appendTo("#footer_post_link");
+            })
             function validateEmail(email) {
                 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 return re.test(String(email).toLowerCase());
@@ -70,6 +88,7 @@
                     })
                 }
             });
+        })
     </script>
 @endsection
 

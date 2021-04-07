@@ -28,10 +28,9 @@
             </div>
             <div class="col-md-6">
                 <div class="googleMap">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14551.020299078185!2d89.90543872299197!3d24.25034371386551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fdfbf02f84c31f%3A0xa00a2b506a818f24!2sNirala%20More%2C%20Tangail!5e0!3m2!1sen!2sbd!4v1614674280300!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    {!!$data[0]->map_link!!}
                 </div>
             </div>
         </div>
     </div>
-
 </section>

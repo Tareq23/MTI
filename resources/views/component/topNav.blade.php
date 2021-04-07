@@ -2,7 +2,11 @@
 <nav id="topNav" class="navbar navbar-expand-md fixed-top">
   <a class="navbar-brand" href="#">MD TAREQUL ISLAM</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+    <span class="navbar-toggler-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">

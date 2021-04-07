@@ -7,14 +7,14 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-7 col-sm-12">
-                                    <img class="card-img" src="{{asset('images/personal.jpg')}}">
+                                    <img class="card-img" src="{!!$data[0]->image!!}">
                                 </div>
                                 <div class="col-md-5 col-sm-12 my-auto">
                                     <div class="myShortInfo p-1">
                                         <p>Hello Everybody, I am</p>
-                                        <h3>Md Tarequl Islam</h3>
-                                        <h4>Junior Web-Developer</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta amet, voluptatem tempore libero excepturi voluptatibus odio accusamus voluptatum nihil suscipit?</p>
+                                        <h3>{!!$data[0]->name!!}</h3>
+                                        <h4>{!!$data[0]->work_position!!}</h4>
+                                        <p>{!!$data[0]->short_description!!}</p>
                                     </div>
                                 </div>
                             </div>

@@ -3,8 +3,15 @@
     <div class="container-fluid text-center" style="margin-top:2rem;">
         <h2 class="sectionTitle">projects</h2>
         <p class="subTitle">we used these technology as your requirement</p>
-        <div class="row px-5 d-flex justify-content-center flex-wrap">
-            <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+        <div class="row px-5">
+            @foreach($projects as $project)
+                <div class="col-sm-12 col-md-4 col-lg-3 my-2">
+                    <div class="card w-100">
+                        <a target="_blank" href="{{$project->url}}"><img src="{{$project->image}}" class="card-img-top" alt="project-img"/></a>
+                    </div>
+                </div>
+            @endforeach
+            <!-- <div class="col-sm-12 col-md-4 col-lg-3 my-2">
                 <div class="card w-100">
                     <img src="{{asset('images/project.jpg')}}" class="card-img-top" alt="project-img">
                     <div class="card-body">
@@ -63,7 +70,7 @@
                         <a href="#" class="btn btn-primary">overview</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>

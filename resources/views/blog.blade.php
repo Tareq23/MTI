@@ -23,12 +23,29 @@
 
 @section('script')
     <script type="text/javascript">
+            let allposts = {!!$all_posts!!};
+            // console.log(allposts);
+
             function isEmail(email) {
                 var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                 return regex.test(email);
             }
             $(document).ready(function(){
+
+                // $("#navbarSupportedContent").removeClass("d-none");
+                //scroll top
+                window.onbeforeunload = function () {
+                    window.scrollTo(0,0);
+                };
+                const posts = {!!$posts!!}
+                $.each(posts,function(idx,post){
+                    $('<li class="list-group-item">').html(
+                        '<a target="_blank" href="blog/post/'+post.slug+'">'+post.title+'</a>'
+                    ).appendTo("#footer_post_link");
+                })
+
                 //registration form
+
                 $("#registerBtn").click(function(){
                     $("#register-form").removeClass("d-none");
                 });
@@ -92,6 +109,13 @@
                     if(!registerContainer.is(event.target) && registerContainer.has(event.target).length===0)
                     {
                         $("#register-form").addClass("d-none");
+                    }
+
+                    /** navbarSupportedContent */
+                    let navbarSupportedContent = $("#navbarSupportedContent");
+                    if(!navbarSupportedContent.is(event.target) && navbarSupportedContent.has(event.target).length===0)
+                    {
+                        $("#navbarSupportedContent").removeClass("show");
                     }
                 });
 

@@ -1,0 +1,97 @@
+@media only screen and (max-width:820px){
+    #topNav .nav-item{
+        margin-left:5px;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .navbar-collapse {
+        background-color: #051520cc;
+    }
+    #topBanner .container-fluid{
+        padding: 0;
+        margin:0;
+        width:100%;
+    }
+    #topBanner .myShortInfo{
+        margin-top:2rem;
+        text-align: center;
+    }
+    #technology{
+        margin-top:10rem;
+    }
+    #contact .px-5{
+        padding:0 15px !important;
+    }
+    #teamMember .px-5{
+        padding:0 15px !important;
+    }
+    #contact{
+        overflow-x: hidden;
+    }
+    #contact form{
+        padding:0 0;
+    }
+    #contact .googleMap{
+        padding:0;
+        margin:0;
+        clear:both;
+    }
+    #contact .col-md-6 {
+        padding: 0;
+        margin:0;
+    }
+    #footer .px-5{
+        padding:0 !important;
+    }
+    #footer .col-md-4{
+        padding:0 !important;
+        margin-top:1rem;
+    }
+    #login-form{
+        width:95%;
+    }
+    #login-form label{
+        width:20%;
+    }
+    #login-form input{
+        float: right;
+        margin-right: 5px;
+    }
+
+
+
+    #register-form{
+        width:95%;
+    }
+    #register-form label{
+        width:20%;
+    }
+    #register-form input{
+        width:65%;
+        float:right;
+        margin-right: 5px;
+    }
+    #reset-password-form{
+        width:95%;
+    }
+    #reset-password-form label{
+        width:20%;
+    }
+    #reset-password-form  input{
+        float:right;
+        margin-right: 5px;
+    }
+    /* New Password set Div*/
+    #new-password-form{
+        width:95%;
+    }
+    #new-password-form label{
+        width:20%;
+    }
+    #new-password-form input{
+        width:65%;
+        float: right;
+        margin-right: 5px;
+    }
+    
+}

@@ -28,6 +28,13 @@
     //     });
     // });
 
+    //scroll top
+    
+    window.onbeforeunload = function () {
+                window.scrollTo(0,0);
+            };
+
+
     /* side nav show/hide  */
     let menuBarCount = 0;
     $("#userMenuBarBtn").click(function(){

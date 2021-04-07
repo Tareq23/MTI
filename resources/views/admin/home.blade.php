@@ -29,8 +29,8 @@
         <div id="admin_gallery" class="d-none">
             @include('component.admin.gallery')
         </div>
-        <div id="admin_database" class="d-none">
-            @include('component.admin.database')
+        <div id="admin_site_home_page" class="d-none">
+            @include('component.admin.home_page')
         </div>
         <div id="admin_post" class="d-none">
             @include('component.admin.post')
@@ -41,6 +41,13 @@
 
 @section('script')
     <script type="text/javascript">
+
+
+        //scroll top
+        window.onbeforeunload = function () {
+                window.scrollTo(0,0);
+            };
+            
         let sideNavToggleCount = 0;
         let sideNavWidth = $("#sideNav").width();
         let windowWidth = $(window).width();
@@ -319,7 +326,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_other").addClass("d-none");
             $("#admin_gallery").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_role").addClass("d-none");
             $("#admin_post").removeClass("d-none");
             /* Show All Category*/
@@ -336,7 +343,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_other").addClass("d-none");
             $("#admin_gallery").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
             $("#admin_role").removeClass("d-none");
             $(document).ready(function() {
@@ -538,7 +545,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
             $("#admin_technology").removeClass("d-none");
             showAllTechnology();
@@ -671,7 +678,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
             $("#admin_project").removeClass("d-none");
 
@@ -755,7 +762,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
             $("#admin_team").removeClass("d-none");
 
@@ -794,7 +801,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_contact").addClass("d-none");
             $("#admin_other").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
             $("#admin_gallery").removeClass("d-none")
             showGalleryImage();
@@ -887,7 +894,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_gallery").addClass("d-none")
             $("#admin_other").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
             $("#admin_contact").removeClass("d-none");
             
@@ -1070,7 +1077,7 @@
             $("#admin_team").addClass("d-none");
             $("#admin_gallery").addClass("d-none");
             $("#admin_role").addClass("d-none");
-            $("#admin_database").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
             $("#admin_other").removeClass("d-none");
 
@@ -1141,6 +1148,25 @@
 
 
 
+        function get_site_home_page_data()
+        {
+            axios.get('/admin/getHomPage')
+                .then(function(res){
+                    if(res.status==200||res.status==201)
+                    {
+                        let data=res.data;
+                        $("#home_page_image_preview").attr('src',data[0].image);
+                        $("#home_name").val(data[0].name);
+                        $("#home_work").val(data[0].work_position);
+                        $("#home_desc").val(data[0].short_description);
+                        $("#footer_short_desc").val(data[0].footer);
+                        $("#google_map_locaction_url").val(data[0].map_link);
+                    }
+                }).catch(function(error){
+                    console.log(error.response);
+                });
+        }
+
         $("#sideNav_databaseBtn").click(function(){
             $("#admin_technology").addClass("d-none");
             $("#admin_project").addClass("d-none");
@@ -1150,7 +1176,96 @@
             $("#admin_role").addClass("d-none");
             $("#admin_other").addClass("d-none");
             $("#admin_post").addClass("d-none");
-            $("#admin_database").removeClass("d-none");
+            $("#admin_site_home_page").removeClass("d-none");
+
+            get_site_home_page_data();
+
+            $("#home_page_img").change(function(){
+                let profileImgFile = $(this).prop('files')[0];
+                let current_image_url =  $("#home_page_image_preview").attr('src');
+                // console.log("current image : "+current_image_url);
+                if(profileImgFile.size <= 1024 * 1000)
+                {
+                    let fileReader = new FileReader();
+                    fileReader.readAsDataURL(this.files[0]);
+                    fileReader.onload = (event) =>{
+                        let imgUrl = event.target.result;
+                        $("#home_page_image_preview").attr('src',imgUrl);
+                    }
+
+                    $("#update_home_image_btn").click(function(){
+                        let formData = new FormData();
+                        let imgFile = profileImgFile;;
+                        formData.append('update_image',imgFile);
+                        formData.append('current_image_url',current_image_url);
+                        axios.post('/admin/home-page-imageUpdate',formData)
+                            .then((res)=>{
+                                if(res.status==200)
+                                {
+                                    // getUserProfile();
+                                }
+                            })
+                            .catch((error)=>{
+                                console.log(error.response);
+                            })
+
+                        // console.log("adds ok")
+                        // console.log(imgFile);
+                    });
+                }
+                else{
+                    $("#profile_image_error").removeClass("d-none");
+                }
+                // console.log(profileImgFile);
+            });
+
+            $("#home_page_create").click(function(){
+                let my_name = $("#home_name").val();
+                let my_work_position = $("#home_work").val();
+                let my_short_desc = $("#home_desc").val();
+                let my_footer_desc = $("#footer_short_desc").val();
+                let my_location_url = $("#google_map_locaction_url").val();
+                axios.post('/admin/home-page-create',{
+                    name:my_name,
+                    work_position:my_work_position,
+                    short_desc:my_short_desc,
+                    footer_desc:my_footer_desc,
+                    location:my_location_url
+                })
+                .then(function(res){
+                    if(res.status==200||res.status==201)
+                    {
+                        get_site_home_page_data();
+                    }
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                })
+            })
+            $("#home_page_update").click(function(){
+                let my_name = $("#home_name").val();
+                let my_work_position = $("#home_work").val();
+                let my_short_desc = $("#home_desc").val();
+                let my_footer_desc = $("#footer_short_desc").val();
+                let my_location_url = $("#google_map_locaction_url").val();
+                axios.post('/admin/home-page-update',{
+                    name:my_name,
+                    work_position:my_work_position,
+                    short_desc:my_short_desc,
+                    footer_desc:my_footer_desc,
+                    location:my_location_url
+                })
+                .then(function(res){
+                    if(res.status==200||res.status==201)
+                    {
+                        get_site_home_page_data();
+                    }
+                })
+                .catch(function(error){
+                    console.log(error.response);
+                })
+            })
+
         })
 
 

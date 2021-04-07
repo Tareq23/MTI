@@ -52,6 +52,14 @@ Route::group([
 ],function($route){
     Route::get('/',[AdminController::class,'adminProfile']);
     Route::get('/getAllVerifiedUser',[AdminController::class,'getAllVerifiedUser']);
+
+    /* Home page dynamic */
+
+    Route::post('/home-page-imageUpdate',[HomeController::class,'imageUpdate']);
+    Route::post('/home-page-create',[HomeController::class,'create']);
+    Route::post('/home-page-update',[HomeController::class,'update']);
+    Route::get('/getHomPage',[HomeController::class,'get']);
+
     /* Roles Route */
     Route::get('/roles',[RoleController::class,'indexRole']);
     Route::get('/allRoles',[RoleController::class,'allRole']);

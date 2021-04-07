@@ -33,11 +33,24 @@ ul li{
     height:85px;
 }
 #topNav .navbar-toggler{
-    color:#fff;
+    /* color:#fff !important; */
     z-index:1111;
-    background-color: rgb(134, 120, 120);
+    /* background-color: rgba(41, 9, 9, 0.082); */
     padding:0;
 }
+.navbar-toggler-icon span{
+    display: block;
+    width:100%;
+    height:4px;
+    background-color: #ffffff;
+    margin-top:4px;
+}
+.navbar-toggler-icon span:first-child{
+    margin:0;
+}
+/* .navbar-collapse {
+    background-color: #051520cc;
+} */
 
 #topNav .navbar-brand{
     font-size:2em;
@@ -74,7 +87,6 @@ ul li{
     background-color: #fff;
     position: relative;
     top:85px;
-
 }
 
 
@@ -90,10 +102,7 @@ ul li{
     border-radius: 10px;
     box-shadow: 5px 5px 5px 5px  #ebe9e988;
 }
-#topBanner .technologyItems{
-    display:flex;
 
-}
 
 /*
 
@@ -107,19 +116,25 @@ ul li{
     margin-top: 20%;
 }
 #technology .card{
-    margin:1rem 1rem;
-}
-#technology .card img{
-    width:10rem;
-    height:10rem;
+    display: block;
+    width:auto;
+    padding:0.5rem 1rem;
+    margin:0.5em;
+    font-size:1.5rem;
+    font-weight: bold;
+    position: relative;
+    text-align: center;
 }
 
+#technology .card:hover{
+   
+    background-color: #051e30bd;
+    color:#ffffff;
+}
 
 /*
     PROJECT
 */
-
-
 
 
 
@@ -128,7 +143,7 @@ ul li{
 */
 #teamMember .card{
     border:0;
-    background-color: #f8fafc;
+    background-color: #7a7b7c33;
 }
 #teamMember .card img{
     width:8rem;
@@ -136,6 +151,9 @@ ul li{
 }
 #teamMember .card p{
     text-align: left;
+}
+#teamMember .list-group{
+    height: 42px;
 }
 #teamMember .list-group-item{
     width:28%;
@@ -168,6 +186,8 @@ ul li{
 #contact .googleMap{
     padding:1%;
 }
+
+
 
 /*
     FOOTER
@@ -406,15 +426,14 @@ ul li{
 }
 
 #reset-password-form  button{
-    float:left;
-    /* width:15%; */
-    /* margin-left:8%; */
+    float:right;
+    margin-right:1rem;
     color:#ffffff;
     background-color: #861564;
 }
 #forgetPasswordBtn,#haveAccount{
-    float:right;
-    margin-right:1rem;
+    float:left;
+    margin-left:1rem;
     cursor: pointer;
 }
 #forgetPasswordBtn:hover{

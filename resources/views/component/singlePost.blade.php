@@ -4,10 +4,13 @@
 
         <div class="col-12">
 
-            <p>{{$post->title}}</p>
+            <h3>{{$title}}</h3>
+            <div class="post-image">
+                <img src="{{$content->image}}" alt="{{$title}}"/>
+            </div>
             <div class="post-content">
-
-                {!!$post->content!!}
+                
+                {!!$content->text!!}
 
             </div>
 

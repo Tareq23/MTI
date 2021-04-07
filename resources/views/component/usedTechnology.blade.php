@@ -5,10 +5,12 @@
         <p class="subTitle">we used these technology as your requirement</p>
         <div class="row">
             <div class="col-12 d-flex flex-wrap justify-content-center">
-                <div class="card">
-                    <img class="card-img" src="{{asset('images/php.svg')}}" alt="Card image cap">
-                </div>
-                <div class="card">
+                @foreach($technologies as $technology)
+                    <div class="card">
+                        <p>{{$technology->name}}</p>
+                    </div>
+                @endforeach
+                <!-- <div class="card">
                     <img class="card-img" src="{{asset('images/html.png')}}" alt="Card image cap">
                 </div>
                 <div class="card">
@@ -28,7 +30,7 @@
                 </div>
                 <div class="card">
                     <img class="card-img" src="{{asset('images/django.png')}}" alt="Card image cap">
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

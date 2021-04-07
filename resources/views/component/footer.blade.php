@@ -3,17 +3,12 @@
         <div class="row p-3">
             <div class="col-md-4 px-5">
                     <h3 class="sectionTitle">MTI</h3>
-                    <p class="mt-2">Hi I am full stack web developer with more than one year experience.</p>
+                    <p class="mt-2">{{$data[0]->footer}}</p>
             </div>
             <div class="col-md-4">
                     <h3 class="sectionTitle">Recent Post</h3>
-                    <ul class="list-group mt-2">
-                        <li class="list-group-item"><a href="#">Lorem ipsum dolor site</a></li>
-                        <li class="list-group-item"><a href="#">Lorem ipsum dolor site</a></li>
-                        <li class="list-group-item"><a href="#">Lorem ipsum dolor site</a></li>
-                        <li class="list-group-item"><a href="#">Lorem ipsum dolor site</a></li>
-                        <li class="list-group-item"><a href="#">Lorem ipsum dolor site</a></li>
-                        <li class="list-group-item"><a href="#">Lorem ipsum dolor site</a></li>
+                    <ul id="footer_post_link" class="list-group mt-2">
+                        
                     </ul>
             </div>
             <div class="col-md-4">
