@@ -9,35 +9,87 @@ class CategoryController extends Controller
 {
     public function getCategory()
     {
-        return CategoryModel::all();
+        try{
+            if(session()->has('userId'))
+            {
+                return CategoryModel::all();
+            }
+            return redirect('/');
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function check(Request $req)
     {
-        $name = $req->input('name');
-        $count = CategoryModel::where('name','=',$name)->count();
-        return $count;
+        try{
+            $name = $req->input('name');
+            $count = CategoryModel::where('name','=',$name)->count();
+            return $count;
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function addCategory(Request $req)
     {
-        $name = $req->input('name');
-        $result = CategoryModel::create(['name'=>$name]);
-        return $result;
+        try{
+            if(session()->has('userId'))
+            {
+                $name = $req->input('name');
+                $result = CategoryModel::create(['name'=>$name]);
+                return $result;
+            }
+            return redirect('/');
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function show()
     {
-        return CategoryModel::orderBy('id','desc')->get();
+        try{
+            return CategoryModel::orderBy('id','desc')->get();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function delete(Request $req)
     {
-        $id = $req->input('id');
-        $result = CategoryModel::where('id','=',$id)->delete();
-        return $result;
+        try{
+            if(session()->has('userId'))
+            {
+                return redirect('/');
+                $id = $req->input('id');
+                $result = CategoryModel::where('id','=',$id)->delete();
+                return $result;
+            }
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function update(Request $req)
     {
-        $id = $req->input('id');
-        $name = $req->input('name');
-        $result = CategoryModel::where('id','=',$id)->update(['name'=>$name]);
-        return $result;
+        try{
+            if(session()->has('userId'))
+            {
+                $id = $req->input('id');
+                $name = $req->input('name');
+                $result = CategoryModel::where('id','=',$id)->update(['name'=>$name]);
+                return $result;
+            }
+            return redirect('/');
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
 }

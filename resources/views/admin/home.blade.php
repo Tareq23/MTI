@@ -35,6 +35,9 @@
         <div id="admin_post" class="d-none">
             @include('component.admin.post')
         </div>
+        <div id="admin_email_password" class="d-none">
+            @include('component.admin.admin_email_password')
+        </div>
     </div>
 
 @endsection
@@ -56,7 +59,6 @@
             sideNavToggleCount++;
             if(sideNavToggleCount%2==1){
                 $("#sideNav").removeClass("d-none");
-                
             }
             else{
                 $("#sideNav").addClass("d-none");
@@ -317,7 +319,65 @@
                 })
         }
         
-        
+        function validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        $("#sideNav_emailPasswordBtn").click(function(){
+            $("#admin_technology").addClass("d-none");
+            $("#admin_project").addClass("d-none");
+            $("#admin_contact").addClass("d-none");
+            $("#admin_team").addClass("d-none");
+            $("#admin_other").addClass("d-none");
+            $("#admin_gallery").addClass("d-none");
+            $("#admin_site_home_page").addClass("d-none");
+            $("#admin_role").addClass("d-none");
+            $("#admin_post").addClass("d-none");
+            $("#admin_email_password").removeClass("d-none");
+
+
+            $("#admin_email_password_change_confirm_btn").click(function(){
+
+                let mail = $("#admin_email").val().trim();
+                let pass = $("#admin_new_password").val().trim();
+                let con_pass = $("#admin_confirm_password").val().trim();
+                if(!validateEmail(mail))
+                {
+                    alert("Invalid Email");
+                }
+                else if(pass.length==0)
+                {
+                    alert("Empty Password Field");
+                }
+                else if(pass.length<8)
+                {
+                    alert("password at least 8 characters");
+                }
+                else if(pass!==con_pass)
+                {
+                    alert("Password Mismatch");
+                }
+                else{
+                    axios.post('/admin/changeEmailPassword',{
+                        email:mail.toLowerCase(),
+                        password:pass
+                    })
+                    .then(function(res){
+                        if(res.status==200||res.status==201)
+                        {
+                            $("#admin_email").val("");
+                            $("#admin_new_password").val("");
+                            $("#admin_confirm_password").val("");
+                            alert("Update Success");
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error.response);
+                    })
+                }
+            });
+        })
         $("#sideNav_postBtn").click(function(){
 
             $("#admin_technology").addClass("d-none");
@@ -328,6 +388,7 @@
             $("#admin_gallery").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_role").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_post").removeClass("d-none");
             /* Show All Category*/
             showCategory();
@@ -345,6 +406,7 @@
             $("#admin_gallery").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_role").removeClass("d-none");
             $(document).ready(function() {
                 axios.get('/admin/getAllVerifiedUser').then(function(response){
@@ -483,8 +545,8 @@
                         console.log(response.data);
                         if(response.data==1)
                         {
-                            $("#updateUserRoleModal").modal('show');
-                            $(location).attr('href','/admin');
+                            $("#updateUserRoleModal").modal('hide');
+                            // $(location).attr('href','/admin');
                         }
                     })
                     .catch(function(error){
@@ -547,39 +609,35 @@
             $("#admin_other").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_technology").removeClass("d-none");
             showAllTechnology();
             $("#addTechnologyBtn").click(function(){
                 $("#addTechnologyDiv").removeClass("d-none");
-
-                $("#technology_name").change(function(){
-                    let technology = $(this).val();
-                    $("#addTechnologyConfirmBtn").click(function(){
-                        if(technology.length<=2 || technology.length>=80)
-                        {
-                            $("#technology_error").removeClass("d-none");
-                        }
-                        else{
-                            axios.post('admin/addTechnology',{
-                                technology_name:technology
-                            }).then(function(res){
-                                if(res.status==201||res.status==200)
-                                {
-                                    $("#technology_name").val("");
-                                    $("#technology_error").addClass("d-none");
-                                    $("#addTechnologyDiv").addClass("d-none");
-                                    showAllTechnology();
-                                }
-                            })
-                            .catch(function(error){
-                                console.log(error.response);
-                            })
-                        }
-                    });
             });
-
-
-
+            $("#addTechnologyConfirmBtn").click(function(){
+                let technology = $("#technology_name").val();
+                if(technology.length<=2 || technology.length>=80)
+                {
+                    $("#technology_error").removeClass("d-none");
+                }
+                else{
+                    console.log(technology);
+                    axios.post('admin/addTechnology',{
+                        technology_name:technology
+                    }).then(function(res){
+                        if(res.status==201||res.status==200)
+                        {
+                            $("#technology_name").val("");
+                            $("#technology_error").addClass("d-none");
+                            $("#addTechnologyDiv").addClass("d-none");
+                            showAllTechnology();
+                        }
+                    })
+                    .catch(function(error){
+                        console.log(error.response);
+                    })
+                }
             })
             $("#addTechnologyBtn").dblclick(function(){
                 $("#addTechnologyDiv").addClass("d-none");
@@ -680,6 +738,7 @@
             $("#admin_other").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_project").removeClass("d-none");
 
             adminGetAllProjects();
@@ -764,16 +823,10 @@
             $("#admin_other").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_team").removeClass("d-none");
 
             getAllUsersProfile();
-
-
-
-
-
-
-
 
         })
 
@@ -803,6 +856,7 @@
             $("#admin_other").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_gallery").removeClass("d-none")
             showGalleryImage();
         })
@@ -875,9 +929,6 @@
                     .catch((error)=>{
                         console.log(error.response);
                     })
-
-                // console.log("adds ok")
-                // console.log(imgFile);
             });
         })
 
@@ -896,6 +947,7 @@
             $("#admin_other").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_contact").removeClass("d-none");
             
                 // $('#contactDataTable').DataTable();
@@ -1079,6 +1131,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_site_home_page").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_other").removeClass("d-none");
 
             /* Category portion */
@@ -1176,6 +1229,7 @@
             $("#admin_role").addClass("d-none");
             $("#admin_other").addClass("d-none");
             $("#admin_post").addClass("d-none");
+            $("#admin_email_password").addClass("d-none");
             $("#admin_site_home_page").removeClass("d-none");
 
             get_site_home_page_data();

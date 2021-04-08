@@ -23,7 +23,7 @@ class UserProfileMigration extends Migration
             $table->json('education')->nullable();
             $table->json('social_link')->nullable();
             $table->text('description')->nullable();
-            $table->boolean('confirm')->deafult(false);
+            $table->boolean('confirm')->nullable()->deafult(0);
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

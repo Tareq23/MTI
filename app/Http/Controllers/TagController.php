@@ -10,12 +10,24 @@ class TagController extends Controller
 {
     public function addTag(Request $req)
     {
-        $name = $req->input('name');
-        $result = TagModel::firstOrCreate(['name'=>$name]);
-        return $result;
+        try{
+            $name = $req->input('name');
+            $result = TagModel::firstOrCreate(['name'=>$name]);
+            return $result;
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function showTag()
     {
-        return TagModel::orderBy('id','desc')->limit(100)->get();
+        try{
+            return TagModel::orderBy('id','desc')->limit(100)->get();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
 }

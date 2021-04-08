@@ -302,17 +302,22 @@
                 let user = res.data;
                 if(res.status==200)
                 {
+                    console.log(user.image);
                     let split_url= user.image.split('/');
                     let imgUrl = split_url[split_url.length-2]==="default" ? "{!!asset('"+user.image+"')!!}" : user.image;
                     $("#user_profile_image").attr('src',imgUrl);
+                    console.log(res);
                     $("#user_name").val(user.name)
                     $("#user_email").text(user.email);
                     $("#user_short_desc").val(user.description)
-                    const social_link = JSON.parse(user.social_link);
-                    // console.log(social_link.facebook);
-                    $("#user_github").val(social_link.github);
-                    $("#user_linkedin").val(social_link.linkedin);
-                    $("#user_facebook").val(social_link.facebook);
+
+                    if(user.social_link !== null ){
+                        const social_link = JSON.parse(user.social_link);
+                        console.log(social_link);
+                        $("#user_github").val(social_link.github);
+                        $("#user_linkedin").val(social_link.linkedin);
+                        $("#user_facebook").val(social_link.facebook);
+                    }
                     let education = JSON.parse(user.education);
                     let today = new Date();
                     let month = today.getMonth()+1 < 10 ? "0"+(today.getMonth()+1) : (today.getMonth()+1);
@@ -581,7 +586,10 @@
                             ).appendTo('.message-box');
 
                             getMessageShow(recipient_id);
-                            
+                            // $(".message-body").animate({ scrollBottom: $(".message-body")[0].scrollHeight },0);
+                            // $(".message-body").scrollTo(0,document.body.scrollHeight);
+                            let message_box_height = $(".message-body").scrollTop(100);
+                            console.log(message_box_height);
                             $(".message-box .close").click(function(){
                                 $(".message-box").addClass("d-none");
                             })
@@ -600,12 +608,8 @@
                                         if(res.data.status==404){
                                             alert(res.data.error);
                                         }
-                                        else{
-                                            console.log(res.data);
-                                        }
                                     })
                                     .catch(function(error){
-                                        console.log(error.response);
                                     })
                                 }
                             });
@@ -616,10 +620,7 @@
                         });
                     }
                 }).catch(function(error){
-                    console.log(error.response);
                 });
-
-
         }
         else{
             $(".message-dropdown").addClass("d-none")

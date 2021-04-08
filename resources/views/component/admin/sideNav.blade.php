@@ -9,4 +9,5 @@
         <li><a id="sideNav_roleBtn">user role</a></li>
         <li><a id="sideNav_otherBtn">Others</a></li>
         <li><a id="sideNav_databaseBtn">Home Page info</a></li>
+        <li><a id="sideNav_emailPasswordBtn">Email and Password</a></li>
     </ul>

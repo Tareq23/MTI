@@ -46,31 +46,55 @@ class ProjectController extends Controller
     }
     public function showUserProejct()
     {
-        if(session()->has('userId'))
-        {
-            $id = session()->get('userId');
-            $user= UserModel::find($id);
-            return $user->projects;
+        try{
+            if(session()->has('userId'))
+            {
+                $id = session()->get('userId');
+                $user= UserModel::find($id);
+                return $user->projects;
+            }
+            return redirect('/blog');
         }
-        return redirect('/blog');
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
 
     public function getAllProject()
     {
-        return ProjectModel::all();
+        try{
+            return ProjectModel::all();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function projectConfirm(Request $req)
     {
-        $projectId = $req->input('projectId');
-        $confirmValue = $req->input('confirmValue');
-        // $user = UserModel::find($userId);
-        // $user->projects()->update(['confirm'=>$confirmValue]);
-        $project = ProjectModel::where('id','=',$projectId)->update(['confirm'=>$confirmValue]);
-        return $project;
+        try{
+            $projectId = $req->input('projectId');
+            $confirmValue = $req->input('confirmValue');
+            // $user = UserModel::find($userId);
+            // $user->projects()->update(['confirm'=>$confirmValue]);
+            $project = ProjectModel::where('id','=',$projectId)->update(['confirm'=>$confirmValue]);
+            return $project;
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function projectDelete(Request $req)
     {
-        $projectId = $req->input('id');
-        return ProjectModel::where('id','=',$projectId)->delete();
+        try{
+            $projectId = $req->input('id');
+            return ProjectModel::where('id','=',$projectId)->delete();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
 }

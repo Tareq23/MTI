@@ -3,7 +3,9 @@
         <div class="row p-3">
             <div class="col-md-4 px-5">
                     <h3 class="sectionTitle">MTI</h3>
-                    <p class="mt-2">{{$data[0]->footer}}</p>
+                    @if(count($data))
+                        <p class="mt-2">{{$data[0]->footer}}</p>
+                    @endif
             </div>
             <div class="col-md-4">
                     <h3 class="sectionTitle">Recent Post</h3>

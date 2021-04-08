@@ -5,13 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\RoleModel;
 use App\Models\UserModel;
-
+use App\Models\ProfileModel;
+use DB;
 class RoleController extends Controller
 {
     public function allRole()
     {
-        $result = RoleModel::select(['name','id'])->get();
-        return $result;
+        try{
+            $result = RoleModel::select(['name','id'])->get();
+            return $result;
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function indexRole()
     {
@@ -19,60 +26,77 @@ class RoleController extends Controller
     }
     public function addRole(Request $req)
     {
-        $role = trim($req->input('name'));
-        if(strlen($role)<4 || strlen($role)>25){
-            return 4;
+        try{
+
+            $role = trim($req->input('name'));
+            if(strlen($role)<4 || strlen($role)>25){
+                return 4;
+            }
+            if(RoleModel::where('name','=',$role)->count())
+            {
+                return 0;
+            }
+            $result = RoleModel::insert(['name'=>$role]);
+            return $result;
         }
-        if(RoleModel::where('name','=',$role)->count())
+        catch(\Exception $e)
         {
-            return 0;
+            return redirect('/');
         }
-        $result = RoleModel::insert(['name'=>$role]);
-        return $result;
     }
     public function getRole(Request $req)
     {
-        $id = $req->input('id');
-        $user = UserModel::find($id);
-        return $user->roles;
+        try{
+            $id = $req->input('id');
+            $user = UserModel::find($id);
+            return $user->roles;
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function setUserRole(Request $req)
     {
-        $userId = $req->input('id');
-        $updateRole = $req->input('updateRole');
-        $currentRole = $req->input('currentRole');
-        $updateRoleArray = explode(',',$updateRole);
-        $currentRoleArray = explode(',',$currentRole);
-        $user = UserModel::find($userId);
-        $user->roles()->detach($currentRoleArray);
-        // $user->profile()->create([
-        //     'name' => $user->name,
-        //     'email' => $user->email,
-        //     'image' => 'images/default/user.png',
-        // ]);
-        $user->roles()->attach($updateRoleArray);
-        if(!$user->profile()->count()){
-            $user->profile()->create([
-                'name' => $user->name,
-                'email' => $user->email,
-                'image' => 'images/default/user.png',
-            ]);
+        try{
+            $userId = $req->input('id');
+            $updateRole = $req->input('updateRole');
+            $currentRole = $req->input('currentRole');
+            $updateRoleArray = explode(',',$updateRole);
+            $currentRoleArray = explode(',',$currentRole);
+            $user = UserModel::find($userId);
+            $user->roles()->detach($currentRoleArray);
+            $user->roles()->attach($updateRoleArray);
+
+            $roles = DB::table('user_roles as ur')
+                ->join('users as u','u.id','=','ur.user_id')
+                ->join('roles as r','r.id','=','ur.role_id')
+                ->select('r.name')
+                ->where('u.id','=',$userId)
+                ->get();
+            foreach($roles as $role){
+                if($role->name == "teamMember")
+                {
+                    if(!ProfileModel::where('user_id','=',$userId)->count())
+                    {
+                        $profile = ProfileModel::create([
+                            'user_id' => $user->id,
+                            'email' => $user->email,
+                            'name' => $user->name,
+                            'image' => 'images/default/user.png',
+                            'confirm'=>0,
+                        ]);
+                        return $profile;
+                    }
+                    return $role->name;
+                }
+            }
+            
+            return 1;
         }
-        // foreach($user->roles()->id as $role_id)
-        // {
-        //     return 1;
-        //     if($role_name=='admin'||$role_name=='teamMember')
-        //     {
-        //         if(!$user->profile()->where('user_id','=',$userId)->count())
-        //         {
-        //             $user->profile()->create([
-        //                 'name' => $user->name,
-        //                 'email' => $user->email,
-        //                 'image' => 'images/default/user.png',
-        //             ]);
-        //         }
-        //     }
-        // }
-        return 1;
+        catch(\Exception $e)
+        {
+            return $e->getMessage();
+        }
     }
 }

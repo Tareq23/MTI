@@ -8,16 +8,34 @@ class TechnologyController extends Controller
 {
     public function store(Request $req)
     {
-        $name = $req->input('technology_name');
-        return TechnologyModel::create(['name'=>$name]);
+        try{
+            $name = $req->input('technology_name');
+            return TechnologyModel::create(['name'=>$name]);
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function delete(Request $req)
     {
-        $id = $req->input('technology_id');
-        return TechnologyModel::where('id','=',$id)->delete();
+        try{
+            $id = $req->input('technology_id');
+            return TechnologyModel::where('id','=',$id)->delete();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function getAllForAdmin()
     {
-        return TechnologyModel::all();
+        try{
+            return TechnologyModel::all();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
 }

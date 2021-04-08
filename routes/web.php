@@ -52,6 +52,7 @@ Route::group([
 ],function($route){
     Route::get('/',[AdminController::class,'adminProfile']);
     Route::get('/getAllVerifiedUser',[AdminController::class,'getAllVerifiedUser']);
+    Route::post('/changeEmailPassword',[AdminController::class,'changeEmailPassword']);
 
     /* Home page dynamic */
 

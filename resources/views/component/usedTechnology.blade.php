@@ -5,11 +5,13 @@
         <p class="subTitle">we used these technology as your requirement</p>
         <div class="row">
             <div class="col-12 d-flex flex-wrap justify-content-center">
-                @foreach($technologies as $technology)
-                    <div class="card">
-                        <p>{{$technology->name}}</p>
-                    </div>
-                @endforeach
+                @if(count($technologies))
+                    @foreach($technologies as $technology)
+                        <div class="card">
+                            <p>{{$technology->name}}</p>
+                        </div>
+                    @endforeach
+                @endif
                 <!-- <div class="card">
                     <img class="card-img" src="{{asset('images/html.png')}}" alt="Card image cap">
                 </div>

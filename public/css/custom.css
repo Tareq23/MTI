@@ -136,6 +136,18 @@ ul li{
     PROJECT
 */
 
+#project .project_overlay:hover{
+    position: relative;
+}
+#project .project_overlay:hover::after{
+    position: absolute;
+    width:100%;
+    height:100%;
+    content:"";
+    background-color: #11243149;
+    left:0;
+    top:0;
+}
 
 
 /*

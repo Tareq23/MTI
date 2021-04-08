@@ -79,5 +79,5 @@ class UserModel extends Model
     {
         return $this->belongsToMany(NotificationModel::class,'user_notifications','user_id','notification_id');
     }
-
+    
 }

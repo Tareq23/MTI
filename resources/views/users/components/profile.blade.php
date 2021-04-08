@@ -10,7 +10,7 @@
                         <button class="btn btn-primary mt-1" type="button" id="update_profile_image_btn">Change</button>
                     </div>
                     <div class="col-md-6 short-info">
-                        <p><input type="text" id="user_name" value="user name"/></p>
+                        <p><input type="text" id="user_name"/></p>
                         <p>Educations : <i id="addEducation" style="cursor:pointer;" class="fas fa-plus-square"></i></p>
                         <div id="educationAppend">
                         

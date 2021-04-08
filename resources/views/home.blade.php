@@ -74,10 +74,13 @@
                         message:message
                     })
                     .then(function(response){
-                        // console.log(response);
-                        if(response.status==201)
+                        if(response.status==201||response.status==200)
                         {
                             alert("Message Sent success");
+                            $("#contactName").val("");
+                            $("#contactEmail").val("");
+                            $("#contactSubject").val("");
+                            $("#contactMessage").val("");
                         }
                         else{
                             alert("Something went to wrong!");

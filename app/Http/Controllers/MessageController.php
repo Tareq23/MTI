@@ -13,12 +13,19 @@ class MessageController extends Controller
 {
     public function getAllUser()
     {
-        $userId = session()->get('userId');
-        $profiles = ProfileModel::select(['user_id as id','name'])->where('user_id','!=',$userId)->get();
-        // return response()->json([
-        //     'id'
-        // ])
-        return $profiles;
+        try{
+            if(session()->has('userId'))
+            {
+                $userId = session()->get('userId');
+                $profiles = ProfileModel::select(['user_id as id','name'])->where('user_id','!=',$userId)->get();
+                return $profiles;
+            }
+            return redirect('/');
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
 
     public function store(Request $req)

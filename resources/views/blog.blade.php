@@ -11,11 +11,10 @@
     @if(isset($reset_password))
         @include('component.new_password')
     @endif
+    @include('component.blogPost')
     
     @include('component.register')
-
-    @include('component.blogPost')
-
+    
     @include('component.footer')
 
 @endsection
@@ -24,7 +23,6 @@
 @section('script')
     <script type="text/javascript">
             let allposts = {!!$all_posts!!};
-            // console.log(allposts);
 
             function isEmail(email) {
                 var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -140,7 +138,7 @@
                             email:userEmail,
                             password:userPassword
                         }).then(function(response){
-                            if(response.data){
+                            if(response.data=="blog" || response.data=="users"){
                                 $("#login-form").addClass("d-none");
                                 $(location).attr('href',"/"+response.data);
                             }
@@ -156,20 +154,19 @@
                         alert("Invalid Email or Password");
                     }
                 });
-                $("#logoutBtn").click(function(){
-                    console.log("user logout");
-                    axios.get('/logout').then(function(response){
+                // $("#logoutBtn").click(function(){
+                //     axios.get('/logout').then(function(response){
 
-                        if(response.data==1){
-                            $(location).attr('href',"/blog");
-                        }
-                        else{
-                            alert("something went to wrong");
-                        }
-                    }).catch(function(error){
-                        console.log(error.response);
-                    });
-                });
+                //         if(response.data==1){
+                //             $(location).attr('href',"/blog");
+                //         }
+                //         else{
+                //             alert("something went to wrong");
+                //         }
+                //     }).catch(function(error){
+                //         console.log(error.response);
+                //     });
+                // });
                 $("#haveAccount").click(function(){
                     $("#reset-password-form").addClass("d-none");
                     $("#login-form").removeClass("d-none");
@@ -219,10 +216,14 @@
                 })
 
                 $("#new_password_confirm_btn").click(function(){
-                    let user_email = $("#newPassword_email").val();
+                    let path = window.location.pathname;
+                    path = path.split('/');
+                    // console.log(path[path.length-1]);
+                    // console.log(path);
+                    let user_email = path[path.length-1];
                     let new_pass = $("#newPassword").val().trim();
                     let confirm_pass = $("#confirmPassword").val().trim();
-                    console.log(user_email);
+                    // console.log(user_email);
                     if(new_pass.length<8||new_pass>20)
                     {
                         alert("Password Must be Eight Characters");
@@ -237,6 +238,7 @@
                             email : user_email
                         })
                         .then(function(res){
+                            // console.log(res);
                             if(res.status==200||res.status==201)
                             {
                                 $("#new-password-form").addClass("d-none");

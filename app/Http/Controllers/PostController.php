@@ -19,72 +19,99 @@ class PostController extends Controller
     // private $tags;
     private function addTags($name)
     {
-        $result = TagModel::firstOrCreate(['name'=>$name]);
-        return $result->id;
+        try{
+            $result = TagModel::firstOrCreate(['name'=>$name]);
+            return $result->id;
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function create(Request $req)
     {
-        $content = [
-            'image' => $req->input('url'),
-            'text' => $req->input('content'),
-        ];
-        $title = $req->input('title');
-        // $tags = $req->input('tags');
-        $category_id = $req->input('category');
-        $userId = session()->get('userId');
-        
-        ///$tagsId = [];
-        // foreach($tags as $tag)
-        // {
-        //     array_push($tagsId,$this->addTags($tag));
-        // }
-        // $post->tags()->attach($tagsId);
-        if($userId){
-            //$user = UserModel::find($userId);
-            $slug_token = Token::UniqueString('posts','slug',40);
-            $post = PostModel::create([
-                'user_id'=>$userId,
-                'category_id'=>$category_id,
-                'title' => $title,
-                'slug' => $slug_token,
-                'content' => json_encode($content),
-                'time' => date_default_timezone_set("UTC").time(),
-            ]);
-            
-            
-            $admin_role = RoleModel::select('id')->where('name','=','admin')->first();
-            $admin = DB::table('user_roles')->where('role_id','=',$admin_role->id)->first();
-            $current_user = UserModel::findOrFail($userId);
-            $data = [
-                'type' => 'post',
-                'details' => $post,
-                'created_by' => $current_user->name,
+        try{
+
+            $content = [
+                'image' => $req->input('url'),
+                'text' => $req->input('content'),
             ];
-            $notify = NotificationModel::create(['data'=>json_encode($data)]);
-            $notify->users()->attach($admin->user_id);
-            event(new PostCreateEvent($data));
-            return true;
+            $title = $req->input('title');
+            $category_id = $req->input('category');
+            $userId = session()->get('userId');
+            
+            if($userId){
+                $slug_token = Token::UniqueString('posts','slug',40);
+                $post = PostModel::create([
+                    'user_id'=>$userId,
+                    'category_id'=>$category_id,
+                    'title' => $title,
+                    'slug' => $slug_token,
+                    'content' => json_encode($content),
+                    'time' => date_default_timezone_set("UTC").time(),
+                ]);
+                
+                
+                $admin_role = RoleModel::select('id')->where('name','=','admin')->first();
+                $admin = DB::table('user_roles')->where('role_id','=',$admin_role->id)->first();
+                $current_user = UserModel::findOrFail($userId);
+                $data = [
+                    'type' => 'post',
+                    'details' => $post,
+                    'created_by' => $current_user->name,
+                ];
+                $notify = NotificationModel::create(['data'=>json_encode($data)]);
+                $notify->users()->attach($admin->user_id);
+                event(new PostCreateEvent($data));
+                return true;
+            }
+            return redirect('/');
         }
-        return false;
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function getUserPost()
     {
-        $userId = session()->get('userId');
-        if($userId){
-            $userPost = UserModel::find($userId);
-            return $userPost->posts;
+        try{
+            $userId = session()->get('userId');
+            if($userId){
+                $userPost = UserModel::find($userId);
+                return $userPost->posts;
+            }
+            return redirect('/blog');
         }
-        return redirect('/blog');
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function getAllPost()
     {
-        return PostModel::all();
+        try{
+            return PostModel::all();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function categoryPost(Request $req)
     {
-        $id = $req->input('id');
-        $category = CategoryModel::find($id);
-        return $category->posts;
+        try{
+            if(session()->has('userId'))
+            {
+                $id = $req->input('id');
+                $category = CategoryModel::find($id);
+                return $category->posts;
+            }
+            return redirect('/');
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function postVerified(Request $req)
     {
@@ -114,15 +141,25 @@ class PostController extends Controller
     }
     public function singlePostShow(Request $req)
     {
-        $id = $req->input('id');
-        return PostModel::select('content')->where('id','=',$id)->first();
+        try{
+            $id = $req->input('id');
+            return PostModel::select('content')->where('id','=',$id)->first();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function deletePost(Request $req)
     {
         try{
-            $id = $req->input('id');
-            $result = PostModel::where('id','=',$id)->delete();
-            return $result;
+            if(session()->has('userId'))
+            {
+                $id = $req->input('id');
+                $result = PostModel::where('id','=',$id)->delete();
+                return $result;
+            }
+            return redirect('/');
         }   
         catch(\Exception $e)
         {

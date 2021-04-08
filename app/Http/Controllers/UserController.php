@@ -16,7 +16,13 @@ class UserController extends Controller
 {
     public function getUser($id)
     {
-        return UserModel::where('id',$id)->get();
+        try{
+            return UserModel::where('id',$id)->get();
+        }
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     
     public function register(Request $req)
@@ -42,7 +48,7 @@ class UserController extends Controller
             }
             catch(\Exception $e)
             {
-                return $e->getMessage();
+                return 404;
             } 
         }
         catch(\Exception $e)
@@ -52,29 +58,36 @@ class UserController extends Controller
     }
     public function login(Request $req)
     {
-        $email = $req->input('email');
-        $password = $req->input('password');
-        $user = UserModel::select(['password','verified','id'])->where('email','=',$email)->get();
-        if(Hash::check($password,$user[0]->password) && $user[0]->verified){
-            session()->put('userId',$user[0]->id);
-            $userAgain = UserModel::find($user[0]->id);
-            foreach($userAgain->roles as $role)
-            { 
-                session()->put($role->name,$role->name);
+        try{
+            $email = $req->input('email');
+            $password = $req->input('password');
+            $user = UserModel::select(['password','verified','id'])->where('email','=',$email)->get();
+            if(Hash::check($password,$user[0]->password) && $user[0]->verified){
+                session()->put('userId',$user[0]->id);
+                $userAgain = UserModel::find($user[0]->id);
+                foreach($userAgain->roles as $role)
+                { 
+                    session()->put($role->name,$role->name);
+                }
+                if(session()->has('teamMember'))
+                {
+                    return 'users';
+                }
+                return 'blog';
             }
-            if(session()->has('teamMember'))
-            {
-                return 'users';
-            }
-            return 'blog';
+            return false;
         }
-        return false;
+        catch(\Exception $e)
+        {
+            // return redirect('/');
+            return 404;
+        }
     }
 
     public function logout()
     {
         session()->flush();
-        return redirect('/blog');
+        return redirect('/');
     }
 
     public function checkEmail(Request $req)
@@ -109,19 +122,25 @@ class UserController extends Controller
     }
     public function resetToken(Request $req)
     {
-        $email = $req->input('email');
-        $user = UserModel::where('email','=',$email)->get();
-        if(!count($user))
-        {
-            return 404;
+        try{
+            $email = $req->input('email');
+            $user = UserModel::where('email','=',$email)->get();
+            if(!count($user))
+            {
+                return 404;
+            }
+            $token = $token = Token::UniqueString('reset_passwords','token',90);
+            $user[0]->password_reset()->create([
+                'token' => $token,
+            ]);
+            Notification::route('mail',$user[0]->email)
+                ->notify(new ResetPasswordNotification([$token,$user[0]->email]));
+            return 200;
         }
-        $token = $token = Token::UniqueString('reset_passwords','token',90);
-        $user[0]->password_reset()->create([
-            'token' => $token,
-        ]);
-        Notification::route('mail',$user[0]->email)
-            ->notify(new ResetPasswordNotification([$token,$user[0]->email]));
-        return 200;
+        catch(\Exception $e)
+        {
+            return redirect('/');
+        }
     }
     public function newpassword(Request $req)
     {

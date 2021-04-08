@@ -28,7 +28,11 @@
             </div>
             <div class="col-md-6">
                 <div class="googleMap">
-                    {!!$data[0]->map_link!!}
+                    @if(count($data))
+                        {!!$data[0]->map_link!!}
+                    @else
+                        <p>Google Map Link</p>
+                    @endif
                 </div>
             </div>
         </div>
